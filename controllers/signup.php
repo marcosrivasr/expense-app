@@ -15,7 +15,12 @@ class Signup extends Controller{
         if(isset($_POST['username']) && isset($_POST['password']) ){
             $username = $_POST['username'];
             $password = $_POST['password'];
-            
+            $registerNewUser = $this->model->insert($username, $password);
+            if($registerNewUser){
+                $this->view->render('login/index');
+            }else{
+                //error al registrar, que intente de nuevo
+            }
         }else{
             // error, cargar vista con errores
         }

@@ -5,8 +5,6 @@ class Consulta extends Controller{
     function __construct(){
         parent::__construct();
         $this->view->alumnos = [];
-        
-        //echo "<p>Nuevo controlador Main</p>";
     }
 
     function render(){
