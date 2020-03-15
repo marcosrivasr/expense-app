@@ -10,7 +10,8 @@
     <?php require 'views/header.php'; ?>
 
     <div id="login-main">
-        <form >
+        <form action="<? echo constant('URL'); ?>login/authenticate" method="POST">
+        <div><? (isset($this->errorMessage))?  $this->errorMessage : '' ?></div>
             <h2>Iniciar sesión</h2>
 
             <p>

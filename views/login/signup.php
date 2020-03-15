@@ -11,6 +11,7 @@
 
     <div id="login-main">
         <form action="<? echo constant('URL'); ?>signup/newUser" method="POST">
+        <div><?  echo $this->errorMessage; ?></div>
             <h2>Registrarse</h2>
 
             <p>
