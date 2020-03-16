@@ -1,10 +1,31 @@
 
 <?php
 
+require_once 'libs/userSessionInstance.php';
+
 class Login extends Controller{
+
+    private $userSession;
 
     function __construct(){
         parent::__construct();
+        $userSession = new UserSessionInstance();
+        $user = NULL;
+        if($userSession->existsSession()){
+            $user = $userSession->getUserSessionData();
+            
+            switch($user['role']){
+                case 'user':
+                    header('location: '. constant('URL').'dashboard');
+                break;
+
+                case 'admin':
+                break;
+
+                default:
+
+            }
+        }
     }
 
     function render(){
@@ -25,8 +46,18 @@ class Login extends Controller{
             $loginUser = $this->model->login($username, $password);
 
             if($loginUser != NULL){
+                
 
-                //header('location: '. constant('URL').'dashboard');
+                $session->setCurrentUser($loginUser);
+                switch($loginUser['role']){
+                    case 'user':
+                        header('location: '. constant('URL').'dashboard');
+                    break;
+                    case 'admin':
+                        header('location: '. constant('URL').'admin');
+                    break;
+                        default:
+                }
             }else{
                 //error al registrar, que intente de nuevo
                 $this->errorAtLogin('Nombre de usuario y/o password incorrecto');
