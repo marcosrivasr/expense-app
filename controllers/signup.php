@@ -1,10 +1,11 @@
 
 <?php
 
-class Signup extends Controller{
+class Signup extends ControllerSession{
 
     function __construct(){
         parent::__construct();
+        $userSession = new UserSessionInstance();
     }
 
     function render(){
