@@ -4,6 +4,7 @@ class UserSession{
 
     public function __construct(){
         session_start();
+        $_SESSION['user'] = NULL;
     }
 
     public function setCurrentUser($user){

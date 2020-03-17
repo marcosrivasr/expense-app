@@ -3,8 +3,6 @@
 
 class Login extends ControllerSession{
 
-    private $userSession;
-
     function __construct(){
         parent::__construct();
     }
@@ -27,8 +25,8 @@ class Login extends ControllerSession{
             $loginUser = $this->model->login($username, $password);
 
             if($loginUser != NULL){
-                
-
+                $this->getUserSession()->set($loginUser);
+                $this->getUserSession()->validateSession();
                 /* $session->setCurrentUser($loginUser);
                 switch($loginUser['role']){
                     case 'user':

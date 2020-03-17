@@ -22,6 +22,7 @@
                 </div>
 
                 <div id="latest-expenses-container">
+                
                 </div>
             </div>
     </div>
