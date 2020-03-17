@@ -4,7 +4,6 @@ class UserSession{
 
     public function __construct(){
         session_start();
-        $_SESSION['user'] = NULL;
     }
 
     public function setCurrentUser($user){
@@ -18,6 +17,10 @@ class UserSession{
     public function closeSession(){
         session_unset();
         session_destroy();
+    }
+
+    public function exists(){
+        return isset($_SESSION['user']);
     }
 }
 

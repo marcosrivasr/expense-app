@@ -1,7 +1,6 @@
 <?php
     class UserSessionInstance{
         private $session;
-        private $accessSites;
         
         function __construct(){
             $this->session = new UserSession();
@@ -9,8 +8,8 @@
         }
 
         function existsSession(){
-            if(!isset($this->session)) return false;
-            if($this->session == NULL) return false;
+            if(!$this->session->exists()) return false;
+            if($this->session->getCurrentUser() == NULL) return false;
 
             $user = $this->session->getCurrentUser();
             if($user) return true;
@@ -25,6 +24,7 @@
         function validateSession(){
             if($this->existsSession()){
                 $user = $this->getUserSessionData();
+                var_dump($user);
                 $this->authorizeAccess($user['role']);
             }else{
             }
@@ -43,9 +43,12 @@
                 default:
             }
         }
-
-        public function set($data){
+        
+        public function initialize($data){
+            
             $this->session->setCurrentUser($data);
+            echo var_dump($this->session->getCurrentUser());
+            $this->authorizeAccess($data['role']);
         }
 
         public function test(){

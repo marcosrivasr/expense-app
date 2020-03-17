@@ -17,26 +17,19 @@ class Login extends ControllerSession{
             $password = $_POST['password'];
 
             //validate data
-            if($username == '' || empty($username) || $password == '' || empty($password)){
+            if($username == '' || 
+                empty($username) || 
+                $password == '' || 
+                empty($password)){
                 // error al validar datos
                 $this->errorAtLogin('Campos vacios');
                 return;
             }
+
             $loginUser = $this->model->login($username, $password);
 
             if($loginUser != NULL){
-                $this->getUserSession()->set($loginUser);
-                $this->getUserSession()->validateSession();
-                /* $session->setCurrentUser($loginUser);
-                switch($loginUser['role']){
-                    case 'user':
-                        header('location: '. constant('URL').'dashboard');
-                    break;
-                    case 'admin':
-                        header('location: '. constant('URL').'admin');
-                    break;
-                        default:
-                } */
+                $this->getUserSession()->initialize($loginUser);
             }else{
                 //error al registrar, que intente de nuevo
                 $this->errorAtLogin('Nombre de usuario y/o password incorrecto');

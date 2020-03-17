@@ -14,7 +14,7 @@ class Dashboard extends Controller{
     
 
     function saludo(){
-        echo "<p>Ejecutaste el método Saludo</p>";
+        echo "<p>Ejecutaste el método Saludoss</p>";
     }
 }
 
