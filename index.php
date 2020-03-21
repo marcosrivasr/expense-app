@@ -9,6 +9,7 @@ require_once 'classes/UserSession.php';
 require_once 'classes/ControllerSession.php';
 
 require_once 'config/config.php';
+require_once 'classes/AuthSites.php';
 
 $app = new App();
 
