@@ -1,0 +1,65 @@
+#expenses-container{
+    background-color: white;
+    font-size: 12px;
+    width: 900px;
+    margin: 50px auto;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+}
+
+#expenses-container h3{
+    margin: 20px 0;
+}
+
+#left-container{
+    width: 65%;
+    display: inline-block;
+    vertical-align: top;
+    padding: 40px;
+    box-sizing: border-box;
+}
+#right-container{
+    background-color: #ccc;
+    width: calc(35% - 5px);
+    display: inline-block;
+    vertical-align: top;
+}
+
+#expenses-category{
+    margin-top: 40px;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+#expenses-category #categories-container{
+    width: 800px;
+}
+
+.card{
+    border-radius: 5px;
+    padding: 20px;
+    border: solid 1px #ccc;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+.w-20{width: calc(20% - 60px);}
+.w-30{width: calc(30% - 60px);}
+.ws-30{width: 100px;}
+.w-40{width: calc(40% - 60px);}
+.w-50{width: calc(50% - 60px);}
+.w-60{width: calc(60% - 60px);}
+.w-70{width: calc(70% - 60px);}
+
+#expenses-summary .total-expense{
+    font-size: 32px;
+    font-weight: bolder;
+}
+
+#expenses-summary .total-budget{
+    padding: 10px 0;
+}
+
+#expenses-summary .total-budget .total-budget-text{
+    font-weight: bolder;
+}

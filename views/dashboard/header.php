@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title></title>
     <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/default.css">
+    <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/dashboard.css">
 </head>
 <body>
     

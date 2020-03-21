@@ -9,22 +9,52 @@
     <?php require 'header.php'; ?>
 
     <div id="main-container">
-            <div id="expense-container">
-                <div id="new-expense-container">
-                    <form action="">
-                    <input type="text">
-                    <input type="number">
-                    <select name="" id="">
-                        <option value="">sds</option>
-                    </select>
-                    <input type="submit" value="New Expense">
-                    </form>
+            
+        <div id="expenses-container">
+
+            <div id="left-container">
+                <div id="expenses-summary">
+                    <div class="card w-50">
+                        <div class="total-expense">
+                            $5,698.00
+                        </div>
+                        <div class="total-budget">
+                            de <span class="total-budget-text">$6,700.00</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="latest-expenses-container">
-                
+                <div id="expenses-category">
+                    <h3>Categories</h3>
+                    <div id="categories-container">
+                        <div class="card ws-30">
+                            Hogar
+                        </div>
+                        <div class="card ws-30">
+                            Ropa
+                        </div>
+                        <div class="card ws-30">
+                            Comida
+                        </div>
+                        <div class="card ws-30">
+                            Ocio
+                        </div>
+                        <div class="card ws-30">
+                            Hogar
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div id="right-container">
+                <div id="expenses-transactions">
+                    sdsd
+                </div>
+            </div>
+            
+
+        </div>
+
     </div>
 
     <?php require 'views/footer.php'; ?>
