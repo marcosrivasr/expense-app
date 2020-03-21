@@ -1,7 +1,19 @@
 <?php
+    require_once 'classes/AuthSites.php';
 
     class UserSessionInstance{
         private $session;
+
+        private $sites = [
+            ['site' => '', 'access' => 'public', 'role' => ''],
+            ['site' => 'dashboard', 'access' => 'private', 'role' => 'user'],
+            ['site' => 'admin', 'access' => 'private', 'role' => 'admin']
+        ];
+
+        private $defaultSites = [
+            ['site' => 'dashboard', 'role' => 'user'],
+            ['site' => 'admin','role' => 'admin']
+        ];
         
         function __construct(){
             $this->session = new UserSession();
@@ -23,46 +35,76 @@
         }
 
         function validateSession(){
+            //Si existe sesión
             if($this->existsSession()){
-                $user = $this->getUserSessionData();
-                $this->authorizeAccess($user['role']);
+                $role = $this->getUserSessionData()['role'];
+                if($this->isPublic()){
+                    $this->redirectDefaultByRol($role);
+                }else{
+                    if($this->isAuthorized($role)){
+                        //no pasa nada, deja pasar
+                    }else{
+                        //
+                        $this->redirectDefaultByRol($role);
+                    }
+                }
             }else{
-                //if(AuthSites.getCurrentPage())
-                //header('location:/expense-app');
+                if($this->isPublic()){
+                    //la pagina es publica
+                    //no pasa nada
+                    echo "pagina publica";
+                }else{
+                    //la página no es pública
+                    //redirect al login
+                    header('location: '. constant('URL') . '');
+                }
             }
-        }
-
-        function authorizeAccess($role){
-            $actual_link = trim("$_SERVER[REQUEST_URI]");
-            $url = explode('/', $actual_link);
-            /*if(!AuthSites.compare($url[2], $role)){
-                echo "Si estas autorizado";
-            }
-            */
-            /*switch($role){
-                case 'user':
-                    //header('location: '. constant('URL').'dashboard');
-                    // TODO: validar que no haga ciclo
-                break;
-
-                case 'admin':
-                    header('location: '. constant('URL').'admin');
-                break;
-
-                default:
-            }
-            */
         }
         
         public function initialize($data){
-            
             $this->session->setCurrentUser($data);
-            echo var_dump($this->session->getCurrentUser());
             $this->authorizeAccess($data['role']);
         }
 
         public function test(){
             echo 'Hola';
+        }
+
+        private function isPublic(){
+            $currentURL = $this->getCurrentPage();
+            for($i = 0; $i < sizeof($this->sites); $i++){
+                if($currentURL === $this->sites[$i]['site'] && $this->sites[$i]['access'] === 'public'){
+                    return true;
+                }
+            }
+            return false;
+        }
+        private function redirectDefaultByRol($role){
+            $url = '';
+            for($i = 0; $i < sizeof($this->sites); $i++){
+                if($this->sites[$i]['role'] === $role){
+                    $url = '/expense-app/'.$this->sites[$i]['site'];
+                break;
+                }
+            }
+            header('location: '.$url);
+            
+        }
+
+        private function isAuthorized($role){
+            $currentURL = $this->getCurrentPage();
+            for($i = 0; $i < sizeof($this->sites); $i++){
+                if($currentURL === $this->sites[$i]['site'] && $this->sites[$i]['role'] === $role){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private function getCurrentPage(){
+            $actual_link = trim("$_SERVER[REQUEST_URI]");
+            $url = explode('/', $actual_link);
+            return $url[2];
         }
     }
 ?>

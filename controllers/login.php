@@ -10,7 +10,6 @@ class Login extends ControllerSession{
     function render(){
         $actual_link = trim("$_SERVER[REQUEST_URI]");
         $url = explode('/', $actual_link);
-        if($url[2] == '') echo 'raiz';
         $this->view->errorMessage = '';
         $this->view->render('login/index');
     }
