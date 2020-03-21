@@ -8,6 +8,7 @@ class Login extends ControllerSession{
     }
 
     function render(){
+        $this->view->errorMessage = '';
         $this->view->render('login/index');
     }
 

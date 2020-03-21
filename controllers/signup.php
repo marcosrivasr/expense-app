@@ -5,10 +5,12 @@ class Signup extends ControllerSession{
 
     function __construct(){
         parent::__construct();
+
         $userSession = new UserSessionInstance();
     }
 
     function render(){
+        $this->view->errorMessage = '';
         $this->view->render('login/signup');
     }
 
@@ -20,11 +22,13 @@ class Signup extends ControllerSession{
             //validate data
             if($username == '' || empty($username) || $password == '' || empty($password)){
                 // error al validar datos
+                echo "error";
                 $this->errorAtSignup('Campos vacios');
                 return;
             }
-            $registerNewUser = $this->model->insert($username, $password);
-
+            $hash = password_hash($password, PASSWORD_DEFAULT, ['cost' => 10]);
+            $registerNewUser = $this->model->insert($username, $hash);
+            
             if($registerNewUser){
                 $this->view->render('login/index');
             }else{
