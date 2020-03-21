@@ -1,4 +1,5 @@
 <?php
+
     class UserSessionInstance{
         private $session;
         
@@ -24,16 +25,24 @@
         function validateSession(){
             if($this->existsSession()){
                 $user = $this->getUserSessionData();
-                var_dump($user);
                 $this->authorizeAccess($user['role']);
             }else{
+                //if(AuthSites.getCurrentPage())
+                //header('location:/expense-app');
             }
         }
 
         function authorizeAccess($role){
-            switch($role){
+            $actual_link = trim("$_SERVER[REQUEST_URI]");
+            $url = explode('/', $actual_link);
+            /*if(!AuthSites.compare($url[2], $role)){
+                echo "Si estas autorizado";
+            }
+            */
+            /*switch($role){
                 case 'user':
-                    header('location: '. constant('URL').'dashboard');
+                    //header('location: '. constant('URL').'dashboard');
+                    // TODO: validar que no haga ciclo
                 break;
 
                 case 'admin':
@@ -42,6 +51,7 @@
 
                 default:
             }
+            */
         }
         
         public function initialize($data){

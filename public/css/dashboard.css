@@ -1,4 +1,5 @@
 #expenses-container{
+    border-radius: 5px;
     background-color: white;
     font-size: 12px;
     width: 900px;
@@ -19,10 +20,13 @@
     box-sizing: border-box;
 }
 #right-container{
-    background-color: #ccc;
-    width: calc(35% - 5px);
+    width: calc(35% - 4px);
     display: inline-block;
     vertical-align: top;
+    height: 500px;
+    background-color: #f4f3ff;
+    padding: 40px;
+    box-sizing: border-box;
 }
 
 #expenses-category{
@@ -45,7 +49,7 @@
 }
 .w-20{width: calc(20% - 60px);}
 .w-30{width: calc(30% - 60px);}
-.ws-30{width: 100px;}
+.ws-30{width: 117px;}
 .w-40{width: calc(40% - 60px);}
 .w-50{width: calc(50% - 60px);}
 .w-60{width: calc(60% - 60px);}

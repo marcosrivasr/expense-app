@@ -22,6 +22,21 @@
                             de <span class="total-budget-text">$6,700.00</span>
                         </div>
                     </div>
+                    <div class="card w-50">
+                        <form action="expenses/newExpense" method="POST">
+                        Descripcion
+                        <input type="text" name="title">
+                        Cantidad
+                        <input type="text" name="amount">
+                        Categoria
+                        <select name="category" id="">
+                            <option value="1">comida</option>
+                            <option value="2">hogar</option>
+                            <option value="3">ropa</option>
+                        </select>
+                        <input type="submit" value="Nuevo expense">
+                        </form>
+                    </div>
                 </div>
 
                 <div id="expenses-category">
@@ -48,7 +63,7 @@
 
             <div id="right-container">
                 <div id="expenses-transactions">
-                    sdsd
+                    <h3>últimas transacciones</h3>
                 </div>
             </div>
             

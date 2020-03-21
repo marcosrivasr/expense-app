@@ -1,7 +1,7 @@
 
 <?php
 
-class Dashboard extends Controller{
+class Dashboard extends ControllerSession{
 
     function __construct(){
         parent::__construct();
@@ -14,7 +14,10 @@ class Dashboard extends Controller{
     
 
     function saludo(){
-        echo "<p>Ejecutaste el método Saludoss</p>";
+        $actual_link = trim("$_SERVER[REQUEST_URI]");
+        $url = explode('/', $actual_link);
+        echo $url[2];
+
     }
 }
 
