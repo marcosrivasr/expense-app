@@ -28,11 +28,31 @@ class ExpensesModel extends Model{
 
     function get($user, $n){
         try{
-            $query = $this->db->connect()->prepare('SELECT `c`.`name`,`e`.`id`,`e`.`title`, `e`.`amount`,`e`.`date` FROM `expenses` AS `e` INNER JOIN `categories` AS `c` WHERE `c`.`id` = `e`.`category_id` AND e.user_id = :user LIMIT 0,:n');
-            $res = $query->execute(['user' => $user, 'n' => $n]);
-            if($res) return true;
+
+            $query = $this->db->connect()->prepare('SELECT categories.id as "category.id", expenses.id as "expense.id", categories.name, expenses.title, expenses.amount, expenses.date FROM expenses INNER JOIN categories WHERE categories.id = expenses.category_id AND id_user = :user LIMIT 0, :n');
+            $query->execute(['user' => $user, 'n' => $n]);
+
+            $res = [];
+            if($query->rowCount() > 0){
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $item = Array(
+                        'expense_id' => $row['expense.id'],
+                        'category_name' => $row['name'],
+                        'category_id' => $row['category.id'],
+                        'expense_title' => $row['title'],
+                        'amount' => $row['amount'],
+                        'date' => $row['date'],
+                    );
+                    array_push($res, $item);
+                }
+            }else{
+                return 0;
+            }
+            
+            return $res;
+
         }catch(PDOException $e){
-            return false;
+            return NULL;
         }
     }
 }

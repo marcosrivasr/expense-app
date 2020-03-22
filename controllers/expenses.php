@@ -8,6 +8,8 @@ class Expenses extends ControllerSession{
     }
 
     function render(){
+        $expenses = $this->getExpenses(10);
+        $this->view->expenses = $expenses;
         $this->view->render('dashboard/index');
     }
 
@@ -52,7 +54,8 @@ class Expenses extends ControllerSession{
         if($n < 0) return NULL;
         $id_user = $this->getUserSession()->getUserSessionData()['id'];
 
-        $this->model->get($id_user, $n);
+        return $this->model->get($id_user, $n);
+        
     }
 
 

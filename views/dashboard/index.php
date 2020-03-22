@@ -62,8 +62,32 @@
             </div>
 
             <div id="right-container">
+                <div id="profile-container">
+                    <?php echo 'Marcos Rivas' ?>
+                </div>
                 <div id="expenses-transactions">
-                    <h3>últimas transacciones</h3>
+                    <?php
+                        if($this->expenses === NULL){
+                            echo 'Error al cargar los datos';
+                        }else if($this->expenses <= 0){
+                            echo 'No hay transacciones';
+                        }else{
+                            foreach ($this->expenses as $expense) { ?>
+                            <div class='preview-expense'>
+                                <div class="left">
+                                    <div class="title"><?php echo $expense['expense_title'];?></div>
+                                    <div class="category"><?php echo $expense['category_name'];?></div>
+                                </div>
+                                <div class="right">
+                                    <div class="amount">$<?php echo number_format($expense['amount'], 2);?></div>
+                                </div>
+                                
+                            </div>
+                            
+                            <?php
+                            }
+                        }
+                     ?>
                 </div>
             </div>
             

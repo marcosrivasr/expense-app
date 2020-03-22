@@ -29,6 +29,47 @@
     box-sizing: border-box;
 }
 
+#profile-container{
+    background: red;
+}
+
+#expenses-transactions .preview-expense{
+    padding: 20px 0 20px 0;
+    border-bottom: dotted 1px #ccc;
+}
+
+#expenses-transactions .preview-expense .left, #expenses-transactions .preview-expense .right{
+    display: inline-block;
+    vertical-align: middle;
+}
+#expenses-transactions .preview-expense .left{
+    width: 72%;
+}
+#expenses-transactions .preview-expense .right{
+    width: calc(30% - 8px);
+}
+#expenses-transactions .preview-expense .title{
+    vertical-align: top;
+    margin-right: 27px;
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+#expenses-transactions .preview-expense .amount{
+    vertical-align: middle;
+    display: inline-block;
+    text-align: right;
+    font-weight: bold;
+}
+
+#expenses-transactions .preview-expense .category{
+    font-size: 10px;
+    background: #20bbbd;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 3px 10px;
+    color: white;
+}
+
 #expenses-category{
     margin-top: 40px;
     overflow-x: hidden;
