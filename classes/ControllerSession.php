@@ -14,6 +14,10 @@ class ControllerSession extends Controller{
     public function getUserSession(){
         return $this->userSession;
     }
+
+    private function loadData(){
+        
+    }
 }
 
 ?>

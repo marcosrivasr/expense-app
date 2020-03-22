@@ -4,20 +4,23 @@
     class UserSessionInstance{
         private $session;
 
-        private $sites = [
-            ['site' => '', 'access' => 'public', 'role' => ''],
-            ['site' => 'dashboard', 'access' => 'private', 'role' => 'user'],
-            ['site' => 'admin', 'access' => 'private', 'role' => 'admin']
-        ];
+        private $sites;
 
-        private $defaultSites = [
-            ['site' => 'dashboard', 'role' => 'user'],
-            ['site' => 'admin','role' => 'admin']
-        ];
+        private $defaultSites;
         
         function __construct(){
             $this->session = new UserSession();
+            $json = $this->loadAccesses();
+            $this->sites = $json['sites'];
+            $this->defaultSites = $json['default-sites'];
             $this->validateSession();
+        }
+
+        private function loadAccesses(){
+            $string = file_get_contents("config/access.json");
+            $json = json_decode($string, true);
+
+            return $json;
         }
 
         function existsSession(){

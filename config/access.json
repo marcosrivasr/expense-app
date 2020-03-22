@@ -1,0 +1,30 @@
+{
+    "sites":[
+        {
+            "site" : "", 
+            "access" : "public", 
+            "role" : ""
+        },
+        {
+            "site" : "expenses", 
+            "access" : "private", 
+            "role" : "user"
+        },
+        {
+            "site" : "admin", 
+            "access" : "private", 
+            "role" : "admin"
+        }
+    ],
+
+    "default-sites":[
+        {
+            "site" : "expenses", 
+            "role" : "user"
+        },
+        {
+            "site" : "admin",
+            "role" : "admin"
+        }
+    ]
+}
