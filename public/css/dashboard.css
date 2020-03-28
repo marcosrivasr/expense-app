@@ -23,14 +23,15 @@
     width: calc(35% - 4px);
     display: inline-block;
     vertical-align: top;
-    height: 500px;
+    min-height: 500px;
     background-color: #f4f3ff;
     padding: 40px;
     box-sizing: border-box;
 }
 
 #profile-container{
-    background: red;
+    padding: 10px;
+    text-align: right;
 }
 
 #expenses-transactions .preview-expense{
@@ -68,6 +69,13 @@
     display: inline-block;
     padding: 3px 10px;
     color: white;
+}
+#expenses-transactions .more-container{
+    padding: 15px 0;
+    text-align: right;
+}
+#expenses-transactions .more-container a{
+    color: black;
 }
 
 #expenses-category{

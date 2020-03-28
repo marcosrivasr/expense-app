@@ -55,6 +55,45 @@ class ExpensesModel extends Model{
             return NULL;
         }
     }
+
+    function getTotal($user){
+        try{
+            $year = date('Y');
+            $month = date('m');
+            $query = $this->db->connect()->prepare('SELECT SUM(amount) AS total FROM expenses WHERE YEAR(date) = :year AND MONTH(date) = :month AND id_user = :user');
+            $query->execute(['year' => $year, 'month' => $month, 'user' => $user]);
+
+            if($query->rowCount() > 0){
+                $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            }else{
+                return 0;
+            }
+            
+            return $total;
+
+        }catch(PDOException $e){
+            return NULL;
+        }
+
+    }
+
+    function getField($user, $name ){
+        /* try{
+            $query = $this->db->connect()->prepare('SELECT :field FROM expenses WHERE');
+            $query->execute(['year' => $year, 'month' => $month]);
+
+            if($query->rowCount() > 0){
+                $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            }else{
+                return 0;
+            }
+            
+            return $total;
+
+        }catch(PDOException $e){
+            return NULL;
+        } */
+    }
 }
 
 ?>

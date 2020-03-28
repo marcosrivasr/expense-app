@@ -7,13 +7,18 @@ class Expenses extends ControllerSession{
         parent::__construct();
     }
 
-    function render(){
-        $expenses = $this->getExpenses(10);
+     function render(){
+        $expenses = $this->getExpenses(5);
         $this->view->expenses = $expenses;
+        $this->view->count = sizeof($expenses);
+        $this->view->totalThisMonth = $this->getTotalAmountThisMonth();
+        $this->view->username = $id_user  = $this->getUserSession()->getUserSessionData()['username'];;
+        $this->view->budget = $this->getBudget();
+        $this->getBudget();
         $this->view->render('dashboard/index');
     }
 
-    function newExpense(){
+    private function newExpense(){
         if(!isset($_POST['title']) && !isset($_POST['amount']) && !isset($_POST['category']) ) header('location: /expense-app');
 
         if($this->getUserSession()->getUserSessionData() == NULL) header('location: /expense-app');
@@ -26,7 +31,7 @@ class Expenses extends ControllerSession{
         $this->model->insert($title, $amount, $category, $id_user);
     }
 
-    function deleteExpense(){
+    private function deleteExpense(){
         if(!isset($_POST['id'])) header('location: /expense-app');
 
         $id_expense    = $_POST['id'];
@@ -35,7 +40,7 @@ class Expenses extends ControllerSession{
         $this->model->delete($id_expense, $id_user);
     }
 
-    function modifyExpense(){
+    private function modifyExpense(){
         if(!isset($_POST['title']) && 
             !isset($_POST['amount']) && 
             !isset($_POST['category']) &&
@@ -50,17 +55,27 @@ class Expenses extends ControllerSession{
         $this->model->modify($id_expense, $title, $amount, $category, $id_user);
     }
 
-    function getExpenses($n = 0){
+    private function getExpenses($n = 0){
         if($n < 0) return NULL;
         $id_user = $this->getUserSession()->getUserSessionData()['id'];
 
-        return $this->model->get($id_user, $n);
-        
+        return $this->model->get($id_user, $n);   
     }
 
+    private function getTotalAmountThisMonth(){
+        $id_user = $this->getUserSession()->getUserSessionData()['id'];
+        $res = $this->model->getTotal($id_user);
+        if(!$res || $res === NULL) return 0;
+        if($res < 0) return 0;
+        return $res;
+    }
 
-
-    
+    private function getBudget(){
+        $id_user = $this->getUserSession()->getUserSessionData()['id'];
+        include_once 'models/usermodel.php';
+        $userController = new UserModel();
+        return $userController->getBudget($id_user);
+    }
 
     function saludo(){
         echo "<p>Ejecutaste el método Saludoss</p>";

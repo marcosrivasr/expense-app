@@ -16,10 +16,17 @@
                 <div id="expenses-summary">
                     <div class="card w-50">
                         <div class="total-expense">
-                            $5,698.00
+                            $<?php
+                                echo number_format($this->totalThisMonth, 2);
+                             ?>
                         </div>
                         <div class="total-budget">
-                            de <span class="total-budget-text">$6,700.00</span>
+                            de <span class="total-budget-text">
+                                $<?php 
+                                    echo number_format($this->budget,2);
+                                    echo ($this->budget === 0.0)? '<br /><a href="expenses/budget">Configura tu presupuesto</a>': ''
+                                ?>
+                            </span>
                         </div>
                     </div>
                     <div class="card w-50">
@@ -63,9 +70,10 @@
 
             <div id="right-container">
                 <div id="profile-container">
-                    <?php echo 'Marcos Rivas' ?>
+                    <?php echo 'Bienvenido<br/>'. $this->username; ?>
                 </div>
                 <div id="expenses-transactions">
+                    <h2>Últimos gastos</h2>
                     <?php
                         if($this->expenses === NULL){
                             echo 'Error al cargar los datos';
@@ -81,11 +89,11 @@
                                 <div class="right">
                                     <div class="amount">$<?php echo number_format($expense['amount'], 2);?></div>
                                 </div>
-                                
                             </div>
                             
                             <?php
                             }
+                            echo '<div class="more-container"><a href="expenses/history" >Ver todos los gastos -></a></div>';
                         }
                      ?>
                 </div>
