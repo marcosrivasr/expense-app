@@ -29,7 +29,11 @@ class App{
 
             // si hay un método que se requiere cargar
             if(isset($url[1])){
-                $controller->{$url[1]}();
+                if(method_exists($controller, $url[1])){
+                    $controller->{$url[1]}();
+                }else{
+                    $controller = new Errores(); 
+                }
             }else{
                 $controller->render();
             }
