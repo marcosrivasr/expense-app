@@ -31,8 +31,10 @@ class LoginModel extends Model{
             //echo "Ya existe esa matrícula";
             return NULL;
         }
-        
     }
+
+    
+
 }
 
 ?>
