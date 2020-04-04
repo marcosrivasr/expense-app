@@ -15,6 +15,7 @@
             "access" : "private", 
             "role" : "admin"
         }
+        
     ],
 
     "default-sites":[

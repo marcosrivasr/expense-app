@@ -70,11 +70,10 @@
     padding: 3px 10px;
     color: white;
 }
-#expenses-transactions .more-container{
-    padding: 15px 0;
-    text-align: right;
+.more-container{
+    padding: 10px 0;
 }
-#expenses-transactions .more-container a{
+.more-container a{
     color: black;
 }
 
@@ -91,6 +90,14 @@
 .card{
     border-radius: 5px;
     padding: 20px;
+    border: solid 1px #ccc;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.card-button{
+    border-radius: 5px;
     border: solid 1px #ccc;
     margin-right: 10px;
     display: inline-block;
@@ -115,4 +122,22 @@
 
 #expenses-summary .total-budget .total-budget-text{
     font-weight: bolder;
+}
+
+#new-expense-container{
+    background: rgb(38, 132, 214);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    height: 84px;
+}
+#new-expense-container:hover{
+    background: rgb(22, 100, 168);
+    box-shadow: 0 2px 5px rgb(128, 187, 238);
+    transition: 0.5s;
+}
+
+#new-expense-container .simbolo{
+    font-size: 48px;
 }

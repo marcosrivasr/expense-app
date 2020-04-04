@@ -77,6 +77,13 @@ class Expenses extends ControllerSession{
         return $userController->getBudget($id_user);
     }
 
+    function create(){
+        include_once 'models/categoriesmodel.php';
+        $categoriesModel = new CategoriesModel();
+        $this->view->categories = $categoriesModel->get();
+        $this->view->render('dashboard/create');
+    }
+
     function saludo(){
         echo "<p>Ejecutaste el método Saludoss</p>";
     }

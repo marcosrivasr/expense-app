@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense App</title>
+    <title>Expense App - Dashboard</title>
+    
 </head>
 <body>
     <?php require 'header.php'; ?>
@@ -17,20 +18,24 @@
                     <div class="card w-50">
                         <div class="total-expense">
                             $<?php
-                                echo number_format($this->totalThisMonth, 2);
+                                echo '<span>'.number_format($this->totalThisMonth, 2).'</span>';
                              ?>
                         </div>
                         <div class="total-budget">
                             de <span class="total-budget-text">
                                 $<?php 
-                                    echo number_format($this->budget,2);
-                                    echo ($this->budget === 0.0)? '<br /><a href="expenses/budget">Configura tu presupuesto</a>': ''
+                                    echo number_format($this->budget,2) . ' este mes';
+                                    echo ($this->budget === 0.0)? '<div class=""><a href="expenses/budget">Configura tu presupuesto</a></div>': ''
                                 ?>
                             </span>
                         </div>
                     </div>
-                    <div class="card w-50">
-                        <form action="expenses/newExpense" method="POST">
+                    <div class="card-button w-50">
+                        <div id="new-expense-container">
+                            <div class="simbolo">+</div>
+                            Añadir nuevo gasto
+                        </div>
+                        <!-- <form action="expenses/newExpense" method="POST">
                         Descripcion
                         <input type="text" name="title">
                         Cantidad
@@ -42,7 +47,7 @@
                             <option value="3">ropa</option>
                         </select>
                         <input type="submit" value="Nuevo expense">
-                        </form>
+                        </form> -->
                     </div>
                 </div>
 
@@ -105,5 +110,6 @@
     </div>
 
     <?php require 'views/footer.php'; ?>
+    <script src="public/js/dashboard.js"></script>
 </body>
 </html>
