@@ -11,6 +11,11 @@
             "role" : "user"
         },
         {
+            "site" : "user", 
+            "access" : "private", 
+            "role" : "user"
+        },
+        {
             "site" : "admin", 
             "access" : "private", 
             "role" : "admin"
