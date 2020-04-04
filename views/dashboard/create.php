@@ -13,22 +13,34 @@
             
         <div id="expenses-container">
             <div id="form-expense-container">
-                <form action="expenses/newExpense" method="POST">
+                <form action="newExpense" method="POST">
                     <div class="section">
                         <div class="title">Cantidad</div>
-                        <div><input type="number" name="amount" id="amount"></div>
+                        <div><input type="number" name="amount" id="amount" autocomplete="off" required></div>
                     </div>
                     <div class="section">
                         <div class="title">Descripcion</div>
-                        <div><input type="text" name="title"></div>
+                        <div><input type="text" name="title" autocomplete="off" required></div>
                     </div>
                     
                     <div class="section">
-                        <div class="title">Categoria</div>
-                        <?php var_dump($this->categories); ?>
+                        <div class="title">Fecha de transacción</div>
                         <div>
-                            <select name="category" id="">
-                            
+                            <input type="date" name="date" id="" required>
+                        </div>
+                    </div>    
+
+                    <div class="section">
+                        <div class="title">Categoria</div>
+                        <div>
+                            <select name="category" id="" required>
+                            <?php 
+                                foreach ($this->categories as $cat) {
+                            ?>
+                                <option value="<?php echo $cat['id'] ?>"><?php echo $cat['name'] ?></option>
+                                    <?php
+                                }
+                            ?>
                             </select>
                         </div>
                     </div>    

@@ -35,40 +35,30 @@
                             <div class="simbolo">+</div>
                             Añadir nuevo gasto
                         </div>
-                        <!-- <form action="expenses/newExpense" method="POST">
-                        Descripcion
-                        <input type="text" name="title">
-                        Cantidad
-                        <input type="text" name="amount">
-                        Categoria
-                        <select name="category" id="">
-                            <option value="1">comida</option>
-                            <option value="2">hogar</option>
-                            <option value="3">ropa</option>
-                        </select>
-                        <input type="submit" value="Nuevo expense">
-                        </form> -->
                     </div>
                 </div>
 
+                <div id="columnchart_material" style="height: 300px">
+                </div>
+
                 <div id="expenses-category">
-                    <h3>Categories</h3>
+                    <h3>Gastos del mes por categoria</h3>
                     <div id="categories-container">
-                        <div class="card ws-30">
-                            Hogar
-                        </div>
-                        <div class="card ws-30">
-                            Ropa
-                        </div>
-                        <div class="card ws-30">
-                            Comida
-                        </div>
-                        <div class="card ws-30">
-                            Ocio
-                        </div>
-                        <div class="card ws-30">
-                            Hogar
-                        </div>
+                        <?php 
+                            foreach ($this->categories as $cat) {
+                        ?>
+                            <div class="card ws-30">
+                                <div>
+                                    $<?php echo number_format($cat['total'], 2); ?>    
+                                </div>
+                                <div>
+                                    <?php echo $cat['name']; ?>
+                                </div>
+                            </div>
+                        <?php
+                            }
+                        ?>
+                    
                     </div>
                 </div>
             </div>
@@ -89,7 +79,7 @@
                             <div class='preview-expense'>
                                 <div class="left">
                                     <div class="title"><?php echo $expense['expense_title'];?></div>
-                                    <div class="category"><?php echo $expense['category_name'];?></div>
+                                    <div class="category" style="background-color: <?php echo $expense['category_color'] . ' !important' ?>"><?php echo $expense['category_name'];?></div>
                                 </div>
                                 <div class="right">
                                     <div class="amount">$<?php echo number_format($expense['amount'], 2);?></div>
@@ -110,6 +100,7 @@
     </div>
 
     <?php require 'views/footer.php'; ?>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="public/js/dashboard.js"></script>
 </body>
 </html>
