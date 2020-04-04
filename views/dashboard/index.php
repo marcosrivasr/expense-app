@@ -25,7 +25,7 @@
                             de <span class="total-budget-text">
                                 $<?php 
                                     echo number_format($this->budget,2) . ' este mes';
-                                    echo ($this->budget === 0.0)? '<div class=""><a href="expenses/budget">Configura tu presupuesto</a></div>': ''
+                                    echo ($this->budget === 0.0)? '<div class=""><a href="expenses/budget" class="btn">Configura tu presupuesto</a></div>': ''
                                 ?>
                             </span>
                         </div>
@@ -46,16 +46,18 @@
                     <div id="categories-container">
                         <?php 
                             foreach ($this->categories as $cat) {
+                                if(number_format($cat['total'], 0) > 0){
                         ?>
                             <div class="card ws-30">
-                                <div>
+                                <div class="category-total">
                                     $<?php echo number_format($cat['total'], 2); ?>    
                                 </div>
-                                <div>
+                                <div class="category-name">
                                     <?php echo $cat['name']; ?>
                                 </div>
                             </div>
                         <?php
+                            }
                             }
                         ?>
                     
@@ -88,7 +90,7 @@
                             
                             <?php
                             }
-                            echo '<div class="more-container"><a href="expenses/history" >Ver todos los gastos -></a></div>';
+                            echo '<div class="more-container"><a href="expenses/history" class="btn">Ver todos los gastos</a></div>';
                         }
                      ?>
                 </div>

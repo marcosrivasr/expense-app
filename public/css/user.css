@@ -1,0 +1,22 @@
+#user-container{
+    border-radius: 5px;
+    background-color: white;
+    font-size: 12px;
+    width: 900px;
+    margin: 50px auto;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+}
+
+#user-section-container{
+    width: 400px;
+    margin: 0 auto;
+}
+
+#expenses-container h3{
+    margin: 20px 0;
+}
+
+.section{
+    padding: 40px 0;
+}
