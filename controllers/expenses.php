@@ -15,29 +15,36 @@ class Expenses extends ControllerSession{
         $this->view->username = $id_user  = $this->getUserSession()->getUserSessionData()['username'];;
         $this->view->budget = $this->getBudget();
         $this->getBudget();
+        $this->view->categories = $this->getCategories();
+
         $this->view->render('dashboard/index');
     }
 
-    private function newExpense(){
-        if(!isset($_POST['title']) && !isset($_POST['amount']) && !isset($_POST['category']) ) header('location: /expense-app');
+    function newExpense(){
+        if(!isset($_POST['title']) || !isset($_POST['amount']) || !isset($_POST['category']) || !isset($_POST['date']) ){
+            header('location: ../');
+            return;
+        }
 
-        if($this->getUserSession()->getUserSessionData() == NULL) header('location: /expense-app');
+        if($this->getUserSession()->getUserSessionData() == NULL){
+            header('location: ../');
+            return;
+        }
 
         $title    = $_POST['title'];
         $amount   = (float) $_POST['amount'];
         $category = $_POST['category'];
+        $date = $_POST['date'];
         $id_user  = $this->getUserSession()->getUserSessionData()['id'];
 
-        $this->model->insert($title, $amount, $category, $id_user);
-    }
+        if( empty($title) || empty($amount) || empty($category) || empty($date) ){
+            header('location: create');
+            return;
+        }
 
-    private function deleteExpense(){
-        if(!isset($_POST['id'])) header('location: /expense-app');
+        $this->model->insert($title, $amount, $category, $date, $id_user);
 
-        $id_expense    = $_POST['id'];
-        $id_user       = $this->getUserSession()->getUserSessionData()['id'];
-
-        $this->model->delete($id_expense, $id_user);
+        header('location: ../');
     }
 
     private function modifyExpense(){
@@ -82,6 +89,26 @@ class Expenses extends ControllerSession{
         $categoriesModel = new CategoriesModel();
         $this->view->categories = $categoriesModel->get();
         $this->view->render('dashboard/create');
+    }
+
+    function getCategories(){
+        include_once 'models/categoriesmodel.php';
+        $categoriesModel = new CategoriesModel();
+        $categories = $categoriesModel->get();
+        $id_user = $this->getUserSession()->getUserSessionData()['id'];
+        $res = [];
+        foreach ($categories as $cat) {
+            $total = $this->model->getTotalByCategory($cat['id'], $id_user);
+            if($total === NULL) $total = 0;
+            $item = Array(
+                'id' => $cat['id'],
+                'name' => $cat['name'],
+                'total' => $total
+            );
+            array_push($res, $item);
+        }
+
+        return $res;
     }
 
     function saludo(){

@@ -6,10 +6,10 @@ class ExpensesModel extends Model{
         parent::__construct();
     }
 
-    function insert($title, $amount, $category, $id_user){
+    function insert($title, $amount, $category, $date, $id_user){
         try{
-            $query = $this->db->connect()->prepare('INSERT INTO EXPENSES (TITLE, AMOUNT, CATEGORY_ID, DATE, ID_USER) VALUES(:title, :amount, :category, now(), :user)');
-            $query->execute(['title' => $title, 'amount' => $amount, 'category' => $category, 'user' => $id_user]);
+            $query = $this->db->connect()->prepare('INSERT INTO EXPENSES (TITLE, AMOUNT, CATEGORY_ID, DATE, ID_USER) VALUES(:title, :amount, :category, :d, :user)');
+            $query->execute(['title' => $title, 'amount' => $amount, 'category' => $category, 'user' => $id_user, 'd' => $date]);
             return true;
         }catch(PDOException $e){
             //echo $e->getMessage();
@@ -29,7 +29,7 @@ class ExpensesModel extends Model{
     function get($user, $n){
         try{
 
-            $query = $this->db->connect()->prepare('SELECT categories.id as "category.id", expenses.id as "expense.id", categories.name, expenses.title, expenses.amount, expenses.date FROM expenses INNER JOIN categories WHERE categories.id = expenses.category_id AND id_user = :user LIMIT 0, :n');
+            $query = $this->db->connect()->prepare('SELECT categories.id as "category.id", categories.color as "category.color", expenses.id as "expense.id", categories.name, expenses.title, expenses.amount, expenses.date FROM expenses INNER JOIN categories WHERE categories.id = expenses.category_id AND id_user = :user ORDER BY expenses.date DESC LIMIT 0, :n ');
             $query->execute(['user' => $user, 'n' => $n]);
 
             $res = [];
@@ -42,6 +42,7 @@ class ExpensesModel extends Model{
                         'expense_title' => $row['title'],
                         'amount' => $row['amount'],
                         'date' => $row['date'],
+                        'category_color' => $row['category.color'],
                     );
                     array_push($res, $item);
                 }
@@ -74,7 +75,27 @@ class ExpensesModel extends Model{
         }catch(PDOException $e){
             return NULL;
         }
+    }
 
+    function getTotalByCategory($cid, $user){
+        try{
+            $total = 0;
+            $year = date('Y');
+            $month = date('m');
+            $query = $this->db->connect()->prepare('SELECT SUM(amount) AS total from expenses WHERE category_id = :val AND id_user = :user AND YEAR(date) = :year AND MONTH(date) = :month');
+            $query->execute(['val' => $cid, 'user' => $user, 'year' => $year, 'month' => $month]);
+
+            if($query->rowCount() > 0){
+                $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            }else{
+                return 0;
+            }
+            
+            return $total;
+
+        }catch(PDOException $e){
+            return NULL;
+        }
     }
 
     function getField($user, $name ){
