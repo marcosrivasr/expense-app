@@ -83,9 +83,6 @@
     width: 100%;
 }
 
-#expenses-category #categories-container{
-    width: 800px;
-}
 
 .card{
     border-radius: 5px;
@@ -105,7 +102,7 @@
 }
 .w-20{width: calc(20% - 60px);}
 .w-30{width: calc(30% - 60px);}
-.ws-30{width: 117px;}
+.ws-30{width: 114px; margin-bottom: 10px;}
 .w-40{width: calc(40% - 60px);}
 .w-50{width: calc(50% - 60px);}
 .w-60{width: calc(60% - 60px);}
