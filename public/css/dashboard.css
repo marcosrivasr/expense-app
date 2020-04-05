@@ -34,8 +34,34 @@
 }
 
 #profile-container{
-    padding: 10px;
     text-align: right;
+    margin-bottom: 20px;
+}
+#profile-container a{
+    border-radius: 4px;
+    color: #000;
+    border: solid 1px transparent;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+    transition: all 0.4s;
+}
+#profile-container a:hover{
+    background-color: var(--hover-color);
+    border-radius: 4px;
+    color: #fff;
+    border: solid 1px var(--primary-color);
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+#profile-container .photo,#profile-container .name{
+    display: inline-block;
+    vertical-align: middle;
+}
+#profile-container .photo img{
+    border-radius: 50%;
+    width: 24px;
 }
 
 #expenses-transactions .preview-expense{
@@ -61,7 +87,7 @@
 }
 #expenses-transactions .preview-expense .amount{
     vertical-align: middle;
-    display: inline-block;
+    display: block;
     text-align: right;
     font-weight: bold;
 }
@@ -69,7 +95,7 @@
 #expenses-transactions .preview-expense .category{
     font-size: 10px;
     background: #20bbbd;
-    border-radius: 3px;
+    border-radius: 10px;
     display: inline-block;
     padding: 3px 10px;
     color: white;
@@ -161,6 +187,7 @@
     padding: 10px;
     margin: 6px 0;
     text-decoration: none;
+    transition: all 0.4s;
 }
 .btn:hover{
     background-color: var(--hover-color);

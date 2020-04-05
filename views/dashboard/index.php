@@ -67,7 +67,15 @@
 
             <div id="right-container">
                 <div id="profile-container">
-                    <?php echo 'Bienvenido<br/>'. $this->username; ?>
+                    <a href="user/">
+                    <div class="name">
+                    <?php echo $this->user['name']; ?>
+                    </div>
+                
+                    <div class="photo">
+                        <img src="public/img/photos/<?php echo $this->user['photo'] ?>" width="48" />
+                    </div>
+                    </a>
                 </div>
                 <div id="expenses-transactions">
                     <h2>Últimos gastos</h2>

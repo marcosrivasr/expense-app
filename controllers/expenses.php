@@ -12,9 +12,9 @@ class Expenses extends ControllerSession{
         $this->view->expenses = $expenses;
         $this->view->count = sizeof($expenses);
         $this->view->totalThisMonth = $this->getTotalAmountThisMonth();
-        $this->view->username = $id_user  = $this->getUserSession()->getUserSessionData()['username'];;
+        //$this->view->username = $this->getUserSession()->getUserSessionData()['username'];
         $this->view->budget = $this->getBudget();
-        $this->getBudget();
+        $this->view->user = $this->getUser();
         $this->view->categories = $this->getCategories();
 
         $this->view->render('dashboard/index');
@@ -35,7 +35,7 @@ class Expenses extends ControllerSession{
         $amount   = (float) $_POST['amount'];
         $category = $_POST['category'];
         $date = $_POST['date'];
-        $id_user  = $this->getUserSession()->getUserSessionData()['id'];
+        $id_user  = $this->getUserId();
 
         if( empty($title) || empty($amount) || empty($category) || empty($date) ){
             header('location: create');
@@ -57,20 +57,20 @@ class Expenses extends ControllerSession{
         $title      = $_POST['title'];
         $amount     = (float) $_POST['amount'];
         $category   = $_POST['category'];
-        $id_user    = $this->getUserSession()->getUserSessionData()['id'];
+        $id_user    = $this->getUserId();
 
         $this->model->modify($id_expense, $title, $amount, $category, $id_user);
     }
 
     private function getExpenses($n = 0){
         if($n < 0) return NULL;
-        $id_user = $this->getUserSession()->getUserSessionData()['id'];
+        $id_user = $this->getUserId();
 
         return $this->model->get($id_user, $n);   
     }
 
     private function getTotalAmountThisMonth(){
-        $id_user = $this->getUserSession()->getUserSessionData()['id'];
+        $id_user = $this->getUserId();
         $res = $this->model->getTotal($id_user);
         if(!$res || $res === NULL) return 0;
         if($res < 0) return 0;
@@ -78,7 +78,7 @@ class Expenses extends ControllerSession{
     }
 
     private function getBudget(){
-        $id_user = $this->getUserSession()->getUserSessionData()['id'];
+        $id_user = $this->getUserId();
         include_once 'models/usermodel.php';
         $userController = new UserModel();
         return $userController->getBudget($id_user);
@@ -95,7 +95,7 @@ class Expenses extends ControllerSession{
         include_once 'models/categoriesmodel.php';
         $categoriesModel = new CategoriesModel();
         $categories = $categoriesModel->get();
-        $id_user = $this->getUserSession()->getUserSessionData()['id'];
+        $id_user = $this->getUserId();
         $res = [];
         foreach ($categories as $cat) {
             $total = $this->model->getTotalByCategory($cat['id'], $id_user);
@@ -109,6 +109,31 @@ class Expenses extends ControllerSession{
         }
 
         return $res;
+    }
+
+    function getUser(){
+        include_once 'models/usermodel.php';
+        $userModel = new UserModel();
+        //$userid = $this->getUserSession()->getUserSessionData()['id'];
+        $userid = $this->getUserId();
+        //$username = $this->getUserSession()->getUserSessionData()['username'];
+        $username = $this->getUsername();
+        $name = $userModel->getName($userid);
+        $photo = $userModel->getPhoto($userid);
+
+        if($name === NULL || empty($username)){
+            $name = $username;
+        }
+        if($photo === NULL || empty($photo)){
+            $photo = 'default.jpg';
+        }
+
+        return Array(
+            'username' => $username,
+            'name' => $name,
+            'photo' => $photo
+        );
+
     }
 
     function saludo(){
