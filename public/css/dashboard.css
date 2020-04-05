@@ -192,3 +192,7 @@
 .btn:hover{
     background-color: var(--hover-color);
 }
+
+.broken{
+    color: red;
+}

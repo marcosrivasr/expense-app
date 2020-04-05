@@ -8,12 +8,10 @@ class Expenses extends ControllerSession{
     }
 
      function render(){
-        $expenses = $this->getExpenses(5);
-        $this->view->expenses = $expenses;
-        $this->view->count = sizeof($expenses);
+        $this->view->expenses = $this->getExpenses(5);
+        $this->view->count = sizeof($this->view->expenses);
         $this->view->totalThisMonth = $this->getTotalAmountThisMonth();
-        //$this->view->username = $this->getUserSession()->getUserSessionData()['username'];
-        $this->view->budget = $this->getBudget();
+        //$this->view->budget = $this->getBudget();
         $this->view->user = $this->getUser();
         $this->view->categories = $this->getCategories();
 
@@ -120,18 +118,17 @@ class Expenses extends ControllerSession{
         $username = $this->getUsername();
         $name = $userModel->getName($userid);
         $photo = $userModel->getPhoto($userid);
+        $budget = $userModel->getBudget($userid);
 
-        if($name === NULL || empty($username)){
-            $name = $username;
-        }
-        if($photo === NULL || empty($photo)){
-            $photo = 'default.jpg';
-        }
+        if($name === NULL || empty($username)) $name = $username;
+        if($photo === NULL || empty($photo)) $photo = 'default.png';
+        if($budget === NULL || empty($budget) || $budget < 0) $budget = 0.0;
 
         return Array(
             'username' => $username,
             'name' => $name,
-            'photo' => $photo
+            'photo' => $photo,
+            'budget' => $budget
         );
 
     }

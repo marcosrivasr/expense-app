@@ -17,15 +17,16 @@
                 <div id="expenses-summary">
                     <div class="card w-50">
                         <div class="total-expense">
-                            $<?php
-                                echo '<span>'.number_format($this->totalThisMonth, 2).'</span>';
+                            <span class="<?php echo ($this->user['budget'] < $this->totalThisMonth)? 'broken': '' ?>">$<?php
+                                echo number_format($this->totalThisMonth, 2);
                              ?>
+                             </span>
                         </div>
                         <div class="total-budget">
                             de <span class="total-budget-text">
                                 $<?php 
-                                    echo number_format($this->budget,2) . ' este mes';
-                                    echo ($this->budget === 0.0)? '<div class=""><a href="expenses/budget" class="btn">Configura tu presupuesto</a></div>': ''
+                                    echo number_format($this->user['budget'],2) . ' este mes';
+                                    echo ($this->user['budget'] === 0.0)? '<div class=""><a href="expenses/budget" class="btn">Configura tu presupuesto</a></div>': ''
                                 ?>
                             </span>
                         </div>
