@@ -6,6 +6,11 @@
             "role" : ""
         },
         {
+            "site" : "signup", 
+            "access" : "public", 
+            "role" : ""
+        },
+        {
             "site" : "expenses", 
             "access" : "private", 
             "role" : "user"

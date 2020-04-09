@@ -15,7 +15,7 @@
             <div id="user-section-container">
 
                 <div id="data-user-container">
-                    <form action="user/updateName" method="POST">
+                    <form action=<?php echo constant('URL'). 'user/updateName' ?> method="POST">
                         <div class="section">
                             <div class="title">Nombre</div>
                             <div><input type="text" name="name" id="name" autocomplete="off" required value="<?php echo $this->name ?>"></div>
@@ -24,7 +24,7 @@
                     </form>
 
 
-                    <form action="user/updatePhoto" method="POST" enctype="multipart/form-data">
+                    <form action="<?php echo constant('URL'). 'user/updatePhoto' ?>" method="POST" enctype="multipart/form-data">
                         <div class="section">
                             <div class="title">Foto de perfil</div>
                             
@@ -40,7 +40,7 @@
                         </div>
                     </form>
 
-                    <form action="user/updatePassword" method="POST">
+                    <form action="<?php echo constant('URL'). 'user/updatePassword' ?>" method="POST">
 
                         <div class="section">
                             <div class="title">Password actual</div>
