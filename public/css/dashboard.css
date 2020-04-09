@@ -2,7 +2,7 @@
     --primary-color: rgb(38, 132, 214);
     --hover-color: rgb(22, 100, 168);
 }
-#expenses-container{
+#expenses-container, #history-container{
     border-radius: 5px;
     background-color: white;
     font-size: 12px;
@@ -179,7 +179,8 @@
     text-align: center;
 }
 
-.btn{
+.btn, input[type="submit"]{
+    border: none;
     background-color: var(--primary-color);
     border-radius: 3px;
     color: white !important;
@@ -189,10 +190,38 @@
     text-decoration: none;
     transition: all 0.4s;
 }
-.btn:hover{
+.btn:hover, input[type="submit"]:hover{
     background-color: var(--hover-color);
 }
 
 .broken{
-    color: red;
+    color: rgb(197, 20, 20);
+}
+
+#history-container{
+    padding: 20px;
+}
+#history-container table{
+    border-collapse: collapse;
+}
+#history-container table thead{
+    font-weight: bold;
+    text-align: left;
+    border-bottom: solid 5px #222;
+}
+#history-container table td,#history-container table th{
+    padding: 10px;
+    margin: 0;
+}
+#history-container table th:hover{
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+}
+#history-container table tbody tr{
+    padding: 0;
+    margin: 0;
+}
+#history-container table tbody tr:hover{
+    background-color: #eee;
 }

@@ -11,7 +11,6 @@ class Expenses extends ControllerSession{
         $this->view->expenses = $this->getExpenses(5);
         $this->view->count = sizeof($this->view->expenses);
         $this->view->totalThisMonth = $this->getTotalAmountThisMonth();
-        //$this->view->budget = $this->getBudget();
         $this->view->user = $this->getUser();
         $this->view->categories = $this->getCategories();
 
@@ -130,11 +129,39 @@ class Expenses extends ControllerSession{
             'photo' => $photo,
             'budget' => $budget
         );
-
     }
 
-    function saludo(){
-        echo "<p>Ejecutaste el método Saludoss</p>";
+    function history(){
+        $this->view->history = $this->getHistory();
+        $this->view->dates = $this->getDateList();
+        $this->view->categories = $this->getCategoryList();
+        $this->view->render('dashboard/history');
+    }
+
+    private function getHistory(){
+        return $this->getExpenses(0);
+    }
+    private function getDateList(){
+        $arr = $this->getExpenses(0);
+        $res = [];
+        foreach ($arr as $item) {
+            array_push($res, substr($item['date'],0, 7 ));
+        }
+        $res = array_unique($res);
+        return $res;
+    }
+    private function getCategoryList(){
+        $arr = $this->getExpenses(0);
+        $res = [];
+        foreach ($arr as $item) {
+            array_push($res, $item['category_name']);
+        }
+        $res = array_unique($res);
+        return $res;
+    }
+
+    function getHistoryJSON(){
+        echo json_encode($this->getExpenses(0));
     }
 }
 
