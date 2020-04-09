@@ -61,11 +61,20 @@
                         <td><?php echo $expense['category_name']; ?></td>
                         <td><?php echo $expense['date']; ?></td>
                         <td>$<?php echo number_format($expense['amount'], 2); ?></td>
+                        <td>Eliminar</td>
                     </tr>
                     <?php
                       }
                     ?>
                 </tbody>
+                <tfoot>
+                      <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td id="total"></td>
+                      </tr>
+                </tfoot>
             </table>
         </div>
 
@@ -210,8 +219,10 @@
 
         function renderData(data){
             var databody = document.querySelector('#databody');
+            let total = 0;
             databody.innerHTML = '';
             data.forEach(item => { 
+                total += item.amount;
                 databody.innerHTML += `<tr>
                         <td>${item.expense_title}</td>
                         <td>${item.category_name}</td>
@@ -219,6 +230,8 @@
                         <td>$${numberWithCommas(parseFloat(item.amount))}</td>
                     </tr>`;
             });
+
+            document.querySelector('#total').textContent = "$" + numberWithCommas(total);
         }
         
 

@@ -26,7 +26,7 @@
                             de <span class="total-budget-text">
                                 $<?php 
                                     echo number_format($this->user['budget'],2) . ' este mes';
-                                    echo ($this->user['budget'] === 0.0)? '<div class=""><a href="expenses/budget" class="btn">Configura tu presupuesto</a></div>': ''
+                                    echo ($this->user['budget'] === 0.0)? '<div class=""><a href="user" class="btn">Configura tu presupuesto</a></div>': ''
                                 ?>
                             </span>
                         </div>

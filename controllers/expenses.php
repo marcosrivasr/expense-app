@@ -9,7 +9,12 @@ class Expenses extends ControllerSession{
 
      function render(){
         $this->view->expenses = $this->getExpenses(5);
-        $this->view->count = sizeof($this->view->expenses);
+        if(!empty($this->view->expenses)){
+            $this->view->count = sizeof($this->view->expenses);
+        }else{
+            $this->view->count = 0;
+        }
+        
         $this->view->totalThisMonth = $this->getTotalAmountThisMonth();
         $this->view->user = $this->getUser();
         $this->view->categories = $this->getCategories();
