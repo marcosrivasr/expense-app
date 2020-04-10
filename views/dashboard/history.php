@@ -43,8 +43,8 @@
             <table width="100%" cellpadding="0">
                 <thead>
                     <tr>
-                    <th data-sort="title" width="35%">Nombre</th>
-                    <th data-sort="category">Tipo</th>
+                    <th data-sort="title" width="35%">Título</th>
+                    <th data-sort="category">Categoría</th>
                     <th data-sort="date">Fecha</th>
                     <th data-sort="amount">Cantidad</th>
                     <th>Acciones</th>
@@ -228,6 +228,7 @@
                         <td>${item.category_name}</td>
                         <td>${item.date}</td>
                         <td>$${numberWithCommas(parseFloat(item.amount))}</td>
+                        <td><a href="#">Eliminar</a></td>
                     </tr>`;
             });
 

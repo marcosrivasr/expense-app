@@ -103,6 +103,27 @@ class ExpensesModel extends Model{
         }
     }
 
+    function getTotalByMonthAndCategory($date, $category, $userid){
+        try{
+            $total = 0;
+            $year = substr($date, 0, 4);
+            $month = substr($date, 5, 7);
+            $query = $this->db->connect()->prepare('SELECT SUM(amount) AS total from expenses WHERE category_id = :val AND id_user = :user AND YEAR(date) = :year AND MONTH(date) = :month');
+            $query->execute(['val' => $category, 'user' => $userid, 'year' => $year, 'month' => $month]);
+
+            if($query->rowCount() > 0){
+                $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            }else{
+                return 0;
+            }
+            
+            return $total;
+
+        }catch(PDOException $e){
+            return NULL;
+        }
+    }
+
     function getField($user, $name ){
         /* try{
             $query = $this->db->connect()->prepare('SELECT :field FROM expenses WHERE');

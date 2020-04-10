@@ -113,6 +113,19 @@ class Expenses extends ControllerSession{
         return $res;
     }
 
+    function getCategoriesId(){
+        include_once 'models/categoriesmodel.php';
+        $categoriesModel = new CategoriesModel();
+        $categories = $categoriesModel->get();
+        $id_user = $this->getUserId();
+        $res = [];
+        foreach ($categories as $cat) {
+            array_push($res, $cat['id']);
+        }
+
+        return $res;
+    }
+
     function getUser(){
         include_once 'models/usermodel.php';
         $userModel = new UserModel();
@@ -167,6 +180,49 @@ class Expenses extends ControllerSession{
 
     function getHistoryJSON(){
         echo json_encode($this->getExpenses(0));
+    }
+
+    function getExpensesJSON(){
+        $res = [];
+        $categories = $this->getCategoriesId();
+        $categoryNames = $this->getCategoryList();
+        array_unshift($categoryNames, 'categorias');
+        $categories = array_values($categories);
+        $categoryNames = array_values($categoryNames);
+
+        $months = array_values($this->getDateList());
+
+        //var_dump($categories);
+
+        for($i = 0; $i < count($months); $i++){
+            $item = array($months[$i]);
+            //echo $months[$i] . '<br />';
+            for($j = 0; $j < count($categories); $j++){
+                //array_push( $item, getTotalByMonthAndCategory($months[$i], $categories[$j]) );
+                //echo $categories[$j].'<br/>';
+                $total = $this->getTotalByMonthAndCategory( $months[$i], $categories[$j]);
+                array_push( $item, $total );
+            }   
+            array_push($res, $item);
+        }
+        array_unshift($res, $categoryNames);
+        header('Content-Type: application/json');
+        echo json_encode($res);
+
+        //echo json_encode($legends);
+        //echo json_encode($months);
+    }
+
+    function getTotalByMonthAndCategory($date, $category){
+        $id_user = $this->getUserId();
+        
+
+        $year = substr($date, 0, 4);
+        $month = substr($date, 5, 7);
+
+        $total = $this->model->getTotalByMonthAndCategory($date, $category, $id_user);
+        if($total == NULL) $total = 0;
+        return $total;
     }
 }
 
