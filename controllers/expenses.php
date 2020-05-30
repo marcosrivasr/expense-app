@@ -149,9 +149,14 @@ class Expenses extends ControllerSession{
         );
     }
 
-    function history(){
+    function history($params = NULL){
+
+        if($params != NULL){
+            
+        }
+
         $this->view->history = $this->getHistory();
-        $this->view->dates = $this->getDateList();
+        $this->view->dates   = $this->getDateList();
         $this->view->categories = $this->getCategoryList();
         $this->view->render('dashboard/history');
     }
@@ -172,45 +177,60 @@ class Expenses extends ControllerSession{
         $arr = $this->getExpenses(0);
         $res = [];
         foreach ($arr as $item) {
+            //array_push($res, array($item['category_name'], $item['category_color']));
             array_push($res, $item['category_name']);
+        }
+        $res = array_unique($res);
+        return $res;
+    }
+    private function getCategoryColorList(){
+        $arr = $this->getExpenses(0);
+        $res = [];
+        foreach ($arr as $item) {
+            //array_push($res, array($item['category_name'], $item['category_color']));
+            array_push($res, $item['category_color']);
         }
         $res = array_unique($res);
         return $res;
     }
 
     function getHistoryJSON(){
-        echo json_encode($this->getExpenses(0));
+        $expenses = $this->getExpenses(0); //modificar para hacer paginacion
+        foreach ($expenses as $key =>$ex) {
+            $expenses[$key]['amount'] =number_format($expenses[$key]['amount'], 2);
+        }
+        header('Content-Type: application/json');
+        echo json_encode($expenses);
+
     }
 
     function getExpensesJSON(){
         $res = [];
-        $categories = $this->getCategoriesId();
-        $categoryNames = $this->getCategoryList();
+        $categories     = $this->getCategoriesId();
+        $categoryNames  = $this->getCategoryList();
+        $categoryColors = $this->getCategoryColorList();
+
         array_unshift($categoryNames, 'categorias');
-        $categories = array_values($categories);
-        $categoryNames = array_values($categoryNames);
+        array_unshift($categoryColors, NULL);
+
+        $categories     = array_values($categories);
+        $categoryNames  = array_values($categoryNames);
+        $categorycolors = array_values($categoryColors);
 
         $months = array_values($this->getDateList());
 
-        //var_dump($categories);
-
         for($i = 0; $i < count($months); $i++){
             $item = array($months[$i]);
-            //echo $months[$i] . '<br />';
             for($j = 0; $j < count($categories); $j++){
-                //array_push( $item, getTotalByMonthAndCategory($months[$i], $categories[$j]) );
-                //echo $categories[$j].'<br/>';
                 $total = $this->getTotalByMonthAndCategory( $months[$i], $categories[$j]);
                 array_push( $item, $total );
             }   
             array_push($res, $item);
         }
         array_unshift($res, $categoryNames);
+        array_unshift($res, $categoryColors);
         header('Content-Type: application/json');
         echo json_encode($res);
-
-        //echo json_encode($legends);
-        //echo json_encode($months);
     }
 
     function getTotalByMonthAndCategory($date, $category){
@@ -224,6 +244,21 @@ class Expenses extends ControllerSession{
         if($total == NULL) $total = 0;
         return $total;
     }
+
+    function delete($params){
+        echo 'asdas';
+        $id_user = $this->getUserId();
+        //$res = $this->model->delete($params[0], $id_user);
+        $res = $this->model->delete(-2, $id_user);
+        if($res){
+            header('location: ' . constant('URL') . 'expenses/history/success/sdsd');
+        }else{
+            header('location: ' . constant('URL') . 'expenses/history/failure/sdsd');
+            
+        }
+    }
+
+
 }
 
 ?>

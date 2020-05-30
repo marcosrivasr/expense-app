@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense App - Dashboard</title>
-    <link rel="stylesheet" href="<?php echo constant('URL') ?>public/css/expense.css">
+    <link rel="stylesheet" href="<?php echo constant('URL') ?>public/css/history.css">
 </head>
 <body>
     <?php require 'header.php'; ?>
@@ -12,31 +12,33 @@
     <div id="main-container">
             
         <div id="history-container">
+            <div class="error">Error al</div>
             <div id="history-options">
-                <div id="filter-container">
-                    Filtrar por fecha
-                    <select id="sdate">
-                        <option value=""></option>
-                        <?php
-                            $options = $this->dates;
-                            foreach($options as $option){
-                                echo "<option value=$option >".$option."</option>";
-                            }
-                        ?>
-                </select>
-                </div>
+                <h2>Historial de gastos</h2>
+                <div id="filters-container">
+                    <div class="filter-container">
+                        <select id="sdate" class="custom-select">
+                            <option value="">Filtrar por fecha</option>
+                            <?php
+                                $options = $this->dates;
+                                foreach($options as $option){
+                                    echo "<option value=$option >".$option."</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
 
-                <div id="filter-container">
-                    Filtrar por categoría
-                    <select id="scategory">
-                        <option value=""></option>
-                        <?php
-                            $options = $this->categories;
-                            foreach($options as $option){
-                                echo "<option value=$option >".$option."</option>";
-                            }
-                        ?>
-                </select>
+                    <div class="filter-container">
+                        <select id="scategory" class="custom-select">
+                            <option value="">Filtrar por categoría</option>
+                            <?php
+                                $options = $this->categories;
+                                foreach($options as $option){
+                                    echo "<option value=$option >".$option."</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
                 </div>
                 
             </div>
@@ -51,37 +53,14 @@
                     </tr>
                 </thead>
                 <tbody id="databody">
-                    <?php
-
-                        foreach ($this->history as $expense) {
-                       
-                    ?>
-                    <tr>
-                        <td><?php echo $expense['expense_title']; ?></td>
-                        <td><?php echo $expense['category_name']; ?></td>
-                        <td><?php echo $expense['date']; ?></td>
-                        <td>$<?php echo number_format($expense['amount'], 2); ?></td>
-                        <td>Eliminar</td>
-                    </tr>
-                    <?php
-                      }
-                    ?>
+                    
                 </tbody>
-                <tfoot>
-                      <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td id="total"></td>
-                      </tr>
-                </tfoot>
             </table>
         </div>
 
     </div>
 
     <?php require 'views/footer.php'; ?>
-
     <script>
         var data = [];
         var copydata = [];
@@ -222,17 +201,15 @@
             let total = 0;
             databody.innerHTML = '';
             data.forEach(item => { 
-                total += item.amount;
+                //total += item.amount;
                 databody.innerHTML += `<tr>
                         <td>${item.expense_title}</td>
-                        <td>${item.category_name}</td>
+                        <td><span class="category" style="background-color: ${item.category_color}">${item.category_name}</span></td>
                         <td>${item.date}</td>
-                        <td>$${numberWithCommas(parseFloat(item.amount))}</td>
-                        <td><a href="#">Eliminar</a></td>
+                        <td>$${item.amount}</td>
+                        <td><a href="http://localhost/expense-app/expenses/delete/${item.expense_id}">Eliminar</a></td>
                     </tr>`;
             });
-
-            document.querySelector('#total').textContent = "$" + numberWithCommas(total);
         }
         
 

@@ -10,7 +10,8 @@ class ExpensesModel extends Model{
         try{
             $query = $this->db->connect()->prepare('INSERT INTO EXPENSES (TITLE, AMOUNT, CATEGORY_ID, DATE, ID_USER) VALUES(:title, :amount, :category, :d, :user)');
             $query->execute(['title' => $title, 'amount' => $amount, 'category' => $category, 'user' => $id_user, 'd' => $date]);
-            return true;
+            if($query->rowCount()) return true;
+            return false;
         }catch(PDOException $e){
             //echo $e->getMessage();
             //echo "Ya existe esa matrícula";
@@ -19,7 +20,16 @@ class ExpensesModel extends Model{
     }
 
     function delete($id_expense, $id_user){
-        // TODO: completar funcion
+        try{
+            $query = $this->db->connect()->prepare('DELETE FROM expenses WHERE id = :id and id_user = :user');
+            $query->execute(['id' => $id_expense,'user' => $id_user]);
+            if($query->rowCount()) return true;
+            return false;
+        }catch(PDOException $e){
+            //echo $e->getMessage();
+            //echo "Ya existe esa matrícula";
+            return false;
+        }
     }
 
     function modify($id_expense, $title, $amount, $category, $id_user){
@@ -45,7 +55,7 @@ class ExpensesModel extends Model{
                         'category_name' => $row['name'],
                         'category_id' => $row['category.id'],
                         'expense_title' => $row['title'],
-                        'amount' => $row['amount'],
+                        'amount' =>  $row['amount'],
                         'date' => $row['date'],
                         'category_color' => $row['category.color'],
                     );

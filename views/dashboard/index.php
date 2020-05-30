@@ -12,8 +12,9 @@
     <div id="main-container">
             
         <div id="expenses-container">
-
+        
             <div id="left-container">
+                <h2>Resumen</h2>
                 <div id="expenses-summary">
                     <div class="card w-50">
                         <div class="total-expense">
@@ -112,6 +113,8 @@
 
     <?php require 'views/footer.php'; ?>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="public/js/select.js"></script>
     <script src="public/js/dashboard.js"></script>
+    
 </body>
 </html>
