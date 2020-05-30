@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
+    <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/login.css">
 </head>
 <body>
     <?php require 'views/header.php'; ?>
@@ -16,11 +17,11 @@
 
             <p>
                 <label for="username">Username</label>
-                <input type="text" name="username" id="username">
+                <input type="text" name="username" id="username" autocomplete="off">
             </p>
             <p>
                 <label for="password">password</label>
-                <input type="text" name="password" id="password">
+                <input type="password" name="password" id="password" autocomplete="off">
             </p>
             <p>
                 <input type="submit" value="Iniciar sesión" />
@@ -31,7 +32,5 @@
             </p>
         </form>
     </div>
-
-    <?php require 'views/footer.php'; ?>
 </body>
 </html>

@@ -55,7 +55,6 @@
                 if($this->isPublic()){
                     //la pagina es publica
                     //no pasa nada
-                    echo "pagina publica";
                 }else{
                     //la página no es pública
                     //redirect al login

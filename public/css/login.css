@@ -1,0 +1,48 @@
+body{
+    background: #4492d6 !important;
+}
+#login-main{
+    background-color: white;
+    border: solid 1px #ccc;
+    padding: 20px;
+    width: 300px;
+    margin: calc((100vh - 500px)/2) auto 0 auto;
+}
+
+#login-main h2{
+    padding: 20px 0;
+}
+
+#login-main input[type=text], #login-main input[type=password]{
+    padding: 7px 5px;
+    border-radius: 3px;
+    outline: none;
+    border: solid 1px #ccc;
+    width: 95%;
+}
+
+#login-main input[type=text]:focus, 
+#login-main input[type=password]:focus{
+    border-bottom: solid 2px rgb(86, 119, 228);
+    margin-bottom: -1px;
+}
+
+#login-main p{
+    padding: 10px 0;
+}
+#login-main label{
+    display: block;
+    padding: 5px 0;
+}
+
+#login-main input[type=submit]{
+    border: none;
+    background-color: rgb(38, 132, 214);
+    border-radius: 3px;
+    color: white !important;
+    display: inline-block;
+    padding: 10px;
+    margin: 6px 0;
+    text-decoration: none;
+    transition: all 0.4s;
+}
