@@ -1,29 +1,9 @@
 
-input[type=text],input[type=number], input[type=date]{
-    border: none;
-    border-bottom: solid 1px #ccc;
-    font-size: 24px;
-    padding: 10px;
-    outline: none;
-    border-radius: 5px;
+#form-expense-container{
+    padding: 10px 30px;
     width: 100%;
 }
 
-#form-expense-container{
-    padding: 20px;
-    width: 300px;
-    margin: 0 auto;
-}
-
-#form-expense-container .title{
+#form-expense-container .section{
     padding: 10px 0;
-}
-
-#form-expense-container #amount{
-    font-size: 48px;
-    text-align: right;
-}
-
-#form-expense-container #amount::before{
-    content: '$';
 }

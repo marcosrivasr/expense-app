@@ -56,7 +56,11 @@
     background-color: var(--hover-color);
 }
 
-.custom-select{
+select{
+    width: 150px !important;
+}
+
+/* .custom-select{
     padding: 7px 30px;
     border: solid 1px #ccc;
     border-radius: 3px;
@@ -68,5 +72,4 @@
     background-size: 12px 12px;
     -webkit-appearance: none;
     outline: none;
-    
-}
+} */
