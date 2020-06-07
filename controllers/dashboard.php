@@ -11,8 +11,6 @@ class Dashboard extends ControllerSession{
         $this->view->render('dashboard/index');
     }
 
-    
-
     function saludo(){
         $actual_link = trim("$_SERVER[REQUEST_URI]");
         $url = explode('/', $actual_link);
