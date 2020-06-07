@@ -10,7 +10,10 @@ class ControllerSession extends Controller{
  
     function __construct(){
         parent::__construct();
+
         $this->userSession = new UserSessionInstance();
+        $this->username    = $this->userSession->getUserSessionData()['username'];
+        $this->userid      = $this->userSession->getUserSessionData()['id'];
     }
 
     public function getUserSession(){
@@ -18,16 +21,13 @@ class ControllerSession extends Controller{
     }
 
     public function getUsername(){
-        return $this->getUserSession()->getUserSessionData()['username'];
+        return $this->username;
     }
 
     public function getUserId(){
-        return $this->getUserSession()->getUserSessionData()['id'];
+        return $this->userid;
     }
 
-    private function loadData(){
-        
-    }
 }
 
 ?>
