@@ -1,18 +1,11 @@
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense App - Dashboard</title>
-    <link rel="stylesheet" href="<?php echo constant('URL') ?>public/css/history.css">
-</head>
-<body>
+<link rel="stylesheet" href="<?php echo constant('URL') ?>public/css/history.css">
     <?php require 'header.php'; ?>
 
     <div id="main-container">
             
         <div id="history-container">
-            <div class="error">Error al</div>
+            <div class="error">Error de prueba</div>
             <div id="history-options">
                 <h2>Historial de gastos</h2>
                 <div id="filters-container">
@@ -215,5 +208,3 @@
 
         
     </script>
-</body>
-</html>

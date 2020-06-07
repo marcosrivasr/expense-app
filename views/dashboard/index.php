@@ -1,8 +1,13 @@
-
+<?php
+    function showError($message){
+        echo "<span class='error'>$message</span>";
+    }
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>Expense App - Dashboard</title>
     
 </head>
@@ -18,29 +23,28 @@
                 <div id="expenses-summary">
                     <div class="card w-50">
                         <div class="total-expense">
-                            <span class="<?php echo ($this->user['budget'] < $this->totalThisMonth)? 'broken': '' ?>">$<?php
-                                echo number_format($this->totalThisMonth, 2);
-                             ?>
+                            <?php
+                                if($this->totalThisMonth === NULL){
+                                    showError('Hubo un problema al cargar la información');
+                                }else{?>
+                                    <span class="<?php echo ($this->user['budget'] < $this->totalThisMonth)? 'broken': '' ?>">$<?php
+                                    echo number_format($this->totalThisMonth, 2);?>
                              </span>
+                            <?php }?>
+                            
+                            
                         </div>
                         <div class="total-budget">
                             de <span class="total-budget-text">
                                 $<?php 
                                     echo number_format($this->user['budget'],2) . ' este mes';
-                                    echo ($this->user['budget'] === 0.0)? '<div class=""><a href="user" class="btn">Configura tu presupuesto</a></div>': ''
                                 ?>
                             </span>
                         </div>
                     </div>
-                    <div class="card-button w-50">
-                        <div id="new-expense-container">
-                            <div class="simbolo">+</div>
-                            Añadir nuevo gasto
-                        </div>
-                    </div>
                 </div>
 
-                <div id="columnchart_material" style="height: 300px">
+                <div id="columnchart_material">
                 </div>
 
                 <div id="expenses-category">
@@ -68,23 +72,23 @@
             </div>
 
             <div id="right-container">
-                <div id="profile-container">
-                    <a href="user/">
-                    <div class="name">
-                    <?php echo $this->user['name']; ?>
-                    </div>
-                
-                    <div class="photo">
-                        <img src="public/img/photos/<?php echo $this->user['photo'] ?>" width="48" />
-                    </div>
-                    </a>
-                </div>
                 <div id="expenses-transactions">
+                    <section>
+                        <h2>Operaciones</h2>  
+                        
+                        <button class="btn-main" id="new-expense">
+                            <i class="material-icons">add</i>
+                            <span>Registrar nuevo gasto</span>
+                        </button>
+                        <a href="<?php echo constant('URL'); ?>user#budget-user-container" class="secondary">Definir presupuesto</a>
+                    </section>
+
+                    <section>
                     <h2>Últimos gastos</h2>
                     <?php
                         if($this->expenses === NULL){
                             echo 'Error al cargar los datos';
-                        }else if($this->expenses <= 0){
+                        }else if(count($this->expenses) == 0){
                             echo 'No hay transacciones';
                         }else{
                             foreach ($this->expenses as $expense) { ?>
@@ -100,9 +104,10 @@
                             
                             <?php
                             }
-                            echo '<div class="more-container"><a href="expenses/history" class="btn">Ver todos los gastos</a></div>';
+                            echo '<div class="more-container"><a href="expenses/history">Ver todos los gastos<i class="material-icons">keyboard_arrow_right</i></a></div>';
                         }
                      ?>
+                    </section>
                 </div>
             </div>
             
@@ -110,10 +115,7 @@
         </div>
 
     </div>
-
-    <?php require 'views/footer.php'; ?>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="public/js/select.js"></script>
     <script src="public/js/dashboard.js"></script>
     
 </body>
