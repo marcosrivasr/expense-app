@@ -3,21 +3,26 @@
 
 class Expenses extends ControllerSession{
 
+    private $expenses;
+    private $error = NULL;
+    private $count;
+    private $totalThisMonth;
+
     function __construct(){
         parent::__construct();
     }
 
      function render(){
-        $this->view->expenses = $this->getExpenses(5);
-        if(!empty($this->view->expenses)){
-            $this->view->count = sizeof($this->view->expenses);
-        }else{
-            $this->view->count = 0;
-        }
+        $expenses       = $this->getExpenses(5);
+        $totalThisMonth = $this->getTotalAmountThisMonth();
+        $categories     = $this->getCategories();
         
-        $this->view->totalThisMonth = $this->getTotalAmountThisMonth();
+        
+        $this->view->expenses = $expenses;
+        $this->view->totalThisMonth = $totalThisMonth;
         $this->view->user = $this->getUser();
-        $this->view->categories = $this->getCategories();
+        $this->view->categories = $categories;
+        
 
         $this->view->render('dashboard/index');
     }
@@ -66,16 +71,14 @@ class Expenses extends ControllerSession{
 
     private function getExpenses($n = 0){
         if($n < 0) return NULL;
-        $id_user = $this->getUserId();
-
-        return $this->model->get($id_user, $n);   
+        
+        return $this->model->get($this->getUserId(), $n);   
     }
 
     private function getTotalAmountThisMonth(){
         $id_user = $this->getUserId();
         $res = $this->model->getTotal($id_user);
-        if(!$res || $res === NULL) return 0;
-        if($res < 0) return 0;
+
         return $res;
     }
 
@@ -90,6 +93,7 @@ class Expenses extends ControllerSession{
         include_once 'models/categoriesmodel.php';
         $categoriesModel = new CategoriesModel();
         $this->view->categories = $categoriesModel->get();
+        $this->view->user = $this->getUser();
         $this->view->render('dashboard/create');
     }
 
@@ -117,7 +121,7 @@ class Expenses extends ControllerSession{
         include_once 'models/categoriesmodel.php';
         $categoriesModel = new CategoriesModel();
         $categories = $categoriesModel->get();
-        $id_user = $this->getUserId();
+
         $res = [];
         foreach ($categories as $cat) {
             array_push($res, $cat['id']);
@@ -129,16 +133,14 @@ class Expenses extends ControllerSession{
     function getUser(){
         include_once 'models/usermodel.php';
         $userModel = new UserModel();
-        //$userid = $this->getUserSession()->getUserSessionData()['id'];
         $userid = $this->getUserId();
-        //$username = $this->getUserSession()->getUserSessionData()['username'];
         $username = $this->getUsername();
         $name = $userModel->getName($userid);
         $photo = $userModel->getPhoto($userid);
         $budget = $userModel->getBudget($userid);
 
         if($name === NULL || empty($username)) $name = $username;
-        if($photo === NULL || empty($photo)) $photo = 'default.png';
+        if($photo === NULL || empty($photo)) $photo = '';
         if($budget === NULL || empty($budget) || $budget < 0) $budget = 0.0;
 
         return Array(
@@ -154,7 +156,7 @@ class Expenses extends ControllerSession{
         if($params != NULL){
             
         }
-
+        $this->view->user = $this->getUser();
         $this->view->history = $this->getHistory();
         $this->view->dates   = $this->getDateList();
         $this->view->categories = $this->getCategoryList();
@@ -164,6 +166,7 @@ class Expenses extends ControllerSession{
     private function getHistory(){
         return $this->getExpenses(0);
     }
+
     private function getDateList(){
         $arr = $this->getExpenses(0);
         $res = [];
@@ -246,7 +249,6 @@ class Expenses extends ControllerSession{
     }
 
     function delete($params){
-        echo 'asdas';
         $id_user = $this->getUserId();
         //$res = $this->model->delete($params[0], $id_user);
         $res = $this->model->delete(-2, $id_user);

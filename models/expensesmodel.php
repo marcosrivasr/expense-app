@@ -37,6 +37,8 @@ class ExpensesModel extends Model{
     }
 
     function get($user, $n){
+        $res = [];
+        $items = [];
         try{
             if($n === 0){
                 $query = $this->db->connect()->prepare('SELECT categories.id as "category.id", categories.color as "category.color", expenses.id as "expense.id", categories.name, expenses.title, expenses.amount, expenses.date FROM expenses INNER JOIN categories WHERE categories.id = expenses.category_id AND id_user = :user ORDER BY expenses.date DESC ');
@@ -45,31 +47,27 @@ class ExpensesModel extends Model{
                 $query = $this->db->connect()->prepare('SELECT categories.id as "category.id", categories.color as "category.color", expenses.id as "expense.id", categories.name, expenses.title, expenses.amount, expenses.date FROM expenses INNER JOIN categories WHERE categories.id = expenses.category_id AND id_user = :user ORDER BY expenses.date DESC LIMIT 0, :n ');
                 $query->execute(['user' => $user, 'n' => $n]);
             }
-            
-
-            $res = [];
-            if($query->rowCount() > 0){
-                while($row = $query->fetch(PDO::FETCH_ASSOC)){
-                    $item = Array(
-                        'expense_id' => $row['expense.id'],
-                        'category_name' => $row['name'],
-                        'category_id' => $row['category.id'],
-                        'expense_title' => $row['title'],
-                        'amount' =>  $row['amount'],
-                        'date' => $row['date'],
-                        'category_color' => $row['category.color'],
-                    );
-                    array_push($res, $item);
-                }
-            }else{
-                return 0;
-            }
-            
-            return $res;
-
         }catch(PDOException $e){
             return NULL;
         }
+
+        if($query->rowCount() == 0) return array();
+        
+        while($row = $query->fetch(PDO::FETCH_ASSOC)){
+            $item = Array(
+                'expense_id' => $row['expense.id'],
+                'category_name' => $row['name'],
+                'category_id' => $row['category.id'],
+                'expense_title' => $row['title'],
+                'amount' =>  $row['amount'],
+                'date' => $row['date'],
+                'category_color' => $row['category.color'],
+            );
+            array_push($items, $item);
+        }
+        //array_push($res, Array('count' => count($res)));  
+        //array_push($res, $items);            
+        return $items;  
     }
 
     function getTotal($user){
@@ -79,11 +77,8 @@ class ExpensesModel extends Model{
             $query = $this->db->connect()->prepare('SELECT SUM(amount) AS total FROM expenses WHERE YEAR(date) = :year AND MONTH(date) = :month AND id_user = :user');
             $query->execute(['year' => $year, 'month' => $month, 'user' => $user]);
 
-            if($query->rowCount() > 0){
-                $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
-            }else{
-                return 0;
-            }
+            $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            if($total == NULL) $total = 0;
             
             return $total;
 
