@@ -11,7 +11,29 @@ class User extends ControllerSession{
         $this->view->budget = $this->getBudget();
         $this->view->name = $this->getName();
         $this->view->photo = $this->getPhoto();
+        $this->view->user = $this->getUser();
         $this->view->render('dashboard/user');
+    }
+
+    function getUser(){
+        include_once 'models/usermodel.php';
+        $userModel = new UserModel();
+        $userid = $this->getUserId();
+        $username = $this->getUsername();
+        $name = $userModel->getName($userid);
+        $photo = $userModel->getPhoto($userid);
+        $budget = $userModel->getBudget($userid);
+
+        if($name === NULL || empty($username)) $name = $username;
+        if($photo === NULL || empty($photo)) $photo = 'default.png';
+        if($budget === NULL || empty($budget) || $budget < 0) $budget = 0.0;
+
+        return Array(
+            'username' => $username,
+            'name' => $name,
+            'photo' => $photo,
+            'budget' => $budget
+        );
     }
 
     function getBudget(){
