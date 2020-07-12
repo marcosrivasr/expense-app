@@ -1,7 +1,10 @@
 <?php
-    function showError($message){
-        echo "<span class='error'>$message</span>";
-    }
+
+    $user           = $this->user;
+    $expenses       = $this->expenses;
+    $totalThisMonth = $this->totalThisMonth;
+    $categories     = $this->categories;
+
 ?>
 <html lang="en">
 <head>
@@ -24,11 +27,11 @@
                     <div class="card w-50">
                         <div class="total-expense">
                             <?php
-                                if($this->totalThisMonth === NULL){
+                                if($totalThisMonth === NULL){
                                     showError('Hubo un problema al cargar la información');
                                 }else{?>
-                                    <span class="<?php echo ($this->user['budget'] < $this->totalThisMonth)? 'broken': '' ?>">$<?php
-                                    echo number_format($this->totalThisMonth, 2);?>
+                                    <span class="<?php echo ($user['budget'] < $totalThisMonth)? 'broken': '' ?>">$<?php
+                                    echo number_format($totalThisMonth, 2);?>
                              </span>
                             <?php }?>
                             
@@ -37,7 +40,7 @@
                         <div class="total-budget">
                             de <span class="total-budget-text">
                                 $<?php 
-                                    echo number_format($this->user['budget'],2) . ' este mes';
+                                    echo number_format($user['budget'],2) . ' este mes';
                                 ?>
                             </span>
                         </div>
@@ -50,9 +53,16 @@
                 <div id="expenses-category">
                     <h3>Gastos del mes por categoria</h3>
                     <div id="categories-container">
-                        <?php 
-                            foreach ($this->categories as $cat) {
-                                if(number_format($cat['total'], 0) > 0){
+                        <?php
+                            $totalPerCategory = 0;
+                            if($categories === NULL){
+                                showError('Datos no disponibles por el momento.');
+                            }else{
+                                foreach ($categories as $cat) {
+                                    if(number_format($cat['total'], 0) > 0){
+                                        $totalPerCategory++;
+                    
+                            
                         ?>
                             <div class="card ws-30">
                                 <div class="category-total">
@@ -63,8 +73,11 @@
                                 </div>
                             </div>
                         <?php
+                                    }
+                                }
+                                if($totalPerCategory === 0) showInfo('No hay transacciones en este periodo. Empieza a registrar operaciones para categorizarlas');
                             }
-                            }
+                            
                         ?>
                     
                     </div>
@@ -87,9 +100,9 @@
                     <h2>Últimos gastos</h2>
                     <?php
                         if($this->expenses === NULL){
-                            echo 'Error al cargar los datos';
+                            showError('Error al cargar los datos');
                         }else if(count($this->expenses) == 0){
-                            echo 'No hay transacciones';
+                            showInfo('No hay transacciones');
                         }else{
                             foreach ($this->expenses as $expense) { ?>
                             <div class='preview-expense'>
