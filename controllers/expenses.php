@@ -17,14 +17,19 @@ class Expenses extends ControllerSession{
         $totalThisMonth = $this->getTotalAmountThisMonth();
         $categories     = $this->getCategories();
         
-        
-        $this->view->expenses = $expenses;
+        $this->view->user           = $this->getUser();
+        $this->view->expenses       = $expenses;
         $this->view->totalThisMonth = $totalThisMonth;
-        $this->view->user = $this->getUser();
-        $this->view->categories = $categories;
-        
+        $this->view->categories     = $categories;
 
         $this->view->render('dashboard/index');
+    }
+    
+    //obtiene la lista de expenses y $n tiene el número de expenses por transacción
+    private function getExpenses($n = 0){
+        if($n < 0) return NULL;
+        
+        return $this->model->get($this->getUserId(), $n);   
     }
 
     function newExpense(){
@@ -33,7 +38,7 @@ class Expenses extends ControllerSession{
             return;
         }
 
-        if($this->getUserSession()->getUserSessionData() == NULL){
+        if($this->getUserId() == NULL){
             header('location: ../');
             return;
         }
@@ -41,11 +46,11 @@ class Expenses extends ControllerSession{
         $title    = $_POST['title'];
         $amount   = (float) $_POST['amount'];
         $category = $_POST['category'];
-        $date = $_POST['date'];
+        $date     = $_POST['date'];
         $id_user  = $this->getUserId();
 
         if( empty($title) || empty($amount) || empty($category) || empty($date) ){
-            header('location: create');
+            header('location: ../');
             return;
         }
 
@@ -54,41 +59,20 @@ class Expenses extends ControllerSession{
         header('location: ../');
     }
 
-    private function modifyExpense(){
-        if(!isset($_POST['title']) && 
-            !isset($_POST['amount']) && 
-            !isset($_POST['category']) &&
-            !isset($_POST['id']) ) header('location: /expense-app');
-
-        $id_expense = $_POST['id'];
-        $title      = $_POST['title'];
-        $amount     = (float) $_POST['amount'];
-        $category   = $_POST['category'];
-        $id_user    = $this->getUserId();
-
-        $this->model->modify($id_expense, $title, $amount, $category, $id_user);
-    }
-
-    private function getExpenses($n = 0){
-        if($n < 0) return NULL;
-        
-        return $this->model->get($this->getUserId(), $n);   
-    }
-
     private function getTotalAmountThisMonth(){
-        $id_user = $this->getUserId();
-        $res = $this->model->getTotal($id_user);
+        $res = $this->model->getTotal($this->getUserId());
 
         return $res;
     }
 
     private function getBudget(){
-        $id_user = $this->getUserId();
         include_once 'models/usermodel.php';
-        $userController = new UserModel();
-        return $userController->getBudget($id_user);
+        $userModel = new UserModel();
+
+        return $userModel->getBudget($this->getUserId());
     }
 
+    // new expense UI
     function create(){
         include_once 'models/categoriesmodel.php';
         $categoriesModel = new CategoriesModel();
@@ -100,9 +84,13 @@ class Expenses extends ControllerSession{
     function getCategories(){
         include_once 'models/categoriesmodel.php';
         $categoriesModel = new CategoriesModel();
+
         $categories = $categoriesModel->get();
-        $id_user = $this->getUserId();
-        $res = [];
+        $id_user    = $this->getUserId();
+        $res        = [];
+
+        if($categories === NULL) return NULL;
+
         foreach ($categories as $cat) {
             $total = $this->model->getTotalByCategory($cat['id'], $id_user);
             if($total === NULL) $total = 0;
@@ -153,13 +141,11 @@ class Expenses extends ControllerSession{
 
     function history($params = NULL){
 
-        if($params != NULL){
-            
-        }
-        $this->view->user = $this->getUser();
-        $this->view->history = $this->getHistory();
-        $this->view->dates   = $this->getDateList();
+        $this->view->user       = $this->getUser();
+        $this->view->history    = $this->getHistory();
+        $this->view->dates      = $this->getDateList();
         $this->view->categories = $this->getCategoryList();
+
         $this->view->render('dashboard/history');
     }
 
@@ -167,6 +153,7 @@ class Expenses extends ControllerSession{
         return $this->getExpenses(0);
     }
 
+    // crea una lista con los meses donde hay expenses
     private function getDateList(){
         $arr = $this->getExpenses(0);
         $res = [];
@@ -176,30 +163,33 @@ class Expenses extends ControllerSession{
         $res = array_unique($res);
         return $res;
     }
+
+    // crea una lista con las categorias donde hay expenses
     private function getCategoryList(){
         $arr = $this->getExpenses(0);
         $res = [];
         foreach ($arr as $item) {
-            //array_push($res, array($item['category_name'], $item['category_color']));
             array_push($res, $item['category_name']);
         }
         $res = array_unique($res);
         return $res;
     }
+
+    // crea una lista con los colores dependiendo de las categorias
     private function getCategoryColorList(){
         $arr = $this->getExpenses(0);
         $res = [];
         foreach ($arr as $item) {
-            //array_push($res, array($item['category_name'], $item['category_color']));
             array_push($res, $item['category_color']);
         }
         $res = array_unique($res);
         return $res;
     }
 
+    // devuelve el JSON para las llamadas AJAX
     function getHistoryJSON(){
         $expenses = $this->getExpenses(0); //modificar para hacer paginacion
-        foreach ($expenses as $key =>$ex) {
+        foreach ($expenses as $key => $ex) {
             $expenses[$key]['amount'] =number_format($expenses[$key]['amount'], 2);
         }
         header('Content-Type: application/json');
@@ -249,14 +239,14 @@ class Expenses extends ControllerSession{
     }
 
     function delete($params){
+        if($params === NULL) header('location: ' . constant('URL') . 'expenses/history?message=failure');
+
         $id_user = $this->getUserId();
-        //$res = $this->model->delete($params[0], $id_user);
-        $res = $this->model->delete(-2, $id_user);
+        $res = $this->model->delete($params[0], $id_user);
         if($res){
-            header('location: ' . constant('URL') . 'expenses/history/success/sdsd');
+            header('location: ' . constant('URL') . 'expenses/history?message=success');
         }else{
-            header('location: ' . constant('URL') . 'expenses/history/failure/sdsd');
-            
+            header('location: ' . constant('URL') . 'expenses/history?message=failure');
         }
     }
 
