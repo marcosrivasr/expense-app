@@ -13,8 +13,6 @@ class ExpensesModel extends Model{
             if($query->rowCount()) return true;
             return false;
         }catch(PDOException $e){
-            //echo $e->getMessage();
-            //echo "Ya existe esa matrícula";
             return false;
         }
     }
@@ -65,8 +63,7 @@ class ExpensesModel extends Model{
             );
             array_push($items, $item);
         }
-        //array_push($res, Array('count' => count($res)));  
-        //array_push($res, $items);            
+        
         return $items;  
     }
 
@@ -130,21 +127,6 @@ class ExpensesModel extends Model{
     }
 
     function getField($user, $name ){
-        /* try{
-            $query = $this->db->connect()->prepare('SELECT :field FROM expenses WHERE');
-            $query->execute(['year' => $year, 'month' => $month]);
-
-            if($query->rowCount() > 0){
-                $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
-            }else{
-                return 0;
-            }
-            
-            return $total;
-
-        }catch(PDOException $e){
-            return NULL;
-        } */
     }
 }
 
