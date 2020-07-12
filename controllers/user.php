@@ -9,32 +9,21 @@ class User extends ControllerSession{
 
     function render(){
         $user = $this->getUser();
-        var_dump($user);
         $this->view->user   = $user;
         $this->view->budget = $user['budget'];
         $this->view->name   = $user['name'];
         $this->view->photo  = $user['photo'];
-        /*
-        $this->view->user   = $this->getUser();
-        $this->view->budget = $this->getBudget();
-        $this->view->name   = $this->getName();
-        $this->view->photo  = $this->getPhoto(); */
 
         $this->view->render('dashboard/user');
     }
 
     // regresa una función con los datos del usuario
     function getUser(){
-        //include_once 'models/usermodel.php';
-        //$userModel = new UserModel();
         $userid     = $this->getUserId();
         $username   = $this->getUsername();
         $name       = $this->model->getName($userid);
         $photo      = $this->model->getPhoto($userid);
         $budget     = $this->model->getBudget($userid);
-        /* $name = $userModel->getName($userid);
-        $photo = $userModel->getPhoto($userid);
-        $budget = $userModel->getBudget($userid); */
 
         if($name === NULL || empty($username)) $name = $username;
         if($photo === NULL || empty($photo)) $photo = 'default.png';
@@ -47,21 +36,6 @@ class User extends ControllerSession{
             'budget'    => $budget
         );
     }
-/*
-    function getBudget(){
-        $id_user = $this->getUserSession()->getUserSessionData()['id'];
-        return $this->model->getBudget($id_user);
-    }
-    function getName(){
-        $id_user = $this->getUserSession()->getUserSessionData()['id'];
-        return $this->model->getName($id_user);
-    }
-
-    function getPhoto(){
-        $id_user = $this->getUserSession()->getUserSessionData()['id'];
-        return $this->model->getPhoto($id_user);
-    }
-*/
 
     function updateBudget(){
         if(!isset($_POST['budget'])){
@@ -75,7 +49,7 @@ class User extends ControllerSession{
             header('location: '. constant('URL') . 'user');
             return;
         }
-        //$id_user = $this->getUserSession()->getUserSessionData()['id'];
+    
         $id_user = $this->getUserId();
         $this->model->updateBudget($budget, $id_user);
         header('location: '. constant('URL') . 'user');
@@ -93,7 +67,7 @@ class User extends ControllerSession{
             header('location: '. constant('URL') . 'user');
             return;
         }
-        //$id_user = $this->getUserSession()->getUserSessionData()['id'];
+
         $id_user = $this->getUserId();
         $this->model->updateName($name, $id_user);
         header('location: '. constant('URL') . 'user');
@@ -118,7 +92,6 @@ class User extends ControllerSession{
             return;
         }
 
-        //$id_user = $this->getUserSession()->getUserSessionData()['id'];
         $id_user = $this->getUserId();
 
         //validar que el current es el mismo que el guardado
