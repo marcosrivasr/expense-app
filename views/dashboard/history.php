@@ -5,7 +5,15 @@
     <div id="main-container">
             
         <div id="history-container">
-            <div class="error">Error de prueba</div>
+            <?php
+                if(isset($_GET['message'])){
+                    if($_GET['message'] === 'success'){
+                        showSuccess('Gasto eliminado con éxito');
+                    }else{
+                        showError('Hubo un error en la operación. Inténtalo más tarde');
+                    }
+                }
+             ?>
             <div id="history-options">
                 <h2>Historial de gastos</h2>
                 <div id="filters-container">
