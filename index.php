@@ -20,7 +20,7 @@ require_once 'libs/model.php';
 require_once 'libs/app.php';
 
 require_once 'classes/Session.php';
-require_once 'classes/ControllerSession.php';
+require_once 'classes/sessionController.php';
 
 require_once 'config/config.php';
 require_once 'classes/AuthSites.php';
