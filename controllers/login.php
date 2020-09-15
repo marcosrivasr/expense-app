@@ -15,24 +15,21 @@ class Login extends ControllerSession{
     }
 
     function authenticate(){
-        if(isset($_POST['username']) && isset($_POST['password']) ){
-            $username = $_POST['username'];
-            $password = $_POST['password'];
+        if( $this->existPOST(['username', 'password']) ){
+            $username = $this->getPost('username');
+            $password = $this->getPost('password');
 
             //validate data
-            if($username == '' || 
-                empty($username) || 
-                $password == '' || 
-                empty($password)){
-                // error al validar datos
+            if($username == '' || empty($username) || $password == '' || empty($password)){
                 $this->errorAtLogin('Campos vacios');
                 return;
             }
+            // si el login es exitoso regresa solo el ID del usuario
+            $user = $this->model->login($username, $password);
 
-            $loginUser = $this->model->login($username, $password);
-
-            if($loginUser != NULL){
-                $this->getUserSession()->initialize($loginUser);
+            if($user != NULL){
+                // inicializa el proceso de las sesiones
+                $this->getUserSession()->initialize($user);
             }else{
                 //error al registrar, que intente de nuevo
                 $this->errorAtLogin('Nombre de usuario y/o password incorrecto');
