@@ -47,19 +47,10 @@ class User extends Model implements IModel{
             $query = $this->db->connect()->query('SELECT * FROM users');
 
             while($p = $query->fetch(PDO::FETCH_ASSOC)){
-                /* $item = [
-                    'id' => $p['id'],
-                    'username' => $p['username'],
-                    'password' => $p['password'],
-                    'role' => $p['role'],
-                    'budget' => $p['budget'],
-                    'photo' => $p['photo'],
-                    'name' => $p['name'],
-                ]; */
                 $item = new User();
                 $item->setId($p['id']);
                 $item->setUsername($p['username']);
-                $item->setPassword($p['password']);
+                $item->setPassword($p['password'], false);
                 $item->setRole($p['role']);
                 $item->setBudget($p['budget']);
                 $item->setPhoto($p['photo']);
@@ -77,10 +68,10 @@ class User extends Model implements IModel{
             echo $e;
         }
     }
+    
     /**
      *  Gets an item
      */
-
     public function get($id){
         try{
             $query = $this->db->connect()->prepare('SELECT * FROM users WHERE id = :id');
