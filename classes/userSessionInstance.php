@@ -1,6 +1,8 @@
 <?php
     require_once 'classes/AuthSites.php';
-
+    /**
+     * Maneja los accesos de las sesiones
+     */
     class UserSessionInstance{
         private $session;
 
@@ -9,14 +11,20 @@
         private $defaultSites;
         
         function __construct(){
-            $this->session = new UserSession();
-            $json = $this->loadAccesses();
+            //se crea nueva sesión
+            $this->session = new Session();
+            //se carga el archivo json con la configuración de acceso
+            $json = $this->getJSONFileConfig();
+            // se asignan los sitios
             $this->sites = $json['sites'];
+            // se asignan los sitios por default, los que cualquier rol tiene acceso
             $this->defaultSites = $json['default-sites'];
+            // inicia el flujo de validación para determinar
+            // el tipo de rol y permismos
             $this->validateSession();
         }
 
-        private function loadAccesses(){
+        private function getJSONFileConfig(){
             $string = file_get_contents("config/access.json");
             $json = json_decode($string, true);
 
@@ -28,6 +36,7 @@
             if($this->session->getCurrentUser() == NULL) return false;
 
             $user = $this->session->getCurrentUser();
+
             if($user) return true;
 
             return false;
@@ -41,6 +50,7 @@
             //Si existe sesión
             if($this->existsSession()){
                 $role = $this->getUserSessionData()['role'];
+                error_log("userSessionInstance::validateSession(): " . $this->getUserSessionData());
                 if($this->isPublic()){
                     $this->redirectDefaultByRol($role);
                 }else{
@@ -52,6 +62,8 @@
                     }
                 }
             }else{
+                //No existe ninguna sesión
+                //se valida si el acceso es público o no
                 if($this->isPublic()){
                     //la pagina es publica
                     //no pasa nada
@@ -66,10 +78,6 @@
         public function initialize($data){
             $this->session->setCurrentUser($data);
             $this->authorizeAccess($data['role']);
-        }
-
-        public function test(){
-            echo 'Hola';
         }
 
         private function isPublic(){
