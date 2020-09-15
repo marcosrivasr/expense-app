@@ -19,7 +19,7 @@ require_once 'libs/view.php';
 require_once 'libs/model.php';
 require_once 'libs/app.php';
 
-require_once 'classes/Session.php';
+require_once 'classes/session.php';
 require_once 'classes/sessionController.php';
 
 require_once 'config/config.php';
