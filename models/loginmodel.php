@@ -25,8 +25,8 @@ class LoginModel extends Model{
                 if(password_verify($password, $user->getPassword())){
                     error_log('login: success');
                     //return ['id' => $item['id'], 'username' => $item['username'], 'role' => $item['role']];
-                    //return $user;
-                    return $user->getId();
+                    return $user;
+                    //return $user->getId();
                 }else{
                     return NULL;
                 }
