@@ -1,6 +1,8 @@
 
 <?php
 
+
+
 class Signup extends ControllerSession{
 
     function __construct(){
@@ -15,30 +17,33 @@ class Signup extends ControllerSession{
     }
 
     function newUser(){
-        if(isset($_POST['username']) && isset($_POST['password']) ){
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-
+        if($this->existPOST(['username', 'password'])){
+            
+            $username = $this->getPost('username');
+            $password = $this->getPost('password');
+            
             //validate data
             if($username == '' || empty($username) || $password == '' || empty($password)){
                 // error al validar datos
-                echo "error";
                 $this->errorAtSignup('Campos vacios');
                 return;
             }
-            $hash = password_hash($password, PASSWORD_DEFAULT, ['cost' => 10]);
-            $registerNewUser = $this->model->insert($username, $hash);
-            
-            if($registerNewUser){
+
+            $user = new User();
+            $user->setUsername($username);
+            $user->setPassword($password);
+            $user->setRole("user");
+            //TODO: validar que exista el username
+            if($user->save()){
                 $this->view->render('login/index');
             }else{
                 //error al registrar, que intente de nuevo
-                $this->errorAtSignup('asdasdas al registrar el usuario. Elige un nombre de usuario diferente');
+                $this->errorAtSignup('Error al registrar el usuario. Elige un nombre de usuario diferente');
                 return;
             }
         }else{
             // error, cargar vista con errores
-            $this->errorAtSignup('Error al procesar solicitud');
+            $this->errorAtSignup('Ingresa nombre de usuario y password');
         }
     }
 
@@ -48,7 +53,9 @@ class Signup extends ControllerSession{
     }
 
     function saludo(){
-        echo "<p>Ejecutaste el método Saludo</p>";
+        $user = new User();
+        $res = $user->getAll();
+        echo ($res[0]->getId());
     }
 }
 
