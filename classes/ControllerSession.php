@@ -4,7 +4,7 @@ require_once 'classes/userSessionInstance.php';
 /**
  * Controlador que también maneja las sesiones
  */
-class ControllerSession extends Controller{
+class SessionController extends Controller{
     
     private $userSession;
     private $username;

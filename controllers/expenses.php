@@ -1,7 +1,7 @@
 
 <?php
 
-class Expenses extends ControllerSession{
+class Expenses extends SessionController{
 
     private $expenses;
     private $error = NULL;
