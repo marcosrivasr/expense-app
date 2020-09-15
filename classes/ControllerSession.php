@@ -27,7 +27,6 @@ class ControllerSession extends Controller{
     public function getUserId(){
         return $this->userid;
     }
-
 }
 
 ?>
