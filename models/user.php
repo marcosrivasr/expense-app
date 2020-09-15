@@ -68,7 +68,7 @@ class User extends Model implements IModel{
             echo $e;
         }
     }
-    
+
     /**
      *  Gets an item
      */
@@ -119,6 +119,32 @@ class User extends Model implements IModel{
             echo $e;
             return false;
         }
+    }
+
+    public function exists($username){
+        try{
+            $query = $this->db->connect()->prepare('SELECT username FROM users WHERE username = :username');
+            $query->execute( ['username' => $this->username]);
+            
+            if($query->rowCount() > 0){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(PDOException $e){
+            echo $e;
+            return false;
+        }
+    }
+
+    public function from($array){
+        $this->id = $array['id'];
+        $this->username = $array['username'];
+        $this->password = $array['password'];
+        $this->role = $array['role'];
+        $this->budget = $array['budget'];
+        $this->photo = $array['photo'];
+        $this->name = $array['name'];
     }
 
     private function getHashedPassword($password){
