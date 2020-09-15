@@ -1,8 +1,6 @@
 <?php
-    require_once 'classes/AuthSites.php';
-    /**
-     * Maneja los accesos de las sesiones
-     */
+/*     require_once 'classes/AuthSites.php';
+
     class UserSessionInstance{
         private $session;
 
@@ -11,6 +9,10 @@
         private $defaultSites;
         
         function __construct(){
+            $this->init();
+        }
+
+        private function init(){
             //se crea nueva sesión
             $this->session = new Session();
             //se carga el archivo json con la configuración de acceso
@@ -116,5 +118,5 @@
             $url = explode('/', $actual_link);
             return $url[2];
         }
-    }
+    } */
 ?>
