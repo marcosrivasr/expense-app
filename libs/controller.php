@@ -16,6 +16,34 @@ class Controller{
             $this->model = new $modelName();
         }
     }
+
+    function existPOST($params){
+        foreach ($params as $param) {
+            if(!isset($_POST[$param])){
+                error_log("ExistPOST: No existe el parametro $param" );
+                return false;
+            }
+        }
+        error_log( "ExistPOST: Existen parámetros" );
+        return true;
+    }
+
+    function existGET($params){
+        foreach ($params as $param) {
+            if(!isset($_GET[$param])){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function getGet($name){
+        return $_GET[$name];
+    }
+
+    function getPost($name){
+        return $_POST[$name];
+    }
 }
 
 ?>
