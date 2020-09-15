@@ -8,7 +8,7 @@ class ExpensesModel extends Model{
 
     function insert($title, $amount, $category, $date, $id_user){
         try{
-            $query = $this->db->connect()->prepare('INSERT INTO EXPENSES (TITLE, AMOUNT, CATEGORY_ID, DATE, ID_USER) VALUES(:title, :amount, :category, :d, :user)');
+            $query = $this->db->connect()->prepare('INSERT INTO expenses (title, amount, category_id, date, id_user) VALUES(:title, :amount, :category, :d, :user)');
             $query->execute(['title' => $title, 'amount' => $amount, 'category' => $category, 'user' => $id_user, 'd' => $date]);
             if($query->rowCount()) return true;
             return false;

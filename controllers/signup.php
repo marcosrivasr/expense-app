@@ -33,7 +33,7 @@ class Signup extends ControllerSession{
                 $this->view->render('login/index');
             }else{
                 //error al registrar, que intente de nuevo
-                $this->errorAtSignup('Error al registrar el usuario. Elige un nombre de usuario diferente');
+                $this->errorAtSignup('asdasdas al registrar el usuario. Elige un nombre de usuario diferente');
                 return;
             }
         }else{

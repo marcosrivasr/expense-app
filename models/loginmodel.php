@@ -10,7 +10,7 @@ class LoginModel extends Model{
         // insertar datos en la BD
         try{
             //$query = $this->db->connect()->prepare('SELECT id, username, password, role FROM USERS WHERE USERNAME = :username AND PASSWORD = :password');
-            $query = $this->db->connect()->prepare('SELECT id, username, password, role FROM USERS WHERE USERNAME = :username');
+            $query = $this->db->connect()->prepare('SELECT id, username, password, role FROM users WHERE username = :username');
             //$query->execute(['username' => $username, 'password' => $password]);
             $query->execute(['username' => $username]);
             

@@ -11,8 +11,8 @@
     <?php require 'views/header.php'; ?>
 
     <div id="login-main">
-        <form action="<? echo constant('URL'); ?>signup/newUser" method="POST">
-        <div><?  echo $this->errorMessage; ?></div>
+        <form action="<?php echo constant('URL'); ?>signup/newUser" method="POST">
+        <div><?php  echo $this->errorMessage; ?></div>
             <h2>Registrarse</h2>
 
             <p>
@@ -27,7 +27,7 @@
                 <input type="submit" value="Iniciar sesión" />
             </p>
             <p>
-                ¿Tienes una cuenta? <a href="<? echo constant('URL'); ?>">Iniciar sesion</a>
+                ¿Tienes una cuenta? <a href="<?php echo constant('URL'); ?>">Iniciar sesion</a>
             </p>
         </form>
     </div>
