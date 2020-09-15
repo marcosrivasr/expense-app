@@ -1,7 +1,7 @@
 
 <?php
 
-class Login extends ControllerSession{
+class Login extends SessionController{
 
     function __construct(){
         parent::__construct();
@@ -29,7 +29,8 @@ class Login extends ControllerSession{
 
             if($user != NULL){
                 // inicializa el proceso de las sesiones
-                $this->getUserSession()->initialize($user);
+                
+                $this->initialize($user);
             }else{
                 //error al registrar, que intente de nuevo
                 $this->errorAtLogin('Nombre de usuario y/o password incorrecto');
