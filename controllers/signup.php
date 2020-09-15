@@ -33,12 +33,14 @@ class Signup extends ControllerSession{
             $user->setUsername($username);
             $user->setPassword($password);
             $user->setRole("user");
-            //TODO: validar que exista el username
-            if($user->save()){
+            
+            if($user->exists($username)){
+                $this->errorAtSignup('Error al registrar el usuario. Elige un nombre de usuario diferente');
+                return;
+            }else if($user->save()){
                 $this->view->render('login/index');
             }else{
-                //error al registrar, que intente de nuevo
-                $this->errorAtSignup('Error al registrar el usuario. Elige un nombre de usuario diferente');
+                $this->errorAtSignup('Error al registrar el usuario. Inténtalo más tarde');
                 return;
             }
         }else{
