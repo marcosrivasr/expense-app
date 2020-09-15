@@ -3,12 +3,10 @@
 
 
 
-class Signup extends ControllerSession{
+class Signup extends SessionController{
 
     function __construct(){
         parent::__construct();
-
-        $userSession = new UserSessionInstance();
     }
 
     function render(){
