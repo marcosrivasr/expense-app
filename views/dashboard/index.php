@@ -1,6 +1,7 @@
 <?php
     $expenses       = $this->d['expenses'];
-    $totalThisMonth = $this->d['totalThisMonth'];
+    $totalThisMonth = $this->d['totalAmountThisMonth'];
+    $totalExpensesThisMonth = $this->d['totalExpensesThisMonth'];
     $user           = $this->d['user'];
 
     /* $user           = $this->user;
@@ -25,7 +26,7 @@
             <div id="left-container">
                 <h2>Resumen</h2>
                 <div id="expenses-summary">
-                    <div class="card w-50">
+                    <div class="card">
                         <div class="total-expense">
                             <?php
                                  if($totalThisMonth === NULL){
@@ -33,7 +34,7 @@
                                 }else{?>
                                     <span class="<?php echo ($user->getBudget() < $totalThisMonth)? 'broken': '' ?>">$<?php
                                     echo number_format($totalThisMonth, 2);?>
-                             </span>
+                                    </span>
                             <?php }?>
                             
                             
@@ -46,6 +47,28 @@
                             </span>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="total-expense">
+                            <?php
+                                 if($totalThisMonth === NULL){
+                                    showError('Hubo un problema al cargar la información');
+                                }else{?>
+                                    <span class="<?php echo ($user->getBudget() < $totalThisMonth)? 'broken': '' ?>">$<?php
+                                    echo number_format($totalThisMonth, 2);?>
+                                    </span>
+                            <?php }?>
+                            
+                            
+                        </div>
+                        <div class="total-budget">
+                            de <span class="total-budget-text">
+                                $<?php 
+                                    echo number_format($user->getBudget(),2) . ' este mesasdasdasdasdsa';
+                                ?>
+                            </span>
+                        </div>
+                    </div>
+                    
                 </div>
 
                 <div id="columnchart_material">
@@ -80,7 +103,8 @@
                             }
                              */
                         ?>
-                    
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
