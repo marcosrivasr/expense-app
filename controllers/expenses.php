@@ -60,10 +60,11 @@ class Expenses extends SessionController{
         $date     = $_POST['date'];
         $id_user  = $this->getUserId();
 
-        if( empty($title) || empty($amount) || empty($category) || empty($date) ){
-            header('location: ../');
-            return;
-        }
+        $expense->setTitle($this->getPost('title'));
+        $expense->setAmount((float)$this->getPost('amount'));
+        $expense->setCategoryId($this->getPost('category'));
+        $expense->setDate($this->getPost('date'));
+        $expense->setUserId($this->user->getId());
 
         $this->model->insert($title, $amount, $category, $date, $id_user);
 
