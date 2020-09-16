@@ -1,4 +1,11 @@
+<?php
+    $categories = $this->d['categories'];
+?>
+
+
 <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/expense.css">
+
+
 <form id="form-expense-container" action="expenses/newExpense" method="POST">
     <h3>Registrar nuevo gasto</h3>
     <div class="section">
@@ -19,9 +26,9 @@
         <label for="categoria">Categoria</label>
             <select name="category" id="" required>
             <?php 
-                foreach ($this->categories as $cat) {
+                foreach ($categories as $cat) {
             ?>
-                <option value="<?php echo $cat['id'] ?>"><?php echo $cat['name'] ?></option>
+                <option value="<?php echo $cat->getId() ?>"><?php echo $cat->getName() ?></option>
                     <?php
                 }
             ?>
