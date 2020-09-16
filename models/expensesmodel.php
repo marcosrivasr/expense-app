@@ -256,20 +256,26 @@ class ExpensesModel extends Model implements IModel{
         return $items;  
     }
 
-    
-//FIXME: confirmar para MOVER
-    function getTotalByCategory($cid, $user){
+    /**
+     * Obtiene el total de amount de expenses basado en id de categoria
+     */
+    function getTotalByCategoryThisMonth($categoryid, $userid){
+        error_log("**ERROR: ExpensesModel::getTotalByCategoryThisMonth");
         try{
             $total = 0;
             $year = date('Y');
             $month = date('m');
-            $query = $this->db->connect()->prepare('SELECT SUM(amount) AS total from expenses WHERE category_id = :val AND id_user = :user AND YEAR(date) = :year AND MONTH(date) = :month');
-            $query->execute(['val' => $cid, 'user' => $user, 'year' => $year, 'month' => $month]);
+            $query = $this->prepare('SELECT SUM(amount) AS total from expenses WHERE category_id = :categoryid AND id_user = :userid AND YEAR(date) = :year AND MONTH(date) = :month');
+            $query->execute(['categoryid' => $categoryid, 'userid' => $userid, 'year' => $year, 'month' => $month]);
 
-            if($query->rowCount() > 0){
                 $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
-            }else{
-                return 0;
+            if($total == NULL) return 0;
+            return $total;
+
+        }catch(PDOException $e){
+            error_log("**ERROR: ExpensesModel::getTotalByCategoryThisMonth: error: " . $e);
+            return NULL;
+        }
             }
             
     /**
