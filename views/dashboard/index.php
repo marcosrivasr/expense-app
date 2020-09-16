@@ -1,13 +1,9 @@
 <?php
-    $expenses       = $this->d['expenses'];
-    $totalThisMonth = $this->d['totalAmountThisMonth'];
+    $expenses               = $this->d['expenses'];
+    $totalThisMonth         = $this->d['totalAmountThisMonth'];
     $totalExpensesThisMonth = $this->d['totalExpensesThisMonth'];
-    $user           = $this->d['user'];
-
-    /* $user           = $this->user;
-    
-    
-    $categories     = $this->categories; */
+    $user                   = $this->d['user'];
+    $categories             = $this->d['categories'];
 
 ?>
 <html lang="en">
@@ -26,6 +22,7 @@
             <div id="left-container">
                 <h2>Resumen</h2>
                 <div id="expenses-summary">
+
                     <div class="card">
                         <div class="total-expense">
                             <?php
@@ -49,23 +46,9 @@
                     </div>
                     <div class="card">
                         <div class="total-expense">
-                            <?php
-                                 if($totalThisMonth === NULL){
-                                    showError('Hubo un problema al cargar la información');
-                                }else{?>
-                                    <span class="<?php echo ($user->getBudget() < $totalThisMonth)? 'broken': '' ?>">$<?php
-                                    echo number_format($totalThisMonth, 2);?>
-                                    </span>
-                            <?php }?>
-                            
-                            
+                            <?php echo $totalExpensesThisMonth; ?> gastos
                         </div>
                         <div class="total-budget">
-                            de <span class="total-budget-text">
-                                $<?php 
-                                    echo number_format($user->getBudget(),2) . ' este mesasdasdasdasdsa';
-                                ?>
-                            </span>
                         </div>
                     </div>
                     
@@ -78,33 +61,20 @@
                     <h3>Gastos del mes por categoria</h3>
                     <div id="categories-container">
                         <?php
-                           /*  $totalPerCategory = 0;
                             if($categories === NULL){
                                 showError('Datos no disponibles por el momento.');
                             }else{
-                                foreach ($categories as $cat) {
-                                    if(number_format($cat['total'], 0) > 0){
-                                        $totalPerCategory++;
-                    
-                             */
-                        ?>
-                            <div class="card ws-30">
-                                <div class="category-total">
-                                    $<?php /* echo number_format($cat['total'], 2); ?>    
-                                </div>
-                                <div class="category-name">
-                                    <?php echo $cat['name']; ?>
-                                </div>
-                            </div>
-                        <?php
-                                    }
-                                }
-                                if($totalPerCategory === 0) showInfo('No hay transacciones en este periodo. Empieza a registrar operaciones para categorizarlas');
+                                foreach ($categories as $category ) { ?>
+                                    <div class="card">
+                                        <div class="title category-total">$<?php echo $category['total'] ?></div>
+                                        <div class="content category-name">
+                                            <p><?php echo $category['count'] ?> gasto</p>
+                                            <?php echo $category['category']->getName() ?>
+                                        </div>
+                                    </div>
+                        <?php   }
                             }
-                             */
                         ?>
-                                </div>
-                            </div>
                     </div>
                 </div>
             </div>
