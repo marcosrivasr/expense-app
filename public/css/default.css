@@ -19,6 +19,12 @@ body{
     background-color: #fff;
 }
 
+#main-container{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
 #header{
     background: black;
 }
@@ -185,6 +191,7 @@ label{
 }
 
 .card{
+    flex-grow: 1;
     border-radius: 3px;
     padding: 20px;
     border: solid 1px #ccc;
