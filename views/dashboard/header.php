@@ -10,14 +10,14 @@
     </ul>
 
     <div id="profile-container">
-        <a href="<?php echo constant('URL');?>user">
-            <div class="name"><?php echo $this->user['name']; ?></div>
+        <a href="<?php //echo constant('URL');?>user">
+            <div class="name"><?php //echo $this->user['name']; ?></div>
             <div class="photo">
-                <?php if($this->user['photo'] == ''){?>
+                <?php /* if($this->user['photo'] == ''){?>
                         <i class="material-icons">account_circle</i>
                 <?php }else{ ?>
                         <img src="<?php echo constant('URL'); ?>public/img/photos/<?php echo $this->user['photo'] ?>" width="32" />
-                <?php } ?>
+                <?php }  */?>
             </div>
         </a>
         <div id="submenu">
