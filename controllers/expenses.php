@@ -185,63 +185,35 @@ class Expenses extends SessionController{
     */
 
     function history($params = NULL){
-
-        $this->view->user       = $this->user;
-        $this->view->history    = $this->getHistory();
         $this->view->dates      = $this->getDateList();
         $this->view->categories = $this->getCategoryList();
 
         $this->view->render('dashboard/history',[
-            "user" => $this->user
+            "user" => $this->user,
+            "expenses" => $this->getHistory()
         ]);
     }
 
     private function getHistory(){
-        //return $this->getExpenses(0);
-        return $this->model->getAllByUserId($this->user->getId());   
+        $joinExpensesCategories = new JoinExpensesCategoriesModel();
+        return $joinExpensesCategories->getAll($this->user->getId());
     }
 
-    // crea una lista con los meses donde hay expenses
-    private function getDateList(){
-        $arr = $this->getExpenses(0);
-        $res = [];
-        foreach ($arr as $item) {
-            array_push($res, substr($item['date'],0, 7 ));
-        }
-        $res = array_unique($res);
-        return $res;
-    }
-
-    // crea una lista con las categorias donde hay expenses
-    private function getCategoryList(){
-        $arr = $this->getExpenses(0);
-        $res = [];
-        foreach ($arr as $item) {
-            array_push($res, $item['category_name']);
-        }
-        $res = array_unique($res);
-        return $res;
-    }
-
-    // crea una lista con los colores dependiendo de las categorias
-    private function getCategoryColorList(){
-        $arr = $this->getExpenses(0);
-        $res = [];
-        foreach ($arr as $item) {
-            array_push($res, $item['category_color']);
-        }
-        $res = array_unique($res);
-        return $res;
-    }
+    
 
     // devuelve el JSON para las llamadas AJAX
     function getHistoryJSON(){
-        $expenses = $this->getExpenses(0); //modificar para hacer paginacion
-        foreach ($expenses as $key => $ex) {
-            $expenses[$key]['amount'] =number_format($expenses[$key]['amount'], 2);
-        }
         header('Content-Type: application/json');
-        echo json_encode($expenses);
+        $res = [];
+        $joinExpensesCategories = new JoinExpensesCategoriesModel();
+        $expenses = $joinExpensesCategories->getAll($this->user->getId());
+
+        foreach ($expenses as $expense) {
+            //$expenses[$key]['amount'] =number_format($expenses[$key]['amount'], 2);
+            array_push($res, $expense->toArray());
+    }
+
+        echo json_encode($res);
 
     }
 
