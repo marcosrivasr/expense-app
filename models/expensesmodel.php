@@ -117,6 +117,25 @@ class ExpensesModel extends Model implements IModel{
             return false;
         }
     }
+    /**
+     * Regresa el monto total de expenses en este mes
+     */
+    function getTotalThisMonth($iduser){
+        try{
+            $year = date('Y');
+            $month = date('m');
+            $query = $this->db->connect()->prepare('SELECT SUM(amount) AS total FROM expenses WHERE YEAR(date) = :year AND MONTH(date) = :month AND id_user = :iduser');
+            $query->execute(['year' => $year, 'month' => $month, 'iduser' => $iduser]);
+
+            $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            if($total == NULL) $total = 0;
+            
+            return $total;
+
+        }catch(PDOException $e){
+            return NULL;
+        }
+    }
     public function delete($id){
         try{
             $query = $this->db->connect()->prepare('DELETE FROM users WHERE id = :id');
