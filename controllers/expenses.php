@@ -245,23 +245,26 @@ class Expenses extends SessionController{
         echo json_encode($res);
     }
 
-    function getTotalByMonthAndCategory($date, $category){
-        $id_user = $this->getUserId();
-        
+    function getTotalByMonthAndCategory($date, $categoryid){
+        $iduser = $this->user->getId();
+        $joinExpensesCategoriesModel = new JoinExpensesCategoriesModel();
+        //$expenses = $joinExpensesCategoriesModel->getAll($this->user->getId());
 
         $year = substr($date, 0, 4);
         $month = substr($date, 5, 7);
 
-        $total = $this->model->getTotalByMonthAndCategory($date, $category, $id_user);
+        $total = $joinExpensesCategoriesModel->getTotalByMonthAndCategory($date, $categoryid, $iduser);
         if($total == NULL) $total = 0;
         return $total;
     }
 
     function delete($params){
+        error_log("Expenses::delete()");
+        
         if($params === NULL) header('location: ' . constant('URL') . 'expenses/history?message=failure');
-
-        $id_user = $this->getUserId();
-        $res = $this->model->delete($params[0], $id_user);
+        $id = $params[0];
+        error_log("Expenses::delete() id = " . $id);
+        $res = $this->model->delete($id);
         if($res){
             header('location: ' . constant('URL') . 'expenses/history?message=success');
         }else{
@@ -270,9 +273,7 @@ class Expenses extends SessionController{
     }
 
     function test(){
-
-        $joinTables = new JoinExpensesCategoriesModel();
-        var_dump($joinTables->getAll());
+        var_dump($this->getHistory());
     }
 
 
