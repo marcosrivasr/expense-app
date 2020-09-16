@@ -19,20 +19,18 @@ class Expenses extends SessionController{
 
      function render(){
         error_log("Expenses::RENDER() ");
-        $expenses       = $this->getExpenses(5);
-        $totalThisMonth = $this->model->getTotalThisMonth($this->user->getId());
-        $categories     = $this->getCategories();
+        $expenses               = $this->getExpenses(5);
+        $totalThisMonth         = $this->model->getTotalAmountThisMonth($this->user->getId());
+        $totalExpensesThisMonth = $this->model->getTotalExpensesThisMonth($this->user->getId());
+        $categories             = $this->getCategories();
         
-        $this->view->user           = $this->user;
-        //$this->view->expenses       = $expenses;
-        //$this->view->totalThisMonth = $totalThisMonth;
         $this->view->categories     = $categories;
 
         $this->view->render('dashboard/index', [
             'user' => $this->user,
             'expenses' => $expenses,
-            'totalThisMonth' => $totalThisMonth
-            
+            'totalAmountThisMonth' => $totalThisMonth,
+            'totalExpensesThisMonth' => $totalExpensesThisMonth
         ]);
     }
     
