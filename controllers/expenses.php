@@ -106,17 +106,16 @@ class Expenses extends SessionController{
         return $res; */
     }
 
-    function getCategoriesId(){
-        include_once 'models/categoriesmodel.php';
-        $categoriesModel = new CategoriesModel();
+    function getCategoryIds(){
+        $joinExpensesCategoriesModel = new JoinExpensesCategoriesModel();
+        $categories = $joinExpensesCategoriesModel->getAll($this->user->getId());
 
-        return $categoriesModel->getAll();
-        //$categories = $categoriesModel->get();
-
-        /* $res = [];
+        $res = [];
         foreach ($categories as $cat) {
-            array_push($res, $cat->getId());
+            array_push($res, $cat->getCategoryId());
         }
+        $res = array_values(array_unique($res));
+        //var_dump($res);
         return $res;
     }
 
