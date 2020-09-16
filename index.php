@@ -11,9 +11,9 @@ ini_set("error_log", "/var/www/html/expense-app/php-error.log");
 error_log( "Hello, errors!" );
 
 //tail -f /tmp/php-error.log
-
-require_once 'libs/messages.php';
 require_once 'libs/database.php';
+require_once 'libs/messages.php';
+
 require_once 'libs/controller.php';
 require_once 'libs/view.php';
 require_once 'libs/model.php';
@@ -26,6 +26,8 @@ require_once 'config/config.php';
 require_once 'classes/AuthSites.php';
 
 include_once "models/user.php";
+include_once "models/categoriesmodel.php";
+include_once "models/joinexpensescategoriesmodel.php";
 
 $app = new App();
 
