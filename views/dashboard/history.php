@@ -1,4 +1,8 @@
 
+<?php
+    
+?>
+
 <link rel="stylesheet" href="<?php echo constant('URL') ?>public/css/history.css">
     <?php require 'header.php'; ?>
 
@@ -19,7 +23,7 @@
                 <div id="filters-container">
                     <div class="filter-container">
                         <select id="sdate" class="custom-select">
-                            <option value="">Filtrar por fecha</option>
+                            <option value="">Ver todas las fechas</option>
                             <?php
                                 $options = $this->dates;
                                 foreach($options as $option){
@@ -31,7 +35,7 @@
 
                     <div class="filter-container">
                         <select id="scategory" class="custom-select">
-                            <option value="">Filtrar por categoría</option>
+                            <option value="">Ver todas las categorias</option>
                             <?php
                                 $options = $this->categories;
                                 foreach($options as $option){
@@ -167,24 +171,25 @@
         }
 
         function filterByDate(value){
-            //this.copydata = [...this.data];
+            this.copydata = [...this.data];
             const res = this.copydata.filter(item =>{
                 return value == item.date.substr(0, 7);
             });
             this.copydata = [...res];
             renderData(res);
         }
+
         function filterByCategory(value){
-            //this.copydata = [...this.data];
+            this.copydata = [...this.data];
             const res = this.copydata.filter(item =>{
-                return value == item.category_name;
+                return value == item.name;
             });
             this.copydata = [...res];
             renderData(res);
         }
 
         async function getData(){
-            data = await fetch('http://localhost/expense-app/expenses/getHistoryJSON')
+            data = await fetch('http://localhost:8080/expense-app/expenses/getHistoryJSON')
             .then(res =>res.json())
             .then(json => json);
             this.copydata = [...this.data];
@@ -204,11 +209,11 @@
             data.forEach(item => { 
                 //total += item.amount;
                 databody.innerHTML += `<tr>
-                        <td>${item.expense_title}</td>
-                        <td><span class="category" style="background-color: ${item.category_color}">${item.category_name}</span></td>
+                        <td>${item.title}</td>
+                        <td><span class="category" style="background-color: ${item.color}">${item.name}</span></td>
                         <td>${item.date}</td>
                         <td>$${item.amount}</td>
-                        <td><a href="http://localhost/expense-app/expenses/delete/${item.expense_id}">Eliminar</a></td>
+                        <td><a href="http://localhost:8080/expense-app/expenses/delete/${item.id}">Eliminar</a></td>
                     </tr>`;
             });
         }
