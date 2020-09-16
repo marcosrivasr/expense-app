@@ -52,7 +52,7 @@ class SessionController extends Controller{
         $this->defaultSites = $json['default-sites'];
         // inicia el flujo de validación para determinar
         // el tipo de rol y permismos
-        //$this->validateSession();
+        $this->validateSession();
     }
     /**
      * Abre el archivo JSON y regresa el resultado decodificado
@@ -77,9 +77,11 @@ class SessionController extends Controller{
                 $this->redirectDefaultSiteByRole($role);
             }else{
                 if($this->isAuthorized($role)){
-                    //no pasa nada, deja pasar
+                    //si el usuario está en una página de acuerdo
+                    // a sus permisos termina el flujo
                 }else{
-                    //
+                    // si el usuario no tiene permiso para estar en
+                    // esa página lo redirije a la página de inicio
                     $this->redirectDefaultSiteByRole($role);
                 }
             }
