@@ -45,6 +45,7 @@ class ExpensesModel extends Model implements IModel{
             return false;
         }
     }
+
     public function getAll(){
         $items = [];
 
@@ -120,7 +121,7 @@ class ExpensesModel extends Model implements IModel{
     /**
      * Regresa el monto total de expenses en este mes
      */
-    function getTotalThisMonth($iduser){
+    function getTotalAmountThisMonth($iduser){
         try{
             $year = date('Y');
             $month = date('m');
@@ -155,10 +156,10 @@ class ExpensesModel extends Model implements IModel{
             return NULL;
         }
     }
-    
+
     public function delete($id){
         try{
-            $query = $this->db->connect()->prepare('DELETE FROM users WHERE id = :id');
+            $query = $this->prepare('DELETE FROM expenses WHERE id = :id');
             $query->execute([ 'id' => $id]);
             return true;
         }catch(PDOException $e){
@@ -169,7 +170,7 @@ class ExpensesModel extends Model implements IModel{
 
     public function update(){
         try{
-            $query = $this->db->connect()->prepare('UPDATE expenses SET title = :title, amount = :amount, category_id = :category, date = :d, id_user = :user WHERE id = :id');
+            $query = $this->prepare('UPDATE expenses SET title = :title, amount = :amount, category_id = :category, date = :d, id_user = :user WHERE id = :id');
             $query->execute([
                 'title' => $this->title, 
                 'amount' => $this->amount, 
@@ -196,7 +197,7 @@ class ExpensesModel extends Model implements IModel{
 
 
 
-    function insert($title, $amount, $category, $date, $id_user){
+    /* function insert($title, $amount, $category, $date, $id_user){
         try{
             $query = $this->db->connect()->prepare('INSERT INTO expenses (title, amount, category_id, date, id_user) VALUES(:title, :amount, :category, :d, :user)');
             $query->execute(['title' => $title, 'amount' => $amount, 'category' => $category, 'user' => $id_user, 'd' => $date]);
@@ -205,7 +206,7 @@ class ExpensesModel extends Model implements IModel{
         }catch(PDOException $e){
             return false;
         }
-    }
+    } */
 
 //FIXME: confirmar para eliminar
     /* function delete($id_expense, $id_user){
@@ -220,10 +221,6 @@ class ExpensesModel extends Model implements IModel{
             return false;
         }
     } */
-
-    function modify($id_expense, $title, $amount, $category, $id_user){
-        // TODO: completar funcion
-    }
 
     //FIXME: confirmar para eliminar
     function get2($user, $n){
@@ -259,22 +256,7 @@ class ExpensesModel extends Model implements IModel{
         return $items;  
     }
 
-    function getTotal($user){
-        try{
-            $year = date('Y');
-            $month = date('m');
-            $query = $this->db->connect()->prepare('SELECT SUM(amount) AS total FROM expenses WHERE YEAR(date) = :year AND MONTH(date) = :month AND id_user = :user');
-            $query->execute(['year' => $year, 'month' => $month, 'user' => $user]);
-
-            $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
-            if($total == NULL) $total = 0;
-            
-            return $total;
-
-        }catch(PDOException $e){
-            return NULL;
-        }
-    }
+    
 //FIXME: confirmar para MOVER
     function getTotalByCategory($cid, $user){
         try{
@@ -297,7 +279,7 @@ class ExpensesModel extends Model implements IModel{
         }
     }
 //FIXME: confirmar para MOVER
-    function getTotalByMonthAndCategory($date, $category, $userid){
+    /* function getTotalByMonthAndCategory($date, $category, $userid){
         try{
             $total = 0;
             $year = substr($date, 0, 4);
@@ -316,10 +298,8 @@ class ExpensesModel extends Model implements IModel{
         }catch(PDOException $e){
             return NULL;
         }
-    }
-
-    function getField($user, $name ){
-    }
+    } */
 }
+
 
 ?>
