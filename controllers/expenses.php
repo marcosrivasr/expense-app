@@ -79,27 +79,28 @@ class Expenses extends SessionController{
     } 
 
     function getCategories(){
-        include_once 'models/categoriesmodel.php';
+        $res = [];
         $categoriesModel = new CategoriesModel();
+        $expensesModel = new ExpensesModel();
 
-        //$categories = $categoriesModel->get();
-       /*  $id_user    = $this->getUserId();
-        $res        = [];
+        $categories = $categoriesModel->getAll();
 
-        if($categories === NULL) return NULL;
+        foreach ($categories as $category) {
+            $categoryArray = [];
+            //obtenemos la suma de amount de expenses por categoria
+            $total = $this->model->getTotalByCategoryThisMonth($category->getId(), $this->user->getId());
+            // obtenemos el número de expenses por categoria por mes
+            $numberOfExpenses = $this->model->getNumberOfExpensesByCategoryThisMonth($category->getId(), $this->user->getId());
 
-        foreach ($categories as $cat) {
-            $total = $this->model->getTotalByCategory($cat['id'], $id_user);
-            if($total === NULL) $total = 0;
-            $item = Array(
-                'id' => $cat['id'],
-                'name' => $cat['name'],
-                'total' => $total
-            );
-            array_push($res, $item);
+            if($numberOfExpenses > 0){
+                $categoryArray['total'] = $total;
+                $categoryArray['count'] = $numberOfExpenses;
+                $categoryArray['category'] = $category;
+                array_push($res, $categoryArray);
         }
 
-        return $res; */
+        }
+        return $res;
     }
 
     function getCategoryIds(){
