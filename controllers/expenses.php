@@ -121,14 +121,15 @@ class Expenses extends SessionController{
 
     // crea una lista con los meses donde hay expenses
     private function getDateList(){
-        //obtienes expenses por usuario
-        $arr = $this->getExpenses(0);
         $res = [];
+        $joinExpensesCategoriesModel = new JoinExpensesCategoriesModel();
+        $expenses = $joinExpensesCategoriesModel->getAll($this->user->getId());
         
-        foreach ($arr as $item) {
-            array_push($res, substr($item['date'],0, 7 ));
+        foreach ($expenses as $expense) {
+            array_push($res, substr($expense->getDate(),0, 7 ));
         }
-        $res = array_unique($res);
+        $res = array_values(array_unique($res));
+        //var_dump($res);
         return $res;
     }
 
