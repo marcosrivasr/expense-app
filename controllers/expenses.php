@@ -135,12 +135,15 @@ class Expenses extends SessionController{
 
     // crea una lista con las categorias donde hay expenses
     private function getCategoryList(){
-        $arr = $this->getExpenses(0);
         $res = [];
-        foreach ($arr as $item) {
-            array_push($res, $item['category_name']);
+        $joinExpensesCategoriesModel = new JoinExpensesCategoriesModel();
+        $expenses = $joinExpensesCategoriesModel->getAll($this->user->getId());
+
+        foreach ($expenses as $expense) {
+            array_push($res, $expense->getNameCategory());
         }
-        $res = array_unique($res);
+        $res = array_values(array_unique($res));
+        //var_dump($res);
         return $res;
     }
 
