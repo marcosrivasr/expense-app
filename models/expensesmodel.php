@@ -272,6 +272,19 @@ class ExpensesModel extends Model implements IModel{
                 return 0;
             }
             
+    /**
+     * Obtiene el total de amount de expenses basado en id de categoria
+     */
+    function getNumberOfExpensesByCategoryThisMonth($categoryid, $userid){
+        try{
+            $total = 0;
+            $year = date('Y');
+            $month = date('m');
+            $query = $this->prepare('SELECT COUNT(id) AS total from expenses WHERE category_id = :categoryid AND id_user = :userid AND YEAR(date) = :year AND MONTH(date) = :month');
+            $query->execute(['categoryid' => $categoryid, 'userid' => $userid, 'year' => $year, 'month' => $month]);
+
+            $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            if($total == NULL) return 0;
             return $total;
 
         }catch(PDOException $e){
