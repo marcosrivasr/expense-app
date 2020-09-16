@@ -8,28 +8,39 @@ class Expenses extends SessionController{
     private $count;
     private $totalThisMonth;
 
+    private $user;
+
     function __construct(){
         parent::__construct();
+
+        $this->user = $this->getUserSessionData();
+        error_log("Expenses::constructor() ");
     }
 
      function render(){
+        error_log("Expenses::RENDER() ");
         $expenses       = $this->getExpenses(5);
         $totalThisMonth = $this->getTotalAmountThisMonth();
         $categories     = $this->getCategories();
         
-        $this->view->user           = $this->getUser();
-        $this->view->expenses       = $expenses;
-        $this->view->totalThisMonth = $totalThisMonth;
+        $this->view->user           = $this->user;
+        //$this->view->expenses       = $expenses;
+        //$this->view->totalThisMonth = $totalThisMonth;
         $this->view->categories     = $categories;
 
-        $this->view->render('dashboard/index');
+        $this->view->render('dashboard/index', [
+            'user' => $this->user,
+            'expenses' => $expenses,
+            'totalThisMonth' => $totalThisMonth
+            
+        ]);
     }
     
     //obtiene la lista de expenses y $n tiene el número de expenses por transacción
     private function getExpenses($n = 0){
         if($n < 0) return NULL;
-        
-        return $this->model->get($this->getUserId(), $n);   
+        error_log("Expenses::getExpenses() id = " . $this->getUserSessionData()->getId());
+        return $this->model->getByUserIdAndLimit($this->getUserSessionData()->getId(), $n);   
     }
 
     function newExpense(){
@@ -248,6 +259,10 @@ class Expenses extends SessionController{
         }else{
             header('location: ' . constant('URL') . 'expenses/history?message=failure');
         }
+    }
+
+    function test(){
+        var_dump($this->model->getAll());
     }
 
 
