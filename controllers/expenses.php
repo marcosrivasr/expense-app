@@ -3,10 +3,6 @@
 
 class Expenses extends SessionController{
 
-    private $expenses;
-    private $error = NULL;
-    private $count;
-    private $totalThisMonth;
 
     private $user;
 
@@ -66,12 +62,12 @@ class Expenses extends SessionController{
         header('location: ../');
     }
 
-    private function getBudget(){
+/*     private function getBudget(){
         include_once 'models/usermodel.php';
         $userModel = new UserModel();
 
         return $userModel->getBudget($this->getUserId());
-    }
+    } */
 
     // new expense UI
     function create(){
@@ -124,7 +120,7 @@ class Expenses extends SessionController{
         $res = [];
         $joinExpensesCategoriesModel = new JoinExpensesCategoriesModel();
         $expenses = $joinExpensesCategoriesModel->getAll($this->user->getId());
-        
+
         foreach ($expenses as $expense) {
             array_push($res, substr($expense->getDate(),0, 7 ));
         }
@@ -155,7 +151,7 @@ class Expenses extends SessionController{
 
         foreach ($expenses as $expense) {
             array_push($res, $expense->getColor());
-    }
+        }
         $res = array_unique($res);
         $res = array_values(array_unique($res));
         //var_dump($res);
@@ -211,8 +207,8 @@ class Expenses extends SessionController{
         foreach ($expenses as $expense) {
             //$expenses[$key]['amount'] =number_format($expenses[$key]['amount'], 2);
             array_push($res, $expense->toArray());
-    }
-
+        }
+        
         echo json_encode($res);
 
     }
