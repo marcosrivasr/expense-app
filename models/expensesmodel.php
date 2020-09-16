@@ -52,13 +52,6 @@ class ExpensesModel extends Model implements IModel{
             $query = $this->query('SELECT * FROM expenses');
 
             while($p = $query->fetch(PDO::FETCH_ASSOC)){
-                /* $item = new ExpensesModel();
-                $item->setId($p['id']);
-                $item->setTitle($p['title']);
-                $item->setAmount($p['amount']);
-                $item->setCategoryId($p['category_id']);
-                $item->setDate($p['date']);
-                $item->setUserId($p['id_user']); */
                 $item = new ExpensesModel();
                 $item->from($p); 
                 
@@ -71,6 +64,7 @@ class ExpensesModel extends Model implements IModel{
             echo $e;
         }
     }
+    
     public function get($id){
         try{
             $query = $this->prepare('SELECT * FROM expenses WHERE id = :id');
@@ -80,6 +74,45 @@ class ExpensesModel extends Model implements IModel{
             $this->from($user);
 
             return $this;
+        }catch(PDOException $e){
+            return false;
+        }
+    }
+
+    public function getAllByUserId($userid){
+        $items = [];
+
+        try{
+            $query = $this->prepare('SELECT * FROM expenses WHERE id_user = :userid');
+            $query->execute([ "userid" => $userid]);
+
+            while($p = $query->fetch(PDO::FETCH_ASSOC)){
+                $item = new ExpensesModel();
+                $item->from($p); 
+                
+                array_push($items, $item);
+            }
+
+            return $items;
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+    }
+
+    public function getByUserIdAndLimit($userid, $n){
+        $items = [];
+        try{
+            $query = $this->prepare('SELECT * FROM expenses WHERE id_user = :userid ORDER BY expenses.date DESC LIMIT 0, :n ');
+            $query->execute([ 'n' => $n, 'userid' => $userid]);
+            while($p = $query->fetch(PDO::FETCH_ASSOC)){
+                $item = new ExpensesModel();
+                $item->from($p); 
+                
+                array_push($items, $item);
+            }
+            error_log("ExpensesModel::getByUserIdAndLimit(): count: " . count($items));
+            return $items;
         }catch(PDOException $e){
             return false;
         }
@@ -135,7 +168,8 @@ class ExpensesModel extends Model implements IModel{
         }
     }
 
-    function delete($id_expense, $id_user){
+//FIXME: confirmar para eliminar
+    /* function delete($id_expense, $id_user){
         try{
             $query = $this->db->connect()->prepare('DELETE FROM expenses WHERE id = :id and id_user = :user');
             $query->execute(['id' => $id_expense,'user' => $id_user]);
@@ -146,13 +180,14 @@ class ExpensesModel extends Model implements IModel{
             //echo "Ya existe esa matrícula";
             return false;
         }
-    }
+    } */
 
     function modify($id_expense, $title, $amount, $category, $id_user){
         // TODO: completar funcion
     }
 
-    function get($user, $n){
+    //FIXME: confirmar para eliminar
+    function get2($user, $n){
         $res = [];
         $items = [];
         try{
@@ -201,7 +236,7 @@ class ExpensesModel extends Model implements IModel{
             return NULL;
         }
     }
-
+//FIXME: confirmar para MOVER
     function getTotalByCategory($cid, $user){
         try{
             $total = 0;
@@ -222,7 +257,7 @@ class ExpensesModel extends Model implements IModel{
             return NULL;
         }
     }
-
+//FIXME: confirmar para MOVER
     function getTotalByMonthAndCategory($date, $category, $userid){
         try{
             $total = 0;
