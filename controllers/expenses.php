@@ -218,31 +218,30 @@ class Expenses extends SessionController{
     }
 
     function getExpensesJSON(){
+        header('Content-Type: application/json');
+
         $res = [];
-        $categories     = $this->getCategoriesId();
+        $categoryIds     = $this->getCategoryIds();
         $categoryNames  = $this->getCategoryList();
         $categoryColors = $this->getCategoryColorList();
 
-        array_unshift($categoryNames, 'categorias');
-        array_unshift($categoryColors, NULL);
+        /* array_unshift($categoryNames, 'categorias');
+        array_unshift($categoryColors, NULL); */
 
-        $categories     = array_values($categories);
-        $categoryNames  = array_values($categoryNames);
-        $categorycolors = array_values($categoryColors);
-
-        $months = array_values($this->getDateList());
+        $months = $this->getDateList();
 
         for($i = 0; $i < count($months); $i++){
             $item = array($months[$i]);
-            for($j = 0; $j < count($categories); $j++){
-                $total = $this->getTotalByMonthAndCategory( $months[$i], $categories[$j]);
+            for($j = 0; $j < count($categoryIds); $j++){
+                $total = $this->getTotalByMonthAndCategory( $months[$i], $categoryIds[$j]);
                 array_push( $item, $total );
             }   
             array_push($res, $item);
         }
+
         array_unshift($res, $categoryNames);
         array_unshift($res, $categoryColors);
-        header('Content-Type: application/json');
+        
         echo json_encode($res);
     }
 
