@@ -117,8 +117,34 @@ class Expenses extends SessionController{
 
         /* $res = [];
         foreach ($categories as $cat) {
-            array_push($res, $cat['id']);
+            array_push($res, $cat->getId());
         }
+        return $res;
+    }
+
+    // crea una lista con los meses donde hay expenses
+    private function getDateList(){
+        //obtienes expenses por usuario
+        $arr = $this->getExpenses(0);
+        $res = [];
+        
+        foreach ($arr as $item) {
+            array_push($res, substr($item['date'],0, 7 ));
+        }
+        $res = array_unique($res);
+        return $res;
+    }
+
+    // crea una lista con las categorias donde hay expenses
+    private function getCategoryList(){
+        $arr = $this->getExpenses(0);
+        $res = [];
+        foreach ($arr as $item) {
+            array_push($res, $item['category_name']);
+        }
+        $res = array_unique($res);
+        return $res;
+    }
 
         return $res; */
     }
