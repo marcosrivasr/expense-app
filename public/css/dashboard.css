@@ -6,12 +6,18 @@ h2{
 
 #expenses-container, #history-container{
     border-radius: 5px;
+    
     background-color: white;
     font-size: 12px;
     width: 900px;
-    margin: 50px auto;
     box-shadow: 0 0 30px rgba(0,0,0,0.1);
     box-sizing: border-box;
+}
+
+#expenses-container{
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 100%;
 }
 
 #columnchart_material{
@@ -23,14 +29,14 @@ h2{
 }
 
 #left-container{
-    width: 65%;
+    width: 100%;
     display: inline-block;
     vertical-align: top;
     padding: 40px;
     box-sizing: border-box;
 }
 #right-container{
-    width: calc(35% - 4px);
+    width: 100%;
     display: inline-block;
     vertical-align: top;
     min-height: 100%;
@@ -93,6 +99,10 @@ h2{
 .w-60{width: calc(60% - 60px);}
 .w-70{width: calc(70% - 60px);}
 
+#expenses-summary{
+    display: flex;
+    justify-content: space-between;
+}
 #expenses-summary .total-expense{
     font-size: 32px;
     font-weight: bolder;
