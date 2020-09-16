@@ -3,10 +3,11 @@
 class View{
 
     function __construct(){
-        //echo "<p>Vista base</p>";
     }
 
-    function render($nombre){
+    function render($nombre, $data = []){
+        $this->d = $data;
+        error_log("View::render(): data: " . count($this->d) . ' items');
         require 'views/' . $nombre . '.php';
     }
 }
