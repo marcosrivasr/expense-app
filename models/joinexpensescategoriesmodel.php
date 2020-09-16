@@ -57,6 +57,8 @@ class JoinExpensesCategoriesModel extends Model{
         }
     }
 
+    
+
     public function from($array){
         $this->expenseId = $array['expense_id'];
         $this->title = $array['title'];
