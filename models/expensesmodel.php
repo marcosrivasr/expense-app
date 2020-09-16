@@ -267,8 +267,8 @@ class ExpensesModel extends Model implements IModel{
             $month = date('m');
             $query = $this->prepare('SELECT SUM(amount) AS total from expenses WHERE category_id = :categoryid AND id_user = :userid AND YEAR(date) = :year AND MONTH(date) = :month');
             $query->execute(['categoryid' => $categoryid, 'userid' => $userid, 'year' => $year, 'month' => $month]);
-
-                $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            
+            $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
             if($total == NULL) return 0;
             return $total;
 
@@ -276,8 +276,8 @@ class ExpensesModel extends Model implements IModel{
             error_log("**ERROR: ExpensesModel::getTotalByCategoryThisMonth: error: " . $e);
             return NULL;
         }
-            }
-            
+    }
+
     /**
      * Obtiene el total de amount de expenses basado en id de categoria
      */
@@ -297,8 +297,9 @@ class ExpensesModel extends Model implements IModel{
             return NULL;
         }
     }
-//FIXME: confirmar para MOVER
-    /* function getTotalByMonthAndCategory($date, $category, $userid){
+
+    /*
+    function getTotalByMonthAndCategory($date, $category, $userid){
         try{
             $total = 0;
             $year = substr($date, 0, 4);
@@ -317,7 +318,8 @@ class ExpensesModel extends Model implements IModel{
         }catch(PDOException $e){
             return NULL;
         }
-    } */
+    }
+    */
 }
 
 
