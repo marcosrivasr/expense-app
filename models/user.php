@@ -24,14 +24,14 @@ class User extends Model implements IModel{
 
     public function save(){
         try{
-            $query = $this->db->connect()->prepare('INSERT INTO users (username, password, role, budget, photo, name) VALUES(:username, :password, :role, :budget, :photo, :name )');
+            $query = $this->prepare('INSERT INTO users (username, password, role, budget, photo, name) VALUES(:username, :password, :role, :budget, :photo, :name )');
             $query->execute([
-                'username' => $this->username, 
-                'password' => $this->password,
-                'role' => $this->role,
-                'budget' => $this->budget,
-                'photo' => $this->photo,
-                'name' => $this->name
+                'username'  => $this->username, 
+                'password'  => $this->password,
+                'role'      => $this->role,
+                'budget'    => $this->budget,
+                'photo'     => $this->photo,
+                'name'      => $this->name
                 ]);
             return true;
         }catch(PDOException $e){
@@ -44,7 +44,7 @@ class User extends Model implements IModel{
         $items = [];
 
         try{
-            $query = $this->db->connect()->query('SELECT * FROM users');
+            $query = $this->query('SELECT * FROM users');
 
             while($p = $query->fetch(PDO::FETCH_ASSOC)){
                 $item = new User();
@@ -59,8 +59,6 @@ class User extends Model implements IModel{
 
                 array_push($items, $item);
             }
-
-            //return $query->fetchAll(PDO::FETCH_ASSOC);
             return $items;
 
 
@@ -74,7 +72,7 @@ class User extends Model implements IModel{
      */
     public function get($id){
         try{
-            $query = $this->db->connect()->prepare('SELECT * FROM users WHERE id = :id');
+            $query = $this->prepare('SELECT * FROM users WHERE id = :id');
             $query->execute([ 'id' => $id]);
             $user = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -94,7 +92,7 @@ class User extends Model implements IModel{
 
     public function delete($id){
         try{
-            $query = $this->db->connect()->prepare('DELETE FROM users WHERE id = :id');
+            $query = $this->prepare('DELETE FROM users WHERE id = :id');
             $query->execute([ 'id' => $id]);
             return true;
         }catch(PDOException $e){
@@ -105,7 +103,7 @@ class User extends Model implements IModel{
 
     public function update(){
         try{
-            $query = $this->db->connect()->prepare('UPDATE users SET username = :username, password = :password, budget = :budget, photo = :photo, name = :name WHERE id = :id');
+            $query = $this->prepare('UPDATE users SET username = :username, password = :password, budget = :budget, photo = :photo, name = :name WHERE id = :id');
             $query->execute([
                 'id'        => $this->id,
                 'username' => $this->username, 
@@ -123,7 +121,7 @@ class User extends Model implements IModel{
 
     public function exists($username){
         try{
-            $query = $this->db->connect()->prepare('SELECT username FROM users WHERE username = :username');
+            $query = $this->prepare('SELECT username FROM users WHERE username = :username');
             $query->execute( ['username' => $this->username]);
             
             if($query->rowCount() > 0){
@@ -160,19 +158,19 @@ class User extends Model implements IModel{
         }
         
     }
-    public function setId($id){         $this->id = $id;}
+    public function setId($id){             $this->id = $id;}
     public function setRole($role){         $this->role = $role;}
     public function setBudget($budget){     $this->budget = $budget;}
     public function setPhoto($photo){       $this->photo = $photo;}
     public function setName($name){         $this->name = $name;}
 
-    public function getId(){ return $this->id;}
-    public function getUsername(){ return $this->username;}
-    public function getPassword(){ return $this->password;}
-    public function getRole(){ return $this->role;}
-    public function getBudget(){ return $this->budget;}
-    public function getPhoto(){ return $this->photo;}
-    public function getName(){ return $this->name;}
+    public function getId(){        return $this->id;}
+    public function getUsername(){  return $this->username;}
+    public function getPassword(){  return $this->password;}
+    public function getRole(){      return $this->role;}
+    public function getBudget(){    return $this->budget;}
+    public function getPhoto(){     return $this->photo;}
+    public function getName(){      return $this->name;}
 }
 
 ?>
