@@ -147,7 +147,19 @@ class Expenses extends SessionController{
         return $res;
     }
 
-        return $res; */
+    // crea una lista con los colores dependiendo de las categorias
+    private function getCategoryColorList(){
+        $res = [];
+        $joinExpensesCategoriesModel = new JoinExpensesCategoriesModel();
+        $expenses = $joinExpensesCategoriesModel->getAll($this->user->getId());
+
+        foreach ($expenses as $expense) {
+            array_push($res, $expense->getColor());
+    }
+        $res = array_unique($res);
+        $res = array_values(array_unique($res));
+        //var_dump($res);
+        return $res;
     }
 /*
     function getUser(){
