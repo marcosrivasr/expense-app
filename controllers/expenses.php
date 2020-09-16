@@ -20,7 +20,7 @@ class Expenses extends SessionController{
      function render(){
         error_log("Expenses::RENDER() ");
         $expenses       = $this->getExpenses(5);
-        $totalThisMonth = $this->getTotalAmountThisMonth();
+        $totalThisMonth = $this->model->getTotalThisMonth($this->user->getId());
         $categories     = $this->getCategories();
         
         $this->view->user           = $this->user;
@@ -44,21 +44,18 @@ class Expenses extends SessionController{
     }
 
     function newExpense(){
-        if(!isset($_POST['title']) || !isset($_POST['amount']) || !isset($_POST['category']) || !isset($_POST['date']) ){
+        error_log('Expenses::newExpense()');
+        if(!$this->existPOST(['title', 'amount', 'category', 'date'])){
             header('location: ../');
             return;
         }
 
-        if($this->getUserId() == NULL){
+        if($this->user == NULL){
             header('location: ../');
             return;
         }
 
-        $title    = $_POST['title'];
-        $amount   = (float) $_POST['amount'];
-        $category = $_POST['category'];
-        $date     = $_POST['date'];
-        $id_user  = $this->getUserId();
+        $expense = new ExpensesModel();
 
         $expense->setTitle($this->getPost('title'));
         $expense->setAmount((float)$this->getPost('amount'));
@@ -66,15 +63,9 @@ class Expenses extends SessionController{
         $expense->setDate($this->getPost('date'));
         $expense->setUserId($this->user->getId());
 
-        $this->model->insert($title, $amount, $category, $date, $id_user);
+        $expense->save();
 
         header('location: ../');
-    }
-
-    private function getTotalAmountThisMonth(){
-        $res = $this->model->getTotal($this->getUserId());
-
-        return $res;
     }
 
     private function getBudget(){
@@ -97,8 +88,8 @@ class Expenses extends SessionController{
         include_once 'models/categoriesmodel.php';
         $categoriesModel = new CategoriesModel();
 
-        $categories = $categoriesModel->get();
-        $id_user    = $this->getUserId();
+        //$categories = $categoriesModel->get();
+       /*  $id_user    = $this->getUserId();
         $res        = [];
 
         if($categories === NULL) return NULL;
@@ -114,24 +105,26 @@ class Expenses extends SessionController{
             array_push($res, $item);
         }
 
-        return $res;
+        return $res; */
     }
 
     function getCategoriesId(){
         include_once 'models/categoriesmodel.php';
         $categoriesModel = new CategoriesModel();
-        $categories = $categoriesModel->get();
 
-        $res = [];
+        return $categoriesModel->getAll();
+        //$categories = $categoriesModel->get();
+
+        /* $res = [];
         foreach ($categories as $cat) {
             array_push($res, $cat['id']);
         }
 
-        return $res;
+        return $res; */
     }
-
+/*
     function getUser(){
-        include_once 'models/usermodel.php';
+         include_once 'models/usermodel.php';
         $userModel = new UserModel();
         $userid = $this->getUserId();
         $username = $this->getUsername();
@@ -148,21 +141,25 @@ class Expenses extends SessionController{
             'name' => $name,
             'photo' => $photo,
             'budget' => $budget
-        );
+        ); 
     }
+    */
 
     function history($params = NULL){
 
-        $this->view->user       = $this->getUser();
+        $this->view->user       = $this->user;
         $this->view->history    = $this->getHistory();
         $this->view->dates      = $this->getDateList();
         $this->view->categories = $this->getCategoryList();
 
-        $this->view->render('dashboard/history');
+        $this->view->render('dashboard/history',[
+            "user" => $this->user
+        ]);
     }
 
     private function getHistory(){
-        return $this->getExpenses(0);
+        //return $this->getExpenses(0);
+        return $this->model->getAllByUserId($this->user->getId());   
     }
 
     // crea una lista con los meses donde hay expenses
@@ -263,7 +260,9 @@ class Expenses extends SessionController{
     }
 
     function test(){
-        var_dump($this->model->getAll());
+
+        $joinTables = new JoinExpensesCategoriesModel();
+        var_dump($joinTables->getAll());
     }
 
 
