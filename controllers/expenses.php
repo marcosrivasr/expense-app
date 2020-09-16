@@ -85,12 +85,12 @@ class Expenses extends SessionController{
 
     // new expense UI
     function create(){
-        include_once 'models/categoriesmodel.php';
-        $categoriesModel = new CategoriesModel();
-        $this->view->categories = $categoriesModel->get();
-        $this->view->user = $this->getUser();
-        $this->view->render('dashboard/create');
-    }
+        $categories = new CategoriesModel();
+        $this->view->render('dashboard/create', [
+            "categories" => $categories->getAll(),
+            "user" => $this->user
+        ]);
+    } 
 
     function getCategories(){
         include_once 'models/categoriesmodel.php';
