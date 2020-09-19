@@ -140,11 +140,11 @@ class ExpensesModel extends Model implements IModel{
     /**
      * Obtiene el número de transacciones por mes
      */
-    function getTotalExpensesThisMonth($iduser){
+    function getMaxExpensesThisMonth($iduser){
         try{
             $year = date('Y');
             $month = date('m');
-            $query = $this->db->connect()->prepare('SELECT COUNT(id) AS total FROM expenses WHERE YEAR(date) = :year AND MONTH(date) = :month AND id_user = :iduser');
+            $query = $this->db->connect()->prepare('SELECT MAX(amount) AS total FROM expenses WHERE YEAR(date) = :year AND MONTH(date) = :month AND id_user = :iduser');
             $query->execute(['year' => $year, 'month' => $month, 'iduser' => $iduser]);
 
             $total = $query->fetch(PDO::FETCH_ASSOC)['total'];
