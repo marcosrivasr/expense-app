@@ -136,8 +136,9 @@ class User extends SessionController{
         } else {
             if (move_uploaded_file($photo["tmp_name"], $target_file)) {
                 echo "The file ". basename( $photo["name"]). " has been uploaded.";
-                $id_user = $this->getUserSession()->getUserSessionData()['id'];
-                $this->model->updatePhoto($hash, $id_user);
+                //$id_user = $this->getUserSession()->getUserSessionData()['id'];
+
+                $this->model->updatePhoto($hash, $this->user->getId());
                 header('location: '. constant('URL') . 'user');
             } else {
                 echo "Sorry, there was an error uploading your file.";
