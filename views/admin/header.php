@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title></title>
     <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/default.css">
+    <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/dashboard.css">
 </head>
 <body>
     
     <div id="header">
         <ul>
             <li><a href="<?php echo constant('URL'); ?>main">Home</a></li>
-            <li><a href="<?php echo constant('URL'); ?>nuevo">Budget</a></li>
             <li><a href="<?php echo constant('URL'); ?>consulta">History</a></li>
             <li><a href="<?php echo constant('URL'); ?>ayuda">Logout</a></li>
         </ul>
