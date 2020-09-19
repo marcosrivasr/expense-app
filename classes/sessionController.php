@@ -72,14 +72,18 @@ class SessionController extends Controller{
         //Si existe la sesión
         if($this->existsSession()){
             $role = $this->getUserSessionData()->getRole();
+
             error_log("sessionController::validateSession(): username:" . $this->user->getUsername() . " - role: " . $this->user->getRole());
             if($this->isPublic()){
                 $this->redirectDefaultSiteByRole($role);
+                error_log( "SessionController::validateSession() => sitio público, redirige al main de cada rol" );
             }else{
                 if($this->isAuthorized($role)){
+                    error_log( "SessionController::validateSession() => autorizado, lo deja pasar" );
                     //si el usuario está en una página de acuerdo
                     // a sus permisos termina el flujo
                 }else{
+                    error_log( "SessionController::validateSession() => no autorizado, redirige al main de cada rol" );
                     // si el usuario no tiene permiso para estar en
                     // esa página lo redirije a la página de inicio
                     $this->redirectDefaultSiteByRole($role);
