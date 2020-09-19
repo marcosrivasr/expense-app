@@ -74,13 +74,14 @@ class User extends SessionController{
     }
 
     function updatePassword(){
-        if(!isset($_POST['current_password']) || !isset($_POST['new_password']) ){
+        if(!$this->existPOST(['current_password', 'new_password'])){
+        //if(!isset($_POST['current_password']) || !isset($_POST['new_password']) ){
             header('location: ../');
             return;
         }
 
-        $current = $_POST['current_password'];
-        $new     = $_POST['new_password'];
+        $current = $this->getPost('current_password');
+        $new     = $this->getPost('new_password');
 
         if(empty($current) || empty($new)){
             header('location: '. constant('URL') . 'user');
@@ -92,12 +93,18 @@ class User extends SessionController{
             return;
         }
 
-        $id_user = $this->getUserId();
-
         //validar que el current es el mismo que el guardado
-        if($this->model->comparePasswords($current, $id_user)){
+        $newHash = $this->model->comparePasswords($current, $this->user->getId());
+        if($newHash != NULL){
             //si lo es actualizar con el nuevo
-            $this->model->updatePassword($new, $id_user);
+            //$this->model->updatePassword($new, $id_user);
+            $this->user->setPassword($new, true);
+            
+            if($this->user->update()){
+                header('location: '. constant('URL') . 'user');
+            }else{
+                //error
+            }
             header('location: '. constant('URL') . 'user');
         }else{
             header('location: '. constant('URL') . 'user');
