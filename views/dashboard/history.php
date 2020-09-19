@@ -1,6 +1,6 @@
 
 <?php
-    
+    $user = $this->d['user'];
 ?>
 
 <link rel="stylesheet" href="<?php echo constant('URL') ?>public/css/history.css">
@@ -8,7 +8,7 @@
 
     <div id="main-container">
             
-        <div id="history-container">
+        <div id="history-container" class="container">
             <?php
                 if(isset($_GET['message'])){
                     if($_GET['message'] === 'success'){
@@ -44,28 +44,30 @@
                             ?>
                         </select>
                     </div>
-                </div>
-                
+                </div>   
             </div>
-            <table width="100%" cellpadding="0">
-                <thead>
-                    <tr>
-                    <th data-sort="title" width="35%">Título</th>
-                    <th data-sort="category">Categoría</th>
-                    <th data-sort="date">Fecha</th>
-                    <th data-sort="amount">Cantidad</th>
-                    <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="databody">
-                    
-                </tbody>
-            </table>
+            
+            <div id="table-container">
+                <table width="100%" cellpadding="0">
+                    <thead>
+                        <tr>
+                        <th data-sort="title" width="35%">Título</th>
+                        <th data-sort="category">Categoría</th>
+                        <th data-sort="date">Fecha</th>
+                        <th data-sort="amount">Cantidad</th>
+                        <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="databody">
+                        
+                    </tbody>
+                </table>
+            </div>
+            
         </div>
 
     </div>
 
-    <?php require 'views/footer.php'; ?>
     <script>
         var data = [];
         var copydata = [];
