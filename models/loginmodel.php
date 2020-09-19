@@ -17,7 +17,7 @@ class LoginModel extends Model{
             if($query->rowCount() == 1){
                 $item = $query->fetch(PDO::FETCH_ASSOC); 
 
-                $user = new User();
+                $user = new UserModel();
                 $user->from($item);
 
                 error_log('login: user id '.$user->getId());
