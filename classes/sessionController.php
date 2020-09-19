@@ -151,6 +151,8 @@ class SessionController extends Controller{
 
     private function isAuthorized($role){
         $currentURL = $this->getCurrentPage();
+        $currentURL = preg_replace( "/\?.*/", "", $currentURL); //omitir get info
+        
         for($i = 0; $i < sizeof($this->sites); $i++){
             if($currentURL === $this->sites[$i]['site'] && $this->sites[$i]['role'] === $role){
                 return true;
