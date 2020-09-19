@@ -107,6 +107,24 @@ class CategoriesModel extends Model implements IModel{
         }
     }
 
+    public function exists($name){
+        try{
+            $query = $this->prepare('SELECT name FROM categories WHERE name = :name');
+            $query->execute( ['name' => $name]);
+            
+            if($query->rowCount() > 0){
+                error_log('CategoriesModel::exists() => true');
+                return true;
+            }else{
+                error_log('CategoriesModel::exists() => false');
+                return false;
+            }
+        }catch(PDOException $e){
+            error_log($e);
+            return false;
+        }
+    }
+
     public function from($array){
         $this->id = $array['id'];
         $this->name = $array['name'];
