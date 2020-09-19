@@ -1,13 +1,4 @@
-#user-container{
-    border-radius: 5px;
-    background-color: white;
 
-    width: 700px;
-    margin: 50px auto;
-    box-shadow: 0 0 30px rgba(0,0,0,0.1);
-    box-sizing: border-box;
-    height: 400px;
-}
 
 #user-container #side-menu{
     display: inline-block;
@@ -15,6 +6,26 @@
     width: 200px;
     height: 400px;
     border-right: solid 1px #ddd;
+}
+
+#user-container #user-header{
+    background-color: rgb(34, 46, 63);
+    padding: 40px;
+}
+#user-container #user-info-container{
+    display: flex;
+    align-items: center;
+}
+#user-container #user-info-container #user-photo img{
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+#user-container #user-info-container #user-info{
+    padding-left: 20px;
+}
+#user-container #user-info-container #user-info h2{
+    color: white;
 }
 #user-container #side-menu ul{
     margin: 0;
