@@ -27,7 +27,7 @@ class Signup extends SessionController{
                 return;
             }
 
-            $user = new User();
+            $user = new UserModel();
             $user->setUsername($username);
             $user->setPassword($password);
             $user->setRole("user");
@@ -53,7 +53,7 @@ class Signup extends SessionController{
     }
 
     function saludo(){
-        $user = new User();
+        $user = new UserModel();
         $res = $user->getAll();
         echo ($res[0]->getId());
     }
