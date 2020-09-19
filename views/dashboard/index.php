@@ -1,7 +1,7 @@
 <?php
     $expenses               = $this->d['expenses'];
     $totalThisMonth         = $this->d['totalAmountThisMonth'];
-    $totalExpensesThisMonth = $this->d['totalExpensesThisMonth'];
+    $maxExpensesThisMonth   = $this->d['maxExpensesThisMonth'];
     $user                   = $this->d['user'];
     $categories             = $this->d['categories'];
 
@@ -17,59 +17,113 @@
     <?php require 'header.php'; ?>
 
     <div id="main-container">
-        <div id="expenses-container">
+        <div id="expenses-container" class="container">
         
             <div id="left-container">
-                <h2>Resumen</h2>
+                
                 <div id="expenses-summary">
+                    <div>
+                        <h2>Bienvenido <?php echo $user->getName() ?></h2>
+                    </div>
+                    <div class="cards-container">
+                        <div class="card w-100">
+                            <div class="total-budget">
+                                <span class="total-budget-text">
+                                    Balance General del Mes    
+                                </span>
+                            </div>
+                            <div class="total-expense">
+                                <?php
+                                    if($totalThisMonth === NULL){
+                                        showError('Hubo un problema al cargar la información');
+                                    }else{?>
+                                        <span class="<?php echo ($user->getBudget() < $totalThisMonth)? 'broken': '' ?>">$<?php
+                                        echo number_format($totalThisMonth, 2);?>
+                                        </span>
+                                <?php }?>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cards-container">
+                        <div class="card w-50">
+                            <div class="total-budget">
+                                <span class="total-budget-text">
+                                    de
+                                    $<?php 
+                                        echo number_format($user->getBudget(),2) . ' mensuales te restan';
+                                    ?>
+                                </span>
+                            </div>
+                            <div class="total-expense">
+                                <?php
+                                    if($totalThisMonth === NULL){
+                                        showError('Hubo un problema al cargar la información');
+                                    }else{?>
+                                        <span>
+                                            <?php
+                                                $gap = $user->getBudget() - $totalThisMonth;
+                                                if($gap < 0){
+                                                    echo "-$" . number_format(abs($user->getBudget() - $totalThisMonth), 2);
+                                                }else{
+                                                    echo "$" . number_format($user->getBudget() - $totalThisMonth, 2);
+                                                }
+                                            
+                                        ?>
+                                        </span>
+                                <?php }?>
+                            </div>
+                        </div>
+                        
+                        <div class="card w-50">
+                            <div class="total-budget">
+                            <span class="total-budget-text">Tu gasto más grande este mes</span>
+                            
+                            </div>
+                            <div class="total-expense">
+                                <?php
+                                    if($totalThisMonth === NULL){
+                                        showError('Hubo un problema al cargar la información');
+                                    }else{?>
+                                        <span>$<?php
+                                        echo number_format($maxExpensesThisMonth, 2);?>
+                                        </span>
+                                <?php }?>
+                            </div>
+                        </div>
 
-                    <div class="card">
-                        <div class="total-expense">
-                            <?php
-                                 if($totalThisMonth === NULL){
-                                    showError('Hubo un problema al cargar la información');
-                                }else{?>
-                                    <span class="<?php echo ($user->getBudget() < $totalThisMonth)? 'broken': '' ?>">$<?php
-                                    echo number_format($totalThisMonth, 2);?>
-                                    </span>
-                            <?php }?>
-                            
-                            
-                        </div>
-                        <div class="total-budget">
-                            de <span class="total-budget-text">
-                                $<?php 
-                                    echo number_format($user->getBudget(),2) . ' este mes';
-                                ?>
-                            </span>
-                        </div>
                     </div>
-                    <div class="card">
-                        <div class="total-expense">
-                            <?php echo $totalExpensesThisMonth; ?> gastos
-                        </div>
-                        <div class="total-budget">
-                        </div>
-                    </div>
-                    
                 </div>
 
-                <div id="columnchart_material">
+                <div id="chart-container" >
+                    <div id="chart" >
+
+                    </div>
                 </div>
 
                 <div id="expenses-category">
-                    <h3>Gastos del mes por categoria</h3>
+                    <h2>Gastos del mes por categoria</h2>
                     <div id="categories-container">
                         <?php
                             if($categories === NULL){
                                 showError('Datos no disponibles por el momento.');
                             }else{
                                 foreach ($categories as $category ) { ?>
-                                    <div class="card">
-                                        <div class="title category-total">$<?php echo $category['total'] ?></div>
+                                    <div class="card w-100 bs-1" style="background-color: <?php echo $category['category']->getColor() ?>">
                                         <div class="content category-name">
-                                            <p><?php echo $category['count'] ?> gasto</p>
                                             <?php echo $category['category']->getName() ?>
+                                        </div>
+                                        <div class="title category-total">$<?php echo $category['total'] ?></div>
+                                        <div class="content category-count">
+                                            <p><?php
+                                                $count = $category['count'];
+                                                if($count == 1){
+                                                    echo $count . " transacción";
+                                                }else{
+                                                    echo $count . " transacciones";
+                                                }
+                                            ?></p>
                                         </div>
                                     </div>
                         <?php   }
@@ -80,19 +134,19 @@
             </div>
 
             <div id="right-container">
-                <div id="expenses-transactions">
-                    <section>
+                <div class="transactions-container">
+                    <section class="operations-container">
                         <h2>Operaciones</h2>  
                         
                         <button class="btn-main" id="new-expense">
                             <i class="material-icons">add</i>
                             <span>Registrar nuevo gasto</span>
                         </button>
-                        <a href="<?php echo constant('URL'); ?>user#budget-user-container" class="secondary">Definir presupuesto</a>
+                        <a href="<?php echo constant('URL'); ?>user#budget-user-container">Definir presupuesto<i class="material-icons">keyboard_arrow_right</i></a>
                     </section>
 
-                    <section>
-                    <h2>Últimos gastos</h2>
+                    <section id="expenses-recents">
+                    <h2>Registros más recientes</h2>
                     <?php
                          if($expenses === NULL){
                             showError('Error al cargar los datos');
@@ -102,11 +156,11 @@
                             foreach ($expenses as $expense) { ?>
                             <div class='preview-expense'>
                                 <div class="left">
-                                    <div class="title"><?php echo $expense->getTitle(); ?></div>
-                                    
+                                    <div class="expense-date"><?php echo $expense->getDate(); ?></div>
+                                    <div class="expense-title"><?php echo $expense->getTitle(); ?></div>
                                 </div>
                                 <div class="right">
-                                    <div class="amount">$<?php echo number_format($expense->getAmount(), 2);?></div>
+                                    <div class="expense-amount">$<?php echo number_format($expense->getAmount(), 2);?></div>
                                 </div>
                             </div>
                             
