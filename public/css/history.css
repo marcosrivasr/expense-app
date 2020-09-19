@@ -1,19 +1,23 @@
-#history-container{
-    padding: 40px;
-}
 
-#history-container #filters-container{
-    border: solid 1px #eee;
-    margin-bottom: -1px;
+
+#history-options{
+    background: rgb(34, 46, 63);;
+    color: white;
+
+    padding: 40px;
 }
 #history-container #filters-container .filter-container{
     display: inline-block;
     padding: 20px 10px;
 }
+#history-container #table-container{
+    padding: 40px;
+}
 #history-container table{
     border-collapse: collapse;
     border: solid 1px #eee;
     font-size: 12px;
+    padding: 40px;
 }
 #history-container table thead{
     font-weight: bold;
