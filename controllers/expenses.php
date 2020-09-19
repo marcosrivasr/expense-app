@@ -229,6 +229,8 @@ class Expenses extends SessionController{
         $categoryNames  = $this->getCategoryList();
         $categoryColors = $this->getCategoryColorList();
 
+        array_unshift($categoryNames, 'mes');
+        array_unshift($categoryColors, 'categorias');
         /* array_unshift($categoryNames, 'categorias');
         array_unshift($categoryColors, NULL); */
 
