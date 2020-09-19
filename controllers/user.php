@@ -3,22 +3,23 @@
 
 class User extends SessionController{
 
+    private $user;
+
     function __construct(){
         parent::__construct();
+
+        $this->user = $this->getUserSessionData();
+        error_log("user " . $this->user->getName());
     }
 
     function render(){
-        $user = $this->getUser();
-        $this->view->user   = $user;
-        $this->view->budget = $user['budget'];
-        $this->view->name   = $user['name'];
-        $this->view->photo  = $user['photo'];
-
-        $this->view->render('dashboard/user');
+        $this->view->render('dashboard/user', [
+            "user" => $this->user
+        ]);
     }
 
     // regresa una función con los datos del usuario
-    function getUser(){
+    /* function getUser(){
         $userid     = $this->getUserId();
         $username   = $this->getUsername();
         $name       = $this->model->getName($userid);
@@ -35,7 +36,7 @@ class User extends SessionController{
             'photo'     => $photo,
             'budget'    => $budget
         );
-    }
+    } */
 
     function updateBudget(){
         if(!$this->existPOST('budget')){
@@ -52,7 +53,7 @@ class User extends SessionController{
     
         $this->user->setBudget($budget);
         if($this->user->update()){
-        header('location: '. constant('URL') . 'user');
+            header('location: '. constant('URL') . 'user');
         }else{
             //error
         }
@@ -72,10 +73,10 @@ class User extends SessionController{
             header('location: '. constant('URL') . 'user');
             return;
         }
-
+        
         $this->user->setName($name);
         if($this->user->update()){
-        header('location: '. constant('URL') . 'user');
+            header('location: '. constant('URL') . 'user');
         }else{
             //error
         }
