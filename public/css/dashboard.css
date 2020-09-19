@@ -4,19 +4,19 @@ h2{
     padding: 20px 0;
 }
 
-#expenses-container, #history-container{
-    border-radius: 5px;
-    
+.container{
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 50px auto;
     background-color: white;
-    font-size: 12px;
     width: 900px;
     box-shadow: 0 0 30px rgba(0,0,0,0.1);
     box-sizing: border-box;
 }
 
-#expenses-container{
+#expenses-container, #dashboard-container{
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 65% 35%;
     grid-template-rows: 100%;
 }
 
@@ -24,7 +24,7 @@ h2{
     padding: 20px 0;
 }
 
-#expenses-container h3{
+#main-container h3{
     margin: 20px 0;
 }
 
@@ -32,7 +32,6 @@ h2{
     width: 100%;
     display: inline-block;
     vertical-align: top;
-    padding: 40px;
     box-sizing: border-box;
 }
 #right-container{
@@ -40,41 +39,69 @@ h2{
     display: inline-block;
     vertical-align: top;
     min-height: 100%;
-    background-color: #f4f3ff;
-    padding: 40px;
+    background-color: #d6e9f8;
     box-sizing: border-box;
 }
 
 
-#expenses-transactions .preview-expense{
-    padding: 20px 0 20px 0;
-    border-bottom: dotted 1px #ccc;
+.transactions-container{
+    padding: 0;
+    
+}
+.transactions-container .operations-container{
+    padding: 40px 40px;
+    
+}
+.transactions-container #expenses-recents{
+    padding: 10px 20px;
+    
+}
+.transactions-container #expenses-recents h2{
+    padding: 0 20px;
+    
+}
+.preview-expense{
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
 }
 
-#expenses-transactions .preview-expense .left, #expenses-transactions .preview-expense .right{
-    display: inline-block;
-    vertical-align: middle;
+.preview-expense:hover{
+    background-color: rgb(38, 132, 214);
+    color: white;  
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
-#expenses-transactions .preview-expense .left{
-    width: 72%;
+
+.preview-expense:hover .expense-date{
+    color: rgba(255,255,255,0.6) !important; 
 }
-#expenses-transactions .preview-expense .right{
-    width: calc(30% - 8px);
+.transactions-container .preview-expense .left{
+    width: 70%;
 }
-#expenses-transactions .preview-expense .title{
+.transactions-container .preview-expense .right{
+    width: 30%;
+}
+.transactions-container .preview-expense .expense-title{
     vertical-align: top;
     margin-right: 27px;
-    font-size: 14px;
+    font-size: 16px;
     padding-bottom: 5px;
 }
-#expenses-transactions .preview-expense .amount{
-    vertical-align: middle;
-    display: block;
+.transactions-container .preview-expense .expense-amount{
+    font-size: 16px;
+
     text-align: right;
     font-weight: bold;
 }
+.transactions-container .preview-expense .expense-date{
+    color: rgba(0,0,0,0.6); 
+    font-size: 12px;
+    padding-bottom: 5px;
+}
 
-#expenses-transactions .preview-expense .category{
+.transactions-container .preview-expense .category{
     font-size: 10px;
     background: #20bbbd;
     border-radius: 10px;
@@ -87,21 +114,25 @@ h2{
 }
 
 #expenses-category{
-    overflow-x: hidden;
-    width: 100%;
+    padding: 0 40px 40px 40px;
+}
+#expenses-category #categories-container{
+    display: flex;
 }
 
 .w-20{width: calc(20% - 60px);}
-.w-30{width: calc(30% - 60px);}
-.ws-30{width: 114px; margin-bottom: 10px;}
+.w-30{width: 30%}
+.ws-30{width: 30%;}
 .w-40{width: calc(40% - 60px);}
-.w-50{width: calc(50% - 60px);}
+.w-50{width: 50%}
 .w-60{width: calc(60% - 60px);}
 .w-70{width: calc(70% - 60px);}
+.w-100{width: 100%}
 
 #expenses-summary{
-    display: flex;
-    justify-content: space-between;
+    background-color: rgb(34, 46, 63);
+    color: white;
+    padding: 40px;
 }
 #expenses-summary .total-expense{
     font-size: 32px;
@@ -113,7 +144,8 @@ h2{
 }
 
 #expenses-summary .total-budget .total-budget-text{
-    font-weight: bolder;
+    font-size: 14px;
+    color:rgb(160, 189, 229);
 }
 
 #new-expense-container{
@@ -135,13 +167,19 @@ h2{
 }
 
 .category-total{
-    color: green;
+    color: white;
     text-align: center;
-    font-size: 22px;
+    font-size: 26px;
     font-weight: bold;
-    padding-bottom: 10px;
+    padding: 20px;
 }
 .category-name{
+    color: white;
+    font-size: 12px;
+    text-align: left;
+}
+.category-count{
+    color: rgba(255,255,255,0.7);
     font-size: 14px;
     font-weight: bold;
     text-align: center;
@@ -169,7 +207,50 @@ h2{
 }
 
 .broken{
-    color: rgb(197, 20, 20);
+    color: rgb(243, 32, 32);
+}
+
+#chart-container{
+    padding: 20px 40px;
+}
+
+#panels-container{
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 20px;
+}
+
+.panel{
+    border-radius: 10px;
+    padding: 10px;
+    
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: top;
+
+    box-shadow: 0 10px 20px -7px rgba(0,0,0,0.2);
+    border: solid 1px #eee;
+
+}
+.panel .title{
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 10px;
+    color: rgba(0,0,0,0.6);
+}
+.panel .datum{
+    text-align: center;
+    font-weight: bolder;
+    font-size: 32px;
+    padding: 20px 0;
+}
+.panel .description{
+    color: rgba(0,0,0,0.6);
+    font-weight: bolder;
+    text-align: center;
+}
+.panel .title{
 }
 
 
