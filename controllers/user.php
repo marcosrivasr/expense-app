@@ -38,21 +38,26 @@ class User extends SessionController{
     }
 
     function updateBudget(){
-        if(!isset($_POST['budget'])){
+        if(!$this->existPOST('budget')){
             header('location: ../');
             return;
         }
 
-        $budget = $_POST['budget'];
+        $budget = $this->getPost('budget');
 
         if(empty($budget) || $budget === 0 || $budget < 0){
             header('location: '. constant('URL') . 'user');
             return;
         }
     
-        $id_user = $this->getUserId();
-        $this->model->updateBudget($budget, $id_user);
+        $this->user->setBudget($budget);
+        if($this->user->update()){
         header('location: '. constant('URL') . 'user');
+        }else{
+            //error
+        }
+        //$this->model->updateBudget($budget, $this->user->getId());
+        
     }
 
     function updateName(){
