@@ -17,7 +17,7 @@ class Expenses extends SessionController{
         error_log("Expenses::RENDER() ");
         $expenses               = $this->getExpenses(5);
         $totalThisMonth         = $this->model->getTotalAmountThisMonth($this->user->getId());
-        $totalExpensesThisMonth = $this->model->getTotalExpensesThisMonth($this->user->getId());
+        $maxExpensesThisMonth = $this->model->getMaxExpensesThisMonth($this->user->getId());
         $categories             = $this->getCategories();
         
         $this->view->categories     = $categories;
@@ -26,7 +26,7 @@ class Expenses extends SessionController{
             'user' => $this->user,
             'expenses' => $expenses,
             'totalAmountThisMonth' => $totalThisMonth,
-            'totalExpensesThisMonth' => $totalExpensesThisMonth,
+            'maxExpensesThisMonth' => $maxExpensesThisMonth,
             'categories' => $categories
         ]);
     }
@@ -89,9 +89,9 @@ class Expenses extends SessionController{
         foreach ($categories as $category) {
             $categoryArray = [];
             //obtenemos la suma de amount de expenses por categoria
-            $total = $this->model->getTotalByCategoryThisMonth($category->getId(), $this->user->getId());
+            $total = $expensesModel->getTotalByCategoryThisMonth($category->getId(), $this->user->getId());
             // obtenemos el número de expenses por categoria por mes
-            $numberOfExpenses = $this->model->getNumberOfExpensesByCategoryThisMonth($category->getId(), $this->user->getId());
+            $numberOfExpenses = $expensesModel->getNumberOfExpensesByCategoryThisMonth($category->getId(), $this->user->getId());
             
             if($numberOfExpenses > 0){
                 $categoryArray['total'] = $total;
