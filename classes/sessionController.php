@@ -119,7 +119,7 @@ class SessionController extends Controller{
 
     function getUserSessionData(){
         $id = $this->session->getCurrentUser();
-        $this->user = new User();
+        $this->user = new UserModel();
         $this->user->get($id);
         error_log("sessionController::getUserSessionData(): " . $this->user->getUsername());
         return $this->user;
