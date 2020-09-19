@@ -1,5 +1,5 @@
 <?php
-
+/*
 class User extends Model implements IModel{
     private $id;
     private $username;
@@ -67,9 +67,6 @@ class User extends Model implements IModel{
         }
     }
 
-    /**
-     *  Gets an item
-     */
     public function get($id){
         try{
             $query = $this->prepare('SELECT * FROM users WHERE id = :id');
@@ -172,5 +169,5 @@ class User extends Model implements IModel{
     public function getPhoto(){     return $this->photo;}
     public function getName(){      return $this->name;}
 }
-
+*/
 ?>
