@@ -119,15 +119,21 @@ class Expenses extends SessionController{
 
     // crea una lista con los meses donde hay expenses
     private function getDateList(){
+        $months = [];
         $res = [];
         $joinExpensesCategoriesModel = new JoinExpensesCategoriesModel();
         $expenses = $joinExpensesCategoriesModel->getAll($this->user->getId());
 
         foreach ($expenses as $expense) {
-            array_push($res, substr($expense->getDate(),0, 7 ));
+            array_push($months, substr($expense->getDate(),0, 7 ));
         }
-        $res = array_values(array_unique($res));
-        //var_dump($res);
+        $months = array_values(array_unique($months));
+        //mostrar los últimos 3 meses
+        if(count($months) >3){
+            array_push($res, array_pop($months));
+            array_push($res, array_pop($months));
+            array_push($res, array_pop($months));
+        }
         return $res;
     }
 
