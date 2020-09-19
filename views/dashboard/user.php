@@ -1,4 +1,7 @@
 
+<?php
+    $user = $this->d['user'];
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +13,17 @@
     <?php require 'header.php'; ?>
 
     <div id="main-container">
-        <div id="user-container">
+        <div id="user-container" class="container">
+            <div id="user-header">
+                <div id="user-info-container">
+                    <div id="user-photo">
+                        <img src="public/img/photos/<?php echo $user->getPhoto(); ?>" width="200" />
+                    </div>
+                    <div id="user-info">
+                        <h2><?php echo $user->getName(); ?></h2>
+                    </div>
+                </div>
+            </div>
             <div id="side-menu">
                 <ul>
                     <li><a href="#info-user-container">Personalizar usuario</a></li>
@@ -24,8 +37,8 @@
                 <section id="info-user-container">
                     <form action=<?php echo constant('URL'). 'user/updateName' ?> method="POST">
                         <div class="section">
-                            <label for="name">Nombre de usuario</label>
-                            <input type="text" name="name" id="name" autocomplete="off" required value="<?php echo $this->name ?>">
+                            <label for="name">Nombre</label>
+                            <input type="text" name="name" id="name" autocomplete="off" required value="<?php echo $user->getName() ?>">
                             <div><input type="submit" value="Cambiar nombre" /></div>
                         </div>
                     </form>
@@ -35,9 +48,9 @@
                             <label for="photo">Foto de perfil</label>
                             
                             <?php
-                                if(!empty($this->photo)){
+                                if(!empty($user->getPhoto())){
                             ?>
-                                <img src="<?php echo constant('URL') ?>public/img/photos/<?php echo $this->photo ?>" width="50" height="50" />
+                                <img src="<?php echo constant('URL') ?>public/img/photos/<?php echo $user->getPhoto() ?>" width="50" height="50" />
                             <?php
                                 }
                             ?>
@@ -63,8 +76,8 @@
                 <section id="budget-user-container">
                     <form action="user/updateBudget" method="POST">
                         <div class="section">
-                            <div class="title">Definir presupuesto</div>
-                            <div><input type="number" name="budget" id="budget" autocomplete="off" required value="<?php echo $this->budget ?>"></div>
+                            <label for="budget">Definir presupuesto</label>
+                            <div><input type="number" name="budget" id="budget" autocomplete="off" required value="<?php echo $user->getBudget() ?>"></div>
                             <div><input type="submit" value="Actualizar presupuesto" /></div>
                         </div>
                     </form>
