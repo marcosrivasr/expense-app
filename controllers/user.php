@@ -56,21 +56,24 @@ class User extends SessionController{
     }
 
     function updateName(){
-        if(!isset($_POST['name'])){
+        if(!$this->existPOST('name')){
             header('location: ../');
             return;
         }
 
-        $name = $_POST['name'];
+        $name = $this->getPost('name');
 
         if(empty($name)){
             header('location: '. constant('URL') . 'user');
             return;
         }
 
-        $id_user = $this->getUserId();
-        $this->model->updateName($name, $id_user);
+        $this->user->setName($name);
+        if($this->user->update()){
         header('location: '. constant('URL') . 'user');
+        }else{
+            //error
+        }
     }
 
     function updatePassword(){
