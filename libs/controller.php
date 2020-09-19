@@ -44,6 +44,21 @@ class Controller{
     function getPost($name){
         return $_POST[$name];
     }
+
+    function redirect($url, $mensajes = []){
+        $data = [];
+        $params = '';
+        
+        foreach ($mensajes as $key => $value) {
+            array_push($data, $key . '=' . $value);
+        }
+        $params = join('&', $data);
+        
+        if($params != ''){
+            $params = '?' . $params;
+        }
+        header('location: ' . constant('URL') . $url . $params);
+    }
 }
 
 ?>
