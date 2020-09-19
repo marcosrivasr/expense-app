@@ -1,29 +1,17 @@
 <?php
     class ErroresModel extends Model{
+        //ERROR|SUCCESS
+        //Controller
+        //method
+        //operation
+        
+        const ERROR_ADMIN_NEWCATEGORY_EXISTS = ["text" => "La categoría ya exista, intenta otra", "hash" => "1f8f0ae8963b16403c3ec9ebb851f156"];
 
-        private $messages = [
-            'error_delete_history' => 'Hubo un problema al realizar la operación'
-        ];
-
-        private $hashes = [];
+        
 
         public function __construct(){
             parent::__construct();
-
-            foreach ($this->messages as $message) {
-                array_push($this->hashes, md5(array_keys($message)));
-            }
         }
-
-        public function getMessage($hash){
-            return array_search($hash, $this->hashes);
-            
-        }
-
-        public function getHash($id){
-            return md5($id);
-        }
-
         
 
     }    
