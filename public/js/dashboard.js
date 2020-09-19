@@ -48,8 +48,10 @@ google.charts.load('current', {'packages':['bar']});
         const http = await fetch('http://localhost:8080/expense-app/expenses/getExpensesJSON')
         .then(json => json.json())
         .then(res => res);
+
         let expenses = [...http];
         expenses.shift();
+        console.log(expenses);
 
         let colors = [...http][0];
         colors.shift();
@@ -61,7 +63,7 @@ google.charts.load('current', {'packages':['bar']});
           colors: colors
         };
 
-        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+        var chart = new google.charts.Bar(document.getElementById('chart'));
 
         chart.draw(data, google.charts.Bar.convertOptions(options));
       }
