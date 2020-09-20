@@ -10,7 +10,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>Expense App - Dashboard</title>
 </head>
 <body>
@@ -111,7 +110,7 @@
                                 showError('Datos no disponibles por el momento.');
                             }else{
                                 foreach ($categories as $category ) { ?>
-                                    <div class="card w-100 bs-1" style="background-color: <?php echo $category['category']->getColor() ?>">
+                                    <div class="card w-30 bs-1" style="background-color: <?php echo $category['category']->getColor() ?>">
                                         <div class="content category-name">
                                             <?php echo $category['category']->getName() ?>
                                         </div>
