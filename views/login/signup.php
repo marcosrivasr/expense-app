@@ -13,7 +13,7 @@
     <div id="login-main">
     
         <form action="<?php echo constant('URL'); ?>signup/newUser" method="POST">
-        <div><?php  echo $this->errorMessage; ?></div>
+        <div></div>
             <h2>Registrarse</h2>
 
             <p>
