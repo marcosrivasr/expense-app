@@ -16,8 +16,7 @@ class Admin extends SessionController{
     }
 
     function createCategory(){
-        $this->view->render('admin/create-category', [
-        ]);
+        $this->view->render('admin/create-category');
     }
 
     function newCategory(){
