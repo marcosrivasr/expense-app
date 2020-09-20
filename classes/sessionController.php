@@ -69,6 +69,7 @@ class SessionController extends Controller{
      * para entrar a las páginas
      */
     function validateSession(){
+        error_log('SessionController::validateSession()');
         //Si existe la sesión
         if($this->existsSession()){
             $role = $this->getUserSessionData()->getRole();
@@ -93,11 +94,13 @@ class SessionController extends Controller{
             //No existe ninguna sesión
             //se valida si el acceso es público o no
             if($this->isPublic()){
+                error_log('SessionController::validateSession() public page');
                 //la pagina es publica
                 //no pasa nada
             }else{
                 //la página no es pública
                 //redirect al login
+                error_log('SessionController::validateSession() redirect al login');
                 header('location: '. constant('URL') . '');
             }
         }
@@ -133,6 +136,8 @@ class SessionController extends Controller{
 
     private function isPublic(){
         $currentURL = $this->getCurrentPage();
+        error_log("sessionController::isPublic(): currentURL => " . $currentURL);
+        $currentURL = preg_replace( "/\?.*/", "", $currentURL); //omitir get info
         for($i = 0; $i < sizeof($this->sites); $i++){
             if($currentURL === $this->sites[$i]['site'] && $this->sites[$i]['access'] === 'public'){
                 return true;
@@ -166,8 +171,10 @@ class SessionController extends Controller{
     }
 
     private function getCurrentPage(){
+        
         $actual_link = trim("$_SERVER[REQUEST_URI]");
         $url = explode('/', $actual_link);
+        error_log("sessionController::getCurrentPage(): actualLink =>" . $actual_link . ", url => " . $url[2]);
         return $url[2];
     }
 
