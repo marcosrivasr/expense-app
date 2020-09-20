@@ -18,10 +18,13 @@
             <div id="user-header">
                 <div id="user-info-container">
                     <div id="user-photo">
+                    <?php if($user->getPhoto() != ''){?>
                         <img src="public/img/photos/<?php echo $user->getPhoto(); ?>" width="200" />
+                    <?php }
+                    ?>
                     </div>
                     <div id="user-info">
-                        <h2><?php echo $user->getName(); ?></h2>
+                        <h2><?php echo ($user->getName() != '')? $user->getName(): $user->getUsername();  ?></h2>
                     </div>
                 </div>
             </div>
