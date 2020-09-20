@@ -41,12 +41,14 @@ class Expenses extends SessionController{
     function newExpense(){
         error_log('Expenses::newExpense()');
         if(!$this->existPOST(['title', 'amount', 'category', 'date'])){
-            header('location: ../');
+            //header('location: ../');
+            $this->redirect('expenses', ['Error' => Errors::ERROR_EXPENSES_NEWEXPENSE_EMPTY]);
             return;
         }
 
         if($this->user == NULL){
-            header('location: ../');
+            //header('location: ../');
+            $this->redirect('expenses', ['Error' => Errors::ERROR_EXPENSES_NEWEXPENSE]);
             return;
         }
 
@@ -60,7 +62,8 @@ class Expenses extends SessionController{
 
         $expense->save();
 
-        header('location: ../');
+        //header('location: ../');
+        $this->redirect('expenses', ['success' => Success::SUCCESS_EXPENSES_NEWEXPENSE]);
     }
 
 /*     private function getBudget(){
@@ -267,13 +270,15 @@ class Expenses extends SessionController{
     function delete($params){
         error_log("Expenses::delete()");
         
-        if($params === NULL) header('location: ' . constant('URL') . 'expenses/history?message=failure');
+        if($params === NULL) $this->redirect('expenses/history', ['error' => Errors::ERROR_ADMIN_NEWCATEGORY_EXISTS]);//header('location: ' . constant('URL') . 'expenses/history?message=failure');
         $id = $params[0];
         error_log("Expenses::delete() id = " . $id);
         $res = $this->model->delete($id);
         if($res){
-            header('location: ' . constant('URL') . 'expenses/history?message=success');
+            $this->redirect('expenses/history', ['success' => Success::SUCCESS_EXPENSES_DELETE]);
+            //header('location: ' . constant('URL') . 'expenses/history?message=success');
         }else{
+            $this->redirect('expenses/history', ['error' => Errors::ERROR_ADMIN_NEWCATEGORY_EXISTS]);
             header('location: ' . constant('URL') . 'expenses/history?message=failure');
         }
     }
