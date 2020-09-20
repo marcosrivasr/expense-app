@@ -31,21 +31,21 @@ class Errors{
     {
         $this->errorsList = [
             Errors::ERROR_ADMIN_NEWCATEGORY_EXISTS => 'El nombre de la categoría ya existe, intenta otra',
-            Errors::ERROR_EXPENSES_DELETE => 'Hubo un problema el eliminar el gasto, inténtalo de nuevo',
-            Errors::ERROR_EXPENSES_NEWEXPENSE => 'Hubo un problema al crear el gasto, inténtalo de nuevo',
+            Errors::ERROR_EXPENSES_DELETE           => 'Hubo un problema el eliminar el gasto, inténtalo de nuevo',
+            Errors::ERROR_EXPENSES_NEWEXPENSE       => 'Hubo un problema al crear el gasto, inténtalo de nuevo',
             Errors::ERROR_EXPENSES_NEWEXPENSE_EMPTY => 'Los campos no pueden estar vacíos',
-            Errors::ERROR_USER_UPDATEBUDGET => 'No se puede actualizar el presupuesto',
-            Errors::ERROR_USER_UPDATEBUDGET_EMPTY => 'El presupuesto no puede estar vacio o ser negativo',
-            Errors::ERROR_USER_UPDATENAME_EMPTY => 'El nombre no puede estar vacio o ser negativo',
-            Errors::ERROR_USER_UPDATENAME => 'No se puede actualizar el nombre',
-            Errors::ERROR_USER_UPDATEPASSWORD => 'No se puede actualizar la contraseña',
+            Errors::ERROR_USER_UPDATEBUDGET         => 'No se puede actualizar el presupuesto',
+            Errors::ERROR_USER_UPDATEBUDGET_EMPTY   => 'El presupuesto no puede estar vacio o ser negativo',
+            Errors::ERROR_USER_UPDATENAME_EMPTY     => 'El nombre no puede estar vacio o ser negativo',
+            Errors::ERROR_USER_UPDATENAME           => 'No se puede actualizar el nombre',
+            Errors::ERROR_USER_UPDATEPASSWORD       => 'No se puede actualizar la contraseña',
             Errors::ERROR_USER_UPDATEPASSWORD_EMPTY => 'El nombre no puede estar vacio o ser negativo',
             Errors::ERROR_USER_UPDATEPASSWORD_ISNOTTHESAME => 'Los passwords no son los mismos',
-            Errors::ERROR_USER_UPDATEPHOTO => 'Hubo un error al actualizar la foto',
-            Errors::ERROR_USER_UPDATEPHOTO_FORMAT => 'El archivo no es una imagen',
-            Errors::ERROR_LOGIN_AUTHENTICATE => 'Hubo un problema al autenticarse',
-            Errors::ERROR_LOGIN_AUTHENTICATE_EMPTY => 'Los parámetros para autenticar no pueden estar vacíos',
-            Errors::ERROR_LOGIN_AUTHENTICATE_DATA => 'Nombre de usuario y/o password incorrectos',
+            Errors::ERROR_USER_UPDATEPHOTO          => 'Hubo un error al actualizar la foto',
+            Errors::ERROR_USER_UPDATEPHOTO_FORMAT   => 'El archivo no es una imagen',
+            Errors::ERROR_LOGIN_AUTHENTICATE        => 'Hubo un problema al autenticarse',
+            Errors::ERROR_LOGIN_AUTHENTICATE_EMPTY  => 'Los parámetros para autenticar no pueden estar vacíos',
+            Errors::ERROR_LOGIN_AUTHENTICATE_DATA   => 'Nombre de usuario y/o password incorrectos',
         ];
     }
 
