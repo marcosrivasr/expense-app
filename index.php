@@ -27,7 +27,6 @@ require_once 'classes/success.php';
 
 
 require_once 'config/config.php';
-require_once 'classes/AuthSites.php';
 
 include_once 'models/usermodel.php';
 include_once 'models/expensesmodel.php';

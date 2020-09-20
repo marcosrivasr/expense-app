@@ -12,9 +12,8 @@
     
     <div id="header">
         <ul>
-            <li><a href="<?php echo constant('URL'); ?>main">Home</a></li>
-            <li><a href="<?php echo constant('URL'); ?>consulta">History</a></li>
-            <li><a href="<?php echo constant('URL'); ?>ayuda">Logout</a></li>
+            <li><a href="<?php echo constant('URL'); ?>">Home</a></li>
+            <li><a href="<?php echo constant('URL'); ?>logout">Logout</a></li>
         </ul>
     </div>
 </body>

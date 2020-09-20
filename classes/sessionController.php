@@ -1,6 +1,4 @@
 <?php
-
-require_once 'classes/userSessionInstance.php';
 /**
  * Controlador que también maneja las sesiones
  */
@@ -12,7 +10,6 @@ class SessionController extends Controller{
 
     private $session;
     private $sites;
-    private $defaultSites;
 
     private $user;
  
@@ -185,6 +182,10 @@ class SessionController extends Controller{
             break;
             default:
         }
+    }
+
+    function logout(){
+        $this->session->closeSession();
     }
 }
 
