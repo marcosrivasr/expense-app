@@ -4,15 +4,7 @@ h2{
     padding: 20px 0;
 }
 
-.container{
-    border-radius: 20px;
-    overflow: hidden;
-    margin: 50px auto;
-    background-color: white;
-    width: 900px;
-    box-shadow: 0 0 30px rgba(0,0,0,0.1);
-    box-sizing: border-box;
-}
+
 
 #expenses-container, #dashboard-container{
     display: grid;
@@ -118,6 +110,7 @@ h2{
 }
 #expenses-category #categories-container{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .w-20{width: calc(20% - 60px);}

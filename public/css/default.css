@@ -18,16 +18,27 @@ html, body{
 
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #fff;
+    /*background-color: #4492d6; */
+    background-color: rgb(222, 236, 255);
+    
 }
 
 #main-container{
-    
     width: 100%;
 }
 
+.container{
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 50px auto;
+    background-color: white;
+    width: 900px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+}
+
 #header{
-    background: black;
+    background: rgb(34, 46, 63);
 }
 
 #header ul{
@@ -42,6 +53,7 @@ body{
     color: white;
     display: inline-block;
     padding: 10px;
+    transition: all 0.2s ease-out;
 }
 #header ul li a:hover{
     background: white;
@@ -212,7 +224,7 @@ label{
     border-radius: 10px;
     padding: 10px;
     
-    margin-right: 10px;
+    margin: 5px;
     display: inline-block;
     vertical-align: top;
 }
