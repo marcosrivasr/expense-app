@@ -17,6 +17,7 @@
     <?php require 'header.php'; ?>
 
     <div id="main-container">
+        <?php $this->showMessages();?>
         <div id="expenses-container" class="container">
         
             <div id="left-container">

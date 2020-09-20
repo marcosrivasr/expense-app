@@ -9,8 +9,9 @@
 </head>
 <body>
     <?php require 'views/header.php'; ?>
-
+    <?php $this->showMessages();?>
     <div id="login-main">
+    
         <form action="<?php echo constant('URL'); ?>signup/newUser" method="POST">
         <div><?php  echo $this->errorMessage; ?></div>
             <h2>Registrarse</h2>

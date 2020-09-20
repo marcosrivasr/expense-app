@@ -9,7 +9,7 @@
 </head>
 <body>
     <?php require 'views/header.php'; ?>
-
+    <?php $this->showMessages();?>
     <div id="login-main">
         <form action="<?php echo constant('URL'); ?>login/authenticate" method="POST">
         <div><?php (isset($this->errorMessage))?  $this->errorMessage : '' ?></div>

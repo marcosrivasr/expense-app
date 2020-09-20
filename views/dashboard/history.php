@@ -7,7 +7,7 @@
     <?php require 'header.php'; ?>
 
     <div id="main-container">
-            
+    <?php $this->showMessages();?>
         <div id="history-container" class="container">
             <?php
                 if(isset($_GET['message'])){

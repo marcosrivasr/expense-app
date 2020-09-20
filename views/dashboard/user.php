@@ -13,6 +13,7 @@
     <?php require 'header.php'; ?>
 
     <div id="main-container">
+    <?php $this->showMessages();?>
         <div id="user-container" class="container">
             <div id="user-header">
                 <div id="user-info-container">
