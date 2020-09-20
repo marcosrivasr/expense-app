@@ -13,8 +13,7 @@ class NuevoModel extends Model{
             $query->execute(['matricula' => $datos['matricula'], 'nombre' => $datos['nombre'], 'apellido' => $datos['apellido']]);
             return true;
         }catch(PDOException $e){
-            //echo $e->getMessage();
-            //echo "Ya existe esa matrícula";
+
             return false;
         }
         

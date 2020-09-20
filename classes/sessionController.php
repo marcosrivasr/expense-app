@@ -20,10 +20,6 @@ class SessionController extends Controller{
         parent::__construct();
 
         $this->init();
-
- /*     $this->userSession = new UserSessionInstance();
-        $this->username    = $this->userSession->getUserSessionData()['username'];
-        $this->userid      = $this->userSession->getUserSessionData()['id']; */
     }
 
     public function getUserSession(){

@@ -66,13 +66,6 @@ class Expenses extends SessionController{
         $this->redirect('expenses', ['success' => Success::SUCCESS_EXPENSES_NEWEXPENSE]);
     }
 
-/*     private function getBudget(){
-        include_once 'models/usermodel.php';
-        $userModel = new UserModel();
-
-        return $userModel->getBudget($this->getUserId());
-    } */
-
     // new expense UI
     function create(){
         $categories = new CategoriesModel();
@@ -168,28 +161,6 @@ class Expenses extends SessionController{
         //var_dump($res);
         return $res;
     }
-/*
-    function getUser(){
-         include_once 'models/usermodel.php';
-        $userModel = new UserModel();
-        $userid = $this->getUserId();
-        $username = $this->getUsername();
-        $name = $userModel->getName($userid);
-        $photo = $userModel->getPhoto($userid);
-        $budget = $userModel->getBudget($userid);
-
-        if($name === NULL || empty($username)) $name = $username;
-        if($photo === NULL || empty($photo)) $photo = '';
-        if($budget === NULL || empty($budget) || $budget < 0) $budget = 0.0;
-
-        return Array(
-            'username' => $username,
-            'name' => $name,
-            'photo' => $photo,
-            'budget' => $budget
-        ); 
-    }
-    */
 
     function history($params = NULL){
         $this->view->dates      = $this->getDateList();

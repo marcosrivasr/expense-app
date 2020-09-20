@@ -36,6 +36,7 @@ class JoinExpensesCategoriesModel extends Model{
         }
     }
 
+    //FIXME: mover a ExpensesModel
     function getTotalByMonthAndCategory($date, $categoryid, $userid){
         try{
             $total = 0;

@@ -21,56 +21,7 @@ class UserModel extends Model implements IModel{
         $this->name = '';
     }
 
-    /* function getBudget($id){
-        try{
-            $query = $this->db->connect()->prepare('SELECT budget FROM users WHERE id = :id');
-            $query->execute(['id' => $id]);
-
-            if($query->rowCount() > 0){
-                $total = $query->fetch(PDO::FETCH_ASSOC)['budget'];
-            }else{
-                return 0;
-            }
-            
-            return $total;
-
-        }catch(PDOException $e){
-            return NULL;
-        }
-    } */
-
-    /* function getName($id){
-        try{
-            $query = $this->db->connect()->prepare('SELECT name FROM users WHERE id = :id');
-            $query->execute(['id' => $id]);
-
-            if($query->rowCount() > 0){
-                return $query->fetch(PDO::FETCH_ASSOC)['name'];
-            }else{
-                return NULL;
-            }
-
-        }catch(PDOException $e){
-            return NULL;
-        }
-    } */
-
-    /* function getPhoto($id){
-        try{
-            $query = $this->db->connect()->prepare('SELECT photo FROM users WHERE id = :id');
-            $query->execute(['id' => $id]);
-
-            if($query->rowCount() > 0){
-                return $query->fetch(PDO::FETCH_ASSOC)['photo'];
-            }else{
-                return NULL;
-            }
-
-        }catch(PDOException $e){
-            return NULL;
-        }
-    } */
-
+    
     function updateBudget($budget, $iduser){
         try{
             $query = $this->db->connect()->prepare('UPDATE users SET budget = :val WHERE id = :id');
@@ -251,7 +202,7 @@ class UserModel extends Model implements IModel{
     public function exists($username){
         try{
             $query = $this->prepare('SELECT username FROM users WHERE username = :username');
-            $query->execute( ['username' => $this->username]);
+            $query->execute( ['username' => $username]);
             
             if($query->rowCount() > 0){
                 return true;
@@ -279,13 +230,13 @@ class UserModel extends Model implements IModel{
     }
 
     public function setUsername($username){ $this->username = $username;}
+    //FIXME: validar si se requiere el parametro de hash
     public function setPassword($password, $hash = true){ 
         if($hash){
             $this->password = $this->getHashedPassword($password);
         }else{
             $this->password = $password;
         }
-        
     }
     public function setId($id){             $this->id = $id;}
     public function setRole($role){         $this->role = $role;}
