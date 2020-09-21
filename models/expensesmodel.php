@@ -198,7 +198,7 @@ class ExpensesModel extends Model implements IModel{
      * Obtiene el total de amount de expenses basado en id de categoria
      */
     function getTotalByCategoryThisMonth($categoryid, $userid){
-        error_log("**ERROR: ExpensesModel::getTotalByCategoryThisMonth");
+        error_log("ExpensesModel::getTotalByCategoryThisMonth");
         try{
             $total = 0;
             $year = date('Y');
