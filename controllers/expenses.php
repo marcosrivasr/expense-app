@@ -15,40 +15,21 @@ class Expenses extends SessionController{
 
      function render(){
         error_log("Expenses::RENDER() ");
-        $expenses               = $this->getExpenses(5);
-        $totalThisMonth         = $this->model->getTotalAmountThisMonth($this->user->getId());
-        $maxExpensesThisMonth = $this->model->getMaxExpensesThisMonth($this->user->getId());
-        $categories             = $this->getCategories();
-        
-        $this->view->categories     = $categories;
 
-        $this->view->render('dashboard/index', [
-            'user' => $this->user,
-            'expenses' => $expenses,
-            'totalAmountThisMonth' => $totalThisMonth,
-            'maxExpensesThisMonth' => $maxExpensesThisMonth,
-            'categories' => $categories
+        $this->view->render('expenses/index', [
+            'user' => $this->user
         ]);
-    }
-    
-    //obtiene la lista de expenses y $n tiene el número de expenses por transacción
-    private function getExpenses($n = 0){
-        if($n < 0) return NULL;
-        error_log("Expenses::getExpenses() id = " . $this->getUserSessionData()->getId());
-        return $this->model->getByUserIdAndLimit($this->getUserSessionData()->getId(), $n);   
     }
 
     function newExpense(){
         error_log('Expenses::newExpense()');
         if(!$this->existPOST(['title', 'amount', 'category', 'date'])){
-            //header('location: ../');
-            $this->redirect('expenses', ['Error' => Errors::ERROR_EXPENSES_NEWEXPENSE_EMPTY]);
+            $this->redirect('dashboard', ['error' => Errors::ERROR_EXPENSES_NEWEXPENSE_EMPTY]);
             return;
         }
 
         if($this->user == NULL){
-            //header('location: ../');
-            $this->redirect('expenses', ['Error' => Errors::ERROR_EXPENSES_NEWEXPENSE]);
+            $this->redirect('dashboard', ['error' => Errors::ERROR_EXPENSES_NEWEXPENSE]);
             return;
         }
 
@@ -61,44 +42,17 @@ class Expenses extends SessionController{
         $expense->setUserId($this->user->getId());
 
         $expense->save();
-
-        //header('location: ../');
-        $this->redirect('expenses', ['success' => Success::SUCCESS_EXPENSES_NEWEXPENSE]);
+        $this->redirect('dashboard', ['success' => Success::SUCCESS_EXPENSES_NEWEXPENSE]);
     }
 
     // new expense UI
     function create(){
         $categories = new CategoriesModel();
-        $this->view->render('dashboard/create', [
+        $this->view->render('expenses/create', [
             "categories" => $categories->getAll(),
             "user" => $this->user
         ]);
     } 
-
-    function getCategories(){
-        $res = [];
-        $categoriesModel = new CategoriesModel();
-        $expensesModel = new ExpensesModel();
-
-        $categories = $categoriesModel->getAll();
-
-        foreach ($categories as $category) {
-            $categoryArray = [];
-            //obtenemos la suma de amount de expenses por categoria
-            $total = $expensesModel->getTotalByCategoryThisMonth($category->getId(), $this->user->getId());
-            // obtenemos el número de expenses por categoria por mes
-            $numberOfExpenses = $expensesModel->getNumberOfExpensesByCategoryThisMonth($category->getId(), $this->user->getId());
-            
-            if($numberOfExpenses > 0){
-                $categoryArray['total'] = $total;
-                $categoryArray['count'] = $numberOfExpenses;
-                $categoryArray['category'] = $category;
-                array_push($res, $categoryArray);
-            }
-            
-        }
-        return $res;
-    }
 
     function getCategoryIds(){
         $joinExpensesCategoriesModel = new JoinExpensesCategoriesModel();
@@ -109,7 +63,6 @@ class Expenses extends SessionController{
             array_push($res, $cat->getCategoryId());
         }
         $res = array_values(array_unique($res));
-        //var_dump($res);
         return $res;
     }
 
@@ -143,7 +96,7 @@ class Expenses extends SessionController{
             array_push($res, $expense->getNameCategory());
         }
         $res = array_values(array_unique($res));
-        //var_dump($res);
+
         return $res;
     }
 
@@ -158,23 +111,8 @@ class Expenses extends SessionController{
         }
         $res = array_unique($res);
         $res = array_values(array_unique($res));
-        //var_dump($res);
+
         return $res;
-    }
-
-    function history($params = NULL){
-        $this->view->dates      = $this->getDateList();
-        $this->view->categories = $this->getCategoryList();
-
-        $this->view->render('dashboard/history',[
-            "user" => $this->user,
-            "expenses" => $this->getHistory()
-        ]);
-    }
-
-    private function getHistory(){
-        $joinExpensesCategories = new JoinExpensesCategoriesModel();
-        return $joinExpensesCategories->getAll($this->user->getId());
     }
 
     
@@ -187,7 +125,6 @@ class Expenses extends SessionController{
         $expenses = $joinExpensesCategories->getAll($this->user->getId());
 
         foreach ($expenses as $expense) {
-            //$expenses[$key]['amount'] =number_format($expenses[$key]['amount'], 2);
             array_push($res, $expense->toArray());
         }
         
@@ -228,10 +165,6 @@ class Expenses extends SessionController{
     function getTotalByMonthAndCategory($date, $categoryid){
         $iduser = $this->user->getId();
         $joinExpensesCategoriesModel = new JoinExpensesCategoriesModel();
-        //$expenses = $joinExpensesCategoriesModel->getAll($this->user->getId());
-
-        $year = substr($date, 0, 4);
-        $month = substr($date, 5, 7);
 
         $total = $joinExpensesCategoriesModel->getTotalByMonthAndCategory($date, $categoryid, $iduser);
         if($total == NULL) $total = 0;
@@ -241,23 +174,17 @@ class Expenses extends SessionController{
     function delete($params){
         error_log("Expenses::delete()");
         
-        if($params === NULL) $this->redirect('expenses/history', ['error' => Errors::ERROR_ADMIN_NEWCATEGORY_EXISTS]);//header('location: ' . constant('URL') . 'expenses/history?message=failure');
+        if($params === NULL) $this->redirect('expenses', ['error' => Errors::ERROR_ADMIN_NEWCATEGORY_EXISTS]);
         $id = $params[0];
         error_log("Expenses::delete() id = " . $id);
         $res = $this->model->delete($id);
+
         if($res){
-            $this->redirect('expenses/history', ['success' => Success::SUCCESS_EXPENSES_DELETE]);
-            //header('location: ' . constant('URL') . 'expenses/history?message=success');
+            $this->redirect('expenses', ['success' => Success::SUCCESS_EXPENSES_DELETE]);
         }else{
-            $this->redirect('expenses/history', ['error' => Errors::ERROR_ADMIN_NEWCATEGORY_EXISTS]);
-            header('location: ' . constant('URL') . 'expenses/history?message=failure');
+            $this->redirect('expenses', ['error' => Errors::ERROR_ADMIN_NEWCATEGORY_EXISTS]);
         }
     }
-
-    function test(){
-        var_dump($this->getHistory());
-    }
-
 
 }
 
