@@ -13,7 +13,7 @@ class User extends SessionController{
     }
 
     function render(){
-        $this->view->render('dashboard/user', [
+        $this->view->render('user/index', [
             "user" => $this->user
         ]);
     }
