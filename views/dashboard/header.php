@@ -5,8 +5,8 @@
 
 <div id="header">
     <ul>
-        <li><a href="<?php echo constant('URL'); ?>expenses">Home</a></li>
-        <li><a href="<?php echo constant('URL').'expenses/'; ?>history">History</a></li>
+        <li><a href="<?php echo constant('URL'); ?>dashboard">Home</a></li>
+        <li><a href="<?php echo constant('URL').'expenses'; ?>">Expenses</a></li>
         <li><a href="<?php echo constant('URL'); ?>logout">Logout</a></li>
     </ul>
 

@@ -166,7 +166,7 @@
                             
                             <?php
                             }
-                            echo '<div class="more-container"><a href="expenses/history">Ver todos los gastos<i class="material-icons">keyboard_arrow_right</i></a></div>';
+                            echo '<div class="more-container"><a href="expenses">Ver todos los gastos<i class="material-icons">keyboard_arrow_right</i></a></div>';
                         } 
                      ?>
                     </section>
