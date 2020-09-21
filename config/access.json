@@ -11,6 +11,11 @@
             "role" : ""
         },
         {
+            "site" : "dashboard", 
+            "access" : "private", 
+            "role" : "user"
+        },
+        {
             "site" : "expenses", 
             "access" : "private", 
             "role" : "user"
@@ -29,7 +34,7 @@
 
     "default-sites":[
         {
-            "site" : "expenses", 
+            "site" : "dashboard", 
             "role" : "user"
         },
         {
