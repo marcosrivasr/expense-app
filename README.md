@@ -1,4 +1,7 @@
 # Expense App en PHP
+
+![alt text](docs/expense-app-cover.jpg)
+
 Este es el ejercicio final del tutorial para crear una aplicación web completa con PHP. Algunas de las funcionalidades que tiene esta aplicación web son:
 - Patrón de diseño Model-View-Controller
 - Consultas con MySQL
@@ -11,7 +14,7 @@ Este es el ejercicio final del tutorial para crear una aplicación web completa 
 
 Lo primero es clonar el proyecto a tu equipo local
 
-```https://github.com/marcosrivasr/expense-app.git```
+```git clone https://github.com/marcosrivasr/expense-app.git```
 
 ## Importar base de datos
 
