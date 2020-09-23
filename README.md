@@ -21,7 +21,7 @@ Ahora tenemos que crear el esquema de la base de datos.
 
     ```cd expense-app/db```
 
-2. Vamos a loguearnos a nuestra consola de MySQL
+2. Vamos a loguearnos a nuestra consola de MySQL (sustituye username con el nombre de usuario de tu conexión)
 
     ```terminal 
     mysql -u username -p
@@ -38,3 +38,23 @@ Ahora tenemos que crear el esquema de la base de datos.
     ```shell    
     mysql -u username -p expenseapp < expense-app.sql;
     ```
+
+## Configuración de proyecto
+
+Para actualizar las conexiones a la base de datos es importante cambiar los datos que se encuentran en `/config/config.php`
+
+Adicional en `public/js/dashboard.js` es necesario verificar que las URLs usadas para hacer solicitudes asíncronas estén también apuntando correctamente de acuerdo a tu servidor.
+
+```
+async function getContent(){
+  const html = await fetch('http://localhost:8080/expense-app/expenses/create').then(res => res.text());
+  return html;
+}
+```
+
+```
+ async function drawChart() {
+        const http = await fetch('http://localhost:8080/expense-app/expenses/getExpensesJSON')
+        .then(json => json.json())
+        .then(res => res);
+```
