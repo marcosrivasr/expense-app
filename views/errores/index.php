@@ -9,12 +9,16 @@
 <body>
 
 <?php require 'views/header.php'; ?>
-
-    <div id="main">
-        <h1 class="center error"><?php echo $this->mensaje; ?></h1>
+    <div class="error-container">
+        <div class="error-info">
+        <h1 class="error404">404</h1> 
+        <p>
+            La página que estás buscando no existe. <br />
+            <a href="<?php echo constant('URL') ?>">Regresar a la página de inicio</a>
+        </p>   
+        </div>
+        
     </div>
-    
 
-<?php require 'views/footer.php'; ?>    
 </body>
 </html>
