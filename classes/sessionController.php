@@ -175,10 +175,10 @@ class SessionController extends Controller{
         error_log("sessionController::authorizeAccess(): role: $role");
         switch($role){
             case 'user':
-                header('location: '. constant('URL').'dashboard');
+                $this->redirect($this->defaultSites['user']);
             break;
             case 'admin':
-                header('location: '. constant('URL').'admin');
+                $this->redirect($this->defaultSites['admin']);
             break;
             default:
         }
