@@ -32,14 +32,8 @@
         }
     ],
 
-    "default-sites":[
-        {
-            "site" : "dashboard", 
-            "role" : "user"
-        },
-        {
-            "site" : "admin",
-            "role" : "admin"
-        }
-    ]
+    "default-sites":{
+        "user": "dashboard",
+        "admin": "admin"
+    }
 }
