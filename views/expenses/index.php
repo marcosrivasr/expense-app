@@ -1,6 +1,8 @@
 
 <?php
     $user = $this->d['user'];
+    $dates = $this->d['dates'];
+    $categories = $this->d['categories'];
 ?>
 
 <link rel="stylesheet" href="<?php echo constant('URL') ?>public/css/history.css">
@@ -25,7 +27,7 @@
                         <select id="sdate" class="custom-select">
                             <option value="">Ver todas las fechas</option>
                             <?php
-                                $options = $this->dates;
+                                $options = $dates;
                                 foreach($options as $option){
                                     echo "<option value=$option >".$option."</option>";
                                 }
@@ -37,7 +39,7 @@
                         <select id="scategory" class="custom-select">
                             <option value="">Ver todas las categorias</option>
                             <?php
-                                $options = $this->categories;
+                                $options = $categories;
                                 foreach($options as $option){
                                     echo "<option value=$option >".$option."</option>";
                                 }
