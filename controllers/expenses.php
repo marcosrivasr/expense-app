@@ -17,7 +17,9 @@ class Expenses extends SessionController{
         error_log("Expenses::RENDER() ");
 
         $this->view->render('expenses/index', [
-            'user' => $this->user
+            'user' => $this->user,
+            'dates' => $this->getDateList(),
+            'categories' => $this->getCategoryList()
         ]);
     }
 
